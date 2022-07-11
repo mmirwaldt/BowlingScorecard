@@ -143,12 +143,15 @@ public class BowlingGameTest {
         void whenNoStrikeAndNoSpareIsRolledByMandNandP_thenScoreIsFirstMSecondMplusNandThirdMplusNplusP(
                 int m, int n, int p) {
             bowlingGame.roll(m);
+            assertFalse(bowlingGame.isStrike());
             assertEquals(m, bowlingGame.score());
 
             bowlingGame.roll(n);
+            assertFalse(bowlingGame.isStrike());
             assertEquals(m + n, bowlingGame.score());
 
             bowlingGame.roll(p);
+            assertFalse(bowlingGame.isStrike());
             assertEquals(m + n + p, bowlingGame.score());
         }
     }
