@@ -56,9 +56,11 @@ public class BowlingGameTest {
         void whenNoStrikeAndNoSpare_thenScoreIsNplusM(int m, int n) {
             bowlingGame.roll(m);
             assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
 
             bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
 
             assertEquals(m + n, bowlingGame.score());
         }
