@@ -67,7 +67,7 @@ public class BowlingGameTest {
 
         @DisplayName("when a spare is rolled by m and n so that m + n = 10, then the score is 10")
         @ParameterizedTest(name = "when a spare is rolled by {0} and {1} so that {0} + {1} = 10, then the score is 10")
-        @CsvSource({"1, 9", "8, 2"})
+        @CsvSource({"1, 9", "8, 2", "5, 5"})
         void whenSpareIsRolledByMandN_thenScoreIs10(int m, int n) {
             assertEquals(10, m + n);
 
