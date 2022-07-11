@@ -7,7 +7,13 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public int score() {
-        return rolled[0] + rolled[1] + rolled[2];
+        if(rolls == 0) {
+            return score(0);
+        } else if((rolls == 1 || rolls == 2) && rolled[0] < 10) {
+            return score(1);
+        } else {
+            return score(2);
+        }
     }
 
     @Override
@@ -34,14 +40,20 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public int score(int frame) {
-        if(frame == 1) {
+        if(frame == 0) {
+            return 0;
+        } else if(frame == 1) {
             if(rolled[0] == 10 || rolled[0] + rolled[1] == 10) { // strike
                 return rolled[0] + rolled[1] + rolled[2];
             } else {
                 return rolled[0] + rolled[1];
             }
         } else {
-            return score();
+            if(rolled[0] == 10) {
+                return score(1) + rolled[1];
+            } else {
+                return score(1) + rolled[2];
+            }
         }
     }
 }
