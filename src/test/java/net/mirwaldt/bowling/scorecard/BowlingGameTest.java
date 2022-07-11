@@ -63,28 +63,17 @@ public class BowlingGameTest {
             assertEquals(m + n, bowlingGame.score());
         }
 
-        @DisplayName("when a spare is rolled by 1 and 9, then the score is 10")
-        @Test
-        void whenSpareIsRolledBy1and9_thenScoreIs10() {
-            bowlingGame.roll(1);
+        @DisplayName("when a spare is rolled by m and n so that m + n = 10, then the score is 10")
+        @ParameterizedTest(name = "when a spare is rolled by {0} and {1} so that {0} + {1} = 10, then the score is 10")
+        @CsvSource({"1, 9", "8, 2"})
+        void whenSpareIsRolledByMandN_thenScoreIs10(int m, int n) {
+            assertEquals(10, m + n);
+
+            bowlingGame.roll(m);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
 
-            bowlingGame.roll(9);
-            assertFalse(bowlingGame.isStrike());
-            assertTrue(bowlingGame.isSpare());
-
-            assertEquals(10, bowlingGame.score());
-        }
-
-        @DisplayName("when a spare is rolled by 8 and 2, then the score is 10")
-        @Test
-        void whenSpareIsRolledBy8and2_thenScoreIs10() {
-            bowlingGame.roll(8);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-
-            bowlingGame.roll(2);
+            bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
             assertTrue(bowlingGame.isSpare());
 
