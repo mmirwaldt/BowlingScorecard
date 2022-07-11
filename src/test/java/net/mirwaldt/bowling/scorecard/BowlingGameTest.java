@@ -128,5 +128,17 @@ public class BowlingGameTest {
 
             assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(8));
         }
+
+        @DisplayName("when 7 pins are hit first and 6 second so that 7 + 6 = 13 > 10, " +
+                "then throw an IllegalArgumentException")
+        @Test
+        void when7PinsAreHitFirstAnd6SecondSoThat13PinsAreHit_thenThrowAnIllegalArgumentException() {
+            bowlingGame.roll(7);
+            assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(7, bowlingGame.score());
+
+            assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(6));
+        }
     }
 }
