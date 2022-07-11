@@ -45,5 +45,11 @@ public class BowlingGameTest {
         }
     }
 
-
+    @DisplayName("Given two ball are rolled, when no pins are hit, then the score is 0")
+    @Test
+    void givenTwoBallsAreRolled_whenNoPinsAreHit_thenScoreIs0() {
+        bowlingGame.roll(0);
+        bowlingGame.roll(0);
+        assertEquals(0, bowlingGame.score());
+    }
 }
