@@ -144,14 +144,17 @@ public class BowlingGameTest {
                 int m, int n, int p) {
             bowlingGame.roll(m);
             assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
             assertEquals(m, bowlingGame.score());
 
             bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
             assertEquals(m + n, bowlingGame.score());
 
             bowlingGame.roll(p);
             assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
             assertEquals(m + n + p, bowlingGame.score());
         }
     }
