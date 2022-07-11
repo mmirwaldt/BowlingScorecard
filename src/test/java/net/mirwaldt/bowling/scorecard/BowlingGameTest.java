@@ -45,19 +45,23 @@ public class BowlingGameTest {
         }
     }
 
-    @DisplayName("Given two ball are rolled, when no pins are hit, then the score is 0")
-    @Test
-    void givenTwoBallsAreRolled_whenNoPinsAreHit_thenScoreIs0() {
-        bowlingGame.roll(0);
-        bowlingGame.roll(0);
-        assertEquals(0, bowlingGame.score());
-    }
+    @DisplayName("Given two balls are rolled")
+    @Nested
+    class GivenTwoBallsAreRolled {
+        @DisplayName("when no pins are hit, then the score is 0")
+        @Test
+        void whenNoPinsAreHit_thenScoreIs0() {
+            bowlingGame.roll(0);
+            bowlingGame.roll(0);
+            assertEquals(0, bowlingGame.score());
+        }
 
-    @DisplayName("Given two ball are rolled, when 1 pin is hit first, then the score is 1")
-    @Test
-    void givenTwoBallsAreRolled_whenOnePinIsHitFirst_thenScoreIs1() {
-        bowlingGame.roll(1);
-        bowlingGame.roll(0);
-        assertEquals(1, bowlingGame.score());
+        @DisplayName("when 1 pin is hit first, then the score is 1")
+        @Test
+        void whenOnePinIsHitFirst_thenScoreIs1() {
+            bowlingGame.roll(1);
+            bowlingGame.roll(0);
+            assertEquals(1, bowlingGame.score());
+        }
     }
 }
