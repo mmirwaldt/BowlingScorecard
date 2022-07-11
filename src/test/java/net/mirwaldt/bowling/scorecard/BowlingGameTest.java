@@ -52,4 +52,12 @@ public class BowlingGameTest {
         bowlingGame.roll(0);
         assertEquals(0, bowlingGame.score());
     }
+
+    @DisplayName("Given two ball are rolled, when 1 pin is hit first, then the score is 1")
+    @Test
+    void givenTwoBallsAreRolled_whenOnePinIsHitFirst_thenScoreIs1() {
+        bowlingGame.roll(1);
+        bowlingGame.roll(0);
+        assertEquals(1, bowlingGame.score());
+    }
 }
