@@ -100,7 +100,8 @@ public class BowlingGameTest {
             bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
-            assertEquals(10 + n, bowlingGame.score());
+            assertEquals(10 + n, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + n, bowlingGame.score());
         }
 
         @DisplayName("when 10 pins are hit twice, then those rolls are strikes and the score is first 10 and second 20")
