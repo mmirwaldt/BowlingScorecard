@@ -62,5 +62,19 @@ public class BowlingGameTest {
 
             assertEquals(m + n, bowlingGame.score());
         }
+
+        @DisplayName("when a spare is rolled by 1 and 9, then the score is 10")
+        @Test
+        void whenASpareIsRolled_thenScoreIs10() {
+            bowlingGame.roll(1);
+            assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+
+            bowlingGame.roll(9);
+            assertFalse(bowlingGame.isStrike());
+            assertTrue(bowlingGame.isSpare());
+
+            assertEquals(10, bowlingGame.score());
+        }
     }
 }
