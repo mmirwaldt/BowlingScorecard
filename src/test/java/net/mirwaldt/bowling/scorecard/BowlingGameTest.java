@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BowlingGameTest {
     private final BowlingGame bowlingGame = new BowlingGameByTDD();
@@ -34,6 +33,14 @@ public class BowlingGameTest {
         @ValueSource(ints = {-1, 11})
         void whenAnInvalidNumberOfPinsAreHit_thenThrowAnIllegalArgumentException(int n) {
             assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(n));
+        }
+
+        @DisplayName("when 10 pins are hit, then it is a strike and the score is 10")
+        @Test
+        void when10PinsAreHit_thenItIsAStrikeAndScoreIs10() {
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertEquals(10, bowlingGame.score());
         }
     }
 }
