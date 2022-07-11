@@ -54,6 +54,8 @@ public class BowlingGameTest {
                 "then the score is {0} + {1}")
         @CsvSource({"0, 0", "1, 0", "0, 1", "1, 1"})
         void whenNoStrikeAndNoSpare_thenScoreIsNplusM(int m, int n) {
+            assertNotEquals(10, m + n);
+
             bowlingGame.roll(m);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
