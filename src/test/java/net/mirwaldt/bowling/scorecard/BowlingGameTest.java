@@ -11,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BowlingGameTest {
     private final BowlingGame bowlingGame = new BowlingGameByTDD();
 
-    @Test
     @DisplayName("Given no ball is rolled, when no pins are hit, then the score is 0")
+    @Test
     void givenNoBallIsRolled_whenNoPinsAreHit_thenScoreIs0() {
         assertEquals(0, bowlingGame.score());
     }
 
-    @Nested
     @DisplayName("Given one ball is rolled")
+    @Nested
     class GivenOneBallIsRolled {
         @DisplayName("when n pin(s) are hit, then the score is n")
         @ParameterizedTest(name = "when {0} pin(s) are hit, then the score is {0}")
@@ -44,4 +44,6 @@ public class BowlingGameTest {
             assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(n));
         }
     }
+
+
 }
