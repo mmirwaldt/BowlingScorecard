@@ -9,7 +9,7 @@ public class BowlingGameByTDD implements BowlingGame {
     public int score() {
         if(rolls == 0) {
             return score(0);
-        } else if((rolls == 1 || rolls == 2) && rolled[0] < 10) {
+        } else if((rolls == 1 || rolls == 2) && !isFirstRollStrike()) {
             return score(1);
         } else {
             return score(2);
