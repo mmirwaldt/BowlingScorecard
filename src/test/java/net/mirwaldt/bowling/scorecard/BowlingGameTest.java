@@ -27,6 +27,7 @@ public class BowlingGameTest {
         void whenNPinsAreHit_thenScoreIsN(int n) {
             bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
             assertEquals(n, bowlingGame.score());
         }
 
@@ -35,6 +36,7 @@ public class BowlingGameTest {
         void when10PinsAreHit_thenItIsAStrikeAndScoreIs10() {
             bowlingGame.roll(10);
             assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
             assertEquals(10, bowlingGame.score());
         }
 
