@@ -25,6 +25,6 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public boolean isSpare() {
-        return false;
+        return rolled[0] + rolled[1] == 10;
     }
 }
