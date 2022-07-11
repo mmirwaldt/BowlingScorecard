@@ -18,6 +18,6 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public boolean isStrike() {
-        return false;
+        return rolled == 10;
     }
 }
