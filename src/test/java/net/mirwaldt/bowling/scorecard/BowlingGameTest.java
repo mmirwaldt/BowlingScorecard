@@ -121,7 +121,7 @@ public class BowlingGameTest {
                 "then throw an IllegalArgumentException")
         @ParameterizedTest(name = "when {0} pins are hit first and {1} second so that 10 < {0} + {1}," +
                 "then throw an IllegalArgumentException")
-        @CsvSource({"3, 8", "7, 6"})
+        @CsvSource({"3, 8", "7, 6", "1, 10"})
         void whenMPinsAreHitFirstAndNSecondSoThatMoreThan10PinsAreHit_thenThrowAnIllegalArgumentException(int m, int n) {
             bowlingGame.roll(m);
             assertFalse(bowlingGame.isStrike());
