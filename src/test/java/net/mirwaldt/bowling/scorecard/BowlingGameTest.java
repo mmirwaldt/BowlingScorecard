@@ -28,5 +28,11 @@ public class BowlingGameTest {
             bowlingGame.roll(n);
             assertEquals(n, bowlingGame.score());
         }
+
+        @Test
+        @DisplayName("when a negative number of pins is rolled, then throw an IllegalArgumentException")
+        void whenANegativeNumberOfPinsIsRolled_thenThrowAnIllegalArgumentException() {
+            assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(-1));
+        }
     }
 }
