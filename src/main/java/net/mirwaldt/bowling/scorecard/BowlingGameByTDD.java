@@ -34,6 +34,14 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public int score(int frame) {
-        return 0;
+        if(frame == 1) {
+            if(rolled[0] == 10 || rolled[0] + rolled[1] == 10) { // strike
+                return rolled[0] + rolled[1] + rolled[2];
+            } else {
+                return rolled[0] + rolled[1];
+            }
+        } else {
+            return score();
+        }
     }
 }
