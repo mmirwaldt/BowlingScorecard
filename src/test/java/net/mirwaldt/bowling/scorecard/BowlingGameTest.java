@@ -83,5 +83,20 @@ public class BowlingGameTest {
 
             assertEquals(10, bowlingGame.score());
         }
+
+        @DisplayName("when 10 pins are hit first and 4 second, " +
+                "then it is one strike and the score is first 10 and second 10 + 4")
+        @Test
+        void whenOneStrikeFirstAnd4PinsSecond_thenItIsAStrikeAndScoreIsFirst10AndSecond14() {
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+
+            assertEquals(10, bowlingGame.score());
+
+            bowlingGame.roll(4);
+            assertFalse(bowlingGame.isStrike());
+
+            assertEquals(10 + 4, bowlingGame.score());
+        }
     }
 }
