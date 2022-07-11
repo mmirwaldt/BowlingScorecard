@@ -1,11 +1,13 @@
 package net.mirwaldt.bowling.scorecard;
 
 public class BowlingGameByTDD implements BowlingGame {
-    private int rolled;
+    private final int[] rolled = new int[2];
+
+    private int rolls;
 
     @Override
     public int score() {
-        return rolled;
+        return rolled[0] + rolled[1];
     }
 
     @Override
@@ -13,11 +15,11 @@ public class BowlingGameByTDD implements BowlingGame {
         if(pins < 0 || 10 < pins) {
             throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
         }
-        rolled = pins;
+        rolled[rolls++] = pins;
     }
 
     @Override
     public boolean isStrike() {
-        return rolled == 10;
+        return rolled[0] == 10;
     }
 }
