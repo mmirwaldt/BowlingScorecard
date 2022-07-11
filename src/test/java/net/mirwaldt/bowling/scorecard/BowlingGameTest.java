@@ -34,5 +34,11 @@ public class BowlingGameTest {
         void whenANegativeNumberOfPinsIsRolled_thenThrowAnIllegalArgumentException() {
             assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(-1));
         }
+
+        @Test
+        @DisplayName("when a too high number of pins is rolled, then throw an IllegalArgumentException")
+        void whenATooHighNumberOfPinsIsRolled_thenThrowAnIllegalArgumentException() {
+            assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(11));
+        }
     }
 }
