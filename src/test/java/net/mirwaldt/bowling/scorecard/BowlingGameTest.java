@@ -160,7 +160,7 @@ public class BowlingGameTest {
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
             assertEquals(m + n, bowlingGame.score(1));
-            assertEquals(m + n + p, bowlingGame.score());
+            assertEquals(bowlingGame.score(1) + p, bowlingGame.score());
         }
     }
 }
