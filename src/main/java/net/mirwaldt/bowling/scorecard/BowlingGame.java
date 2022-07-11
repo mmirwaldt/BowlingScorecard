@@ -8,4 +8,6 @@ public interface BowlingGame {
     boolean isStrike();
 
     boolean isSpare();
+
+    int score(int frame);
 }
