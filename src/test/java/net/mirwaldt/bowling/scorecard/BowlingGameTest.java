@@ -140,7 +140,8 @@ public class BowlingGameTest {
         @ParameterizedTest(name = "when no strikes and no spares by {0} pins, {1} pins and {2} pins are rolled, " +
                 "then the score is {0} + {1} + {2}")
         @CsvSource({"0, 1, 2", "5, 3, 9"})
-        void whenSpareIsRolledByMandN_thenScoreIs10(int m, int n, int p) {
+        void whenNoStrikeAndNoSpareIsRolledByMandNandP_thenScoreIsFirstMSecondMplusNandThirdMplusNplusP(
+                int m, int n, int p) {
             bowlingGame.roll(m);
             assertEquals(m, bowlingGame.score());
 
