@@ -52,7 +52,7 @@ public class BowlingGameTest {
         @DisplayName("when first m pins are hit and second n pins are hit, then the score is m + n")
         @ParameterizedTest(name = "when first {0} pins are hit and second {1} pins are hit, " +
                 "then the score is {0} + {1}")
-        @CsvSource({"0, 0", "1, 0"})
+        @CsvSource({"0, 0", "1, 0", "0, 1"})
         void whenNoStrikeAndNoSpare_thenScoreIsNplusM(int m, int n) {
             bowlingGame.roll(m);
             assertFalse(bowlingGame.isStrike());
