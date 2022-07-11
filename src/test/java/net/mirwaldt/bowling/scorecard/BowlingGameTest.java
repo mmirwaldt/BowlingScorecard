@@ -61,11 +61,11 @@ public class BowlingGameTest {
             bowlingGame.roll(m);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
+            assertEquals(m, bowlingGame.score());
 
             bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
-
             assertEquals(m + n, bowlingGame.score());
         }
 
