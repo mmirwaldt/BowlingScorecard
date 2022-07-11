@@ -35,7 +35,7 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public boolean isSpare() {
-        return rolled[0] < 10 && areFirstTwoRollsSpare();
+        return !isFirstRollStrike() && areFirstTwoRollsSpare();
     }
 
     @Override
