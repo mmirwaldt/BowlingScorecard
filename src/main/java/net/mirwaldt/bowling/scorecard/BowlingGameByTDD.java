@@ -5,4 +5,9 @@ public class BowlingGameByTDD implements BowlingGame {
     public int score() {
         return 0;
     }
+
+    @Override
+    public void roll(int pins) {
+
+    }
 }
