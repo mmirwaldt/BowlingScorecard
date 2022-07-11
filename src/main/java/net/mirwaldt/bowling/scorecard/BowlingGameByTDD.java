@@ -35,7 +35,7 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public boolean isSpare() {
-        return rolled[0] < 10 && rolled[0] + rolled[1] == 10;
+        return rolled[0] < 10 && areFirstTwoRollsSpare();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class BowlingGameByTDD implements BowlingGame {
         if(frame == 0) {
             return 0;
         } else if(frame == 1) {
-            if(isFirstRollStrike() || rolled[0] + rolled[1] == 10) { // strike or spare
+            if(isFirstRollStrike() || areFirstTwoRollsSpare()) { // strike or spare
                 return rolled[0] + rolled[1] + rolled[2];
             } else {
                 return rolled[0] + rolled[1];
@@ -55,6 +55,10 @@ public class BowlingGameByTDD implements BowlingGame {
                 return score(1) + rolled[2];
             }
         }
+    }
+
+    private boolean areFirstTwoRollsSpare() {
+        return rolled[0] + rolled[1] == 10;
     }
 
     private boolean isFirstRollStrike() {
