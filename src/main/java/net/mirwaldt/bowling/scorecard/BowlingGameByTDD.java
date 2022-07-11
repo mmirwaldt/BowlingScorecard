@@ -22,4 +22,9 @@ public class BowlingGameByTDD implements BowlingGame {
     public boolean isStrike() {
         return rolled[0] == 10;
     }
+
+    @Override
+    public boolean isSpare() {
+        return false;
+    }
 }
