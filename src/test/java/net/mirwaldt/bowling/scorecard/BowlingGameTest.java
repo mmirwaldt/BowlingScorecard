@@ -29,16 +29,11 @@ public class BowlingGameTest {
             assertEquals(n, bowlingGame.score());
         }
 
-        @Test
-        @DisplayName("when a negative number of pins is rolled, then throw an IllegalArgumentException")
-        void whenANegativeNumberOfPinsIsRolled_thenThrowAnIllegalArgumentException() {
-            assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(-1));
-        }
-
-        @Test
-        @DisplayName("when a too high number of pins is rolled, then throw an IllegalArgumentException")
-        void whenATooHighNumberOfPinsIsRolled_thenThrowAnIllegalArgumentException() {
-            assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(11));
+        @DisplayName("when a invalid number of pins are rolled, then throw an IllegalArgumentException")
+        @ParameterizedTest(name = "when {0} pins are rolled, then throw an IllegalArgumentException")
+        @ValueSource(ints = {-1, 11})
+        void whenAnInvalidNumberOfPinsAreRolled_thenThrowAnIllegalArgumentException(int n) {
+            assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(n));
         }
     }
 }
