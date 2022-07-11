@@ -102,5 +102,19 @@ public class BowlingGameTest {
             assertFalse(bowlingGame.isSpare());
             assertEquals(10 + n, bowlingGame.score());
         }
+
+        @DisplayName("when 10 pins are hit twice, then those rolls are strikes and the score is first 10 and second 20")
+        @Test
+        void whenTwoStrikes_thenItIsAStrikeAndScoreIs10() {
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10, bowlingGame.score());
+
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + 10, bowlingGame.score());
+        }
     }
 }
