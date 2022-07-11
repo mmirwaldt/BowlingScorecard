@@ -3,8 +3,11 @@ package net.mirwaldt.bowling.scorecard;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BowlingGameTest {
     private final BowlingGame bowlingGame = new BowlingGameByTDD();
@@ -18,25 +21,12 @@ public class BowlingGameTest {
     @Nested
     @DisplayName("Given one ball is rolled")
     class GivenOneBallIsRolled {
-        @Test
-        @DisplayName("when no pins are hit, then the score is 0")
-        void whenNoPinsAreHit_thenScoreIs0() {
-            bowlingGame.roll(0);
-            assertEquals(0, bowlingGame.score());
-        }
-
-        @Test
-        @DisplayName("when 1 pin is hit, then the score is 1")
-        void when1PinIsHit_thenScoreIs1() {
-            bowlingGame.roll(1);
-            assertEquals(1, bowlingGame.score());
-        }
-
-        @Test
-        @DisplayName("when 2 pins are hit, then the score is 2")
-        void when2PinsAreHit_thenScoreIs2() {
-            bowlingGame.roll(2);
-            assertEquals(2, bowlingGame.score());
+        @DisplayName("when n pin(s) are hit, then the score is n")
+        @ParameterizedTest(name = "when {0} pin(s) are hit, then the score is {0}")
+        @ValueSource(ints = {0, 1, 2})
+        void whenNPinsAreHit_thenScoreIsN(int n) {
+            bowlingGame.roll(n);
+            assertEquals(n, bowlingGame.score());
         }
     }
 }
