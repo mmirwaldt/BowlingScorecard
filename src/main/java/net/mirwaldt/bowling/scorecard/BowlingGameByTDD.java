@@ -10,8 +10,8 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public void roll(int pins) {
-        if(pins < 0) {
-            throw new IllegalArgumentException("The number of pins must be at least 0 but not " + pins);
+        if(pins < 0 || 10 < pins) {
+            throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
         }
         rolled = pins;
     }
