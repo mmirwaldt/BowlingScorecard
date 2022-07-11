@@ -52,7 +52,11 @@ public class BowlingGameTest {
         @Test
         void whenNoPinsAreHit_thenScoreIs0() {
             bowlingGame.roll(0);
+            assertFalse(bowlingGame.isStrike());
+
             bowlingGame.roll(0);
+            assertFalse(bowlingGame.isStrike());
+
             assertEquals(0, bowlingGame.score());
         }
 
@@ -60,7 +64,11 @@ public class BowlingGameTest {
         @Test
         void whenOnePinIsHitFirst_thenScoreIs1() {
             bowlingGame.roll(1);
+            assertFalse(bowlingGame.isStrike());
+
             bowlingGame.roll(0);
+            assertFalse(bowlingGame.isStrike());
+
             assertEquals(1, bowlingGame.score());
         }
     }
