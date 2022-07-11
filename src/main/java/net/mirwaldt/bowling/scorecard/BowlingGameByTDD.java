@@ -15,4 +15,9 @@ public class BowlingGameByTDD implements BowlingGame {
         }
         rolled = pins;
     }
+
+    @Override
+    public boolean isStrike() {
+        return false;
+    }
 }

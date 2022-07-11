@@ -4,4 +4,6 @@ public interface BowlingGame {
     int score();
 
     void roll(int pins);
+
+    boolean isStrike();
 }
