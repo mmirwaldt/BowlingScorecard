@@ -142,6 +142,8 @@ public class BowlingGameTest {
         @CsvSource({"0, 1, 2", "5, 3, 9"})
         void whenNoStrikeAndNoSpareIsRolledByMandNandP_thenScoreIsFirstMSecondMplusNandThirdMplusNplusP(
                 int m, int n, int p) {
+            assertNotEquals(10, m + n);
+
             bowlingGame.roll(m);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
