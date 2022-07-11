@@ -90,12 +90,12 @@ public class BowlingGameTest {
         void whenOneStrikeFirstAnd4PinsSecond_thenItIsAStrikeAndScoreIsFirst10AndSecond14() {
             bowlingGame.roll(10);
             assertTrue(bowlingGame.isStrike());
-
+            assertFalse(bowlingGame.isSpare());
             assertEquals(10, bowlingGame.score());
 
             bowlingGame.roll(4);
             assertFalse(bowlingGame.isStrike());
-
+            assertFalse(bowlingGame.isSpare());
             assertEquals(10 + 4, bowlingGame.score());
         }
     }
