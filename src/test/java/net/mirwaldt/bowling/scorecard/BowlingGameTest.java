@@ -25,6 +25,7 @@ public class BowlingGameTest {
         @ValueSource(ints = {0, 1, 2, 9})
         void whenNPinsAreHit_thenScoreIsN(int n) {
             bowlingGame.roll(n);
+            assertFalse(bowlingGame.isStrike());
             assertEquals(n, bowlingGame.score());
         }
 
