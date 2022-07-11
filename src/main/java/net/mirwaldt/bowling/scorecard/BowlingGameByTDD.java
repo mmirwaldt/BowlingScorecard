@@ -20,7 +20,7 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public boolean isStrike() {
-        return (rolls == 1 && rolled[0] == 10) || (1 < rolls && rolled[0] != 0 && rolled[1] == 10);
+        return (rolls == 1 && rolled[0] == 10) || (rolled[0] != 0 && rolled[1] == 10);
     }
 
     @Override
