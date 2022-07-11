@@ -131,4 +131,19 @@ public class BowlingGameTest {
             assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(n));
         }
     }
+
+    @DisplayName("Given three balls are rolled, " +
+            "when no strikes and no spares by 0 pins, 1 pins and 2 pins are rolled, " +
+            "then the score is 0 + 1 + 2 = 3")
+    @Test
+    void givenThreeBallsAreRolled_whenNoStrikesAndNoSparesBy0and1and2areRolled_thenScoreIs0plus1plus2() {
+        bowlingGame.roll(0);
+        assertEquals(0, bowlingGame.score());
+
+        bowlingGame.roll(1);
+        assertEquals(1, bowlingGame.score());
+
+        bowlingGame.roll(2);
+        assertEquals(3, bowlingGame.score());
+    }
 }
