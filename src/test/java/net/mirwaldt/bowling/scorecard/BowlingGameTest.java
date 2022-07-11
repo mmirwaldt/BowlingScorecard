@@ -31,5 +31,12 @@ public class BowlingGameTest {
             bowlingGame.roll(1);
             assertEquals(1, bowlingGame.score());
         }
+
+        @Test
+        @DisplayName("when 2 pins are hit, then the score is 2")
+        void when2PinsAreHit_thenScoreIs2() {
+            bowlingGame.roll(2);
+            assertEquals(2, bowlingGame.score());
+        }
     }
 }
