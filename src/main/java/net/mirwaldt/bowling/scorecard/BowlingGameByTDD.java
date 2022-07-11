@@ -43,7 +43,7 @@ public class BowlingGameByTDD implements BowlingGame {
         if(frame == 0) {
             return 0;
         } else if(frame == 1) {
-            if(rolled[0] == 10 || rolled[0] + rolled[1] == 10) { // strike
+            if(rolled[0] == 10 || rolled[0] + rolled[1] == 10) { // strike or spare
                 return rolled[0] + rolled[1] + rolled[2];
             } else {
                 return rolled[0] + rolled[1];
