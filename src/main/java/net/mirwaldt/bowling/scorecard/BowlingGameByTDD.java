@@ -49,11 +49,7 @@ public class BowlingGameByTDD implements BowlingGame {
                 return rolled[0] + rolled[1];
             }
         } else {
-            if(isFirstRollStrike()) {
-                return score(1) + rolled[1];
-            } else {
-                return score(1) + rolled[2];
-            }
+            return score(1) + ((isFirstRollStrike()) ? rolled[1] : rolled[2]);
         }
     }
 
