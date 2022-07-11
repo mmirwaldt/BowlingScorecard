@@ -135,32 +135,20 @@ public class BowlingGameTest {
     @DisplayName("Given three balls are rolled")
     @Nested
     class GivenThreeBallsAreRolled {
-        @DisplayName("when no strikes and no spares by 0 pins, 1 pins and 2 pins are rolled, " +
-                "then the score is 0 + 1 + 2 = 3")
-        @Test
-        void whenNoStrikesAndNoSparesBy0and1and2areRolled_thenScoreIs0plus1plus2() {
-            bowlingGame.roll(0);
-            assertEquals(0, bowlingGame.score());
+        @DisplayName("when no strikes and no spares by m pins, n pins and p pins are rolled, " +
+                "then the score is m + n + p")
+        @ParameterizedTest(name = "when no strikes and no spares by {0} pins, {1} pins and {2} pins are rolled, " +
+                "then the score is {0} + {1} + {2}")
+        @CsvSource({"0, 1, 2", "5, 3, 9"})
+        void whenSpareIsRolledByMandN_thenScoreIs10(int m, int n, int p) {
+            bowlingGame.roll(m);
+            assertEquals(m, bowlingGame.score());
 
-            bowlingGame.roll(1);
-            assertEquals(1, bowlingGame.score());
+            bowlingGame.roll(n);
+            assertEquals(m + n, bowlingGame.score());
 
-            bowlingGame.roll(2);
-            assertEquals(3, bowlingGame.score());
-        }
-
-        @DisplayName("when no strikes and no spares by 5 pins, 3 pins and 9 pins are rolled, " +
-                "then the score is 5 + 3 + 9 = 3")
-        @Test
-        void whenNoStrikesAndNoSparesBy5and3and9areRolled_thenScoreIs5plus3plus9() {
-            bowlingGame.roll(5);
-            assertEquals(5, bowlingGame.score());
-
-            bowlingGame.roll(3);
-            assertEquals(8, bowlingGame.score());
-
-            bowlingGame.roll(9);
-            assertEquals(17, bowlingGame.score());
+            bowlingGame.roll(p);
+            assertEquals(m + n + p, bowlingGame.score());
         }
     }
 }
