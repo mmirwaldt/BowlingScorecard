@@ -30,7 +30,7 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public boolean isStrike() {
-        return (rolls == 1 && rolled[0] == 10) || (rolled[0] != 0 && rolled[1] == 10);
+        return (rolls == 1 && isFirstRollStrike()) || (rolled[0] != 0 && rolled[1] == 10);
     }
 
     @Override
@@ -43,17 +43,21 @@ public class BowlingGameByTDD implements BowlingGame {
         if(frame == 0) {
             return 0;
         } else if(frame == 1) {
-            if(rolled[0] == 10 || rolled[0] + rolled[1] == 10) { // strike or spare
+            if(isFirstRollStrike() || rolled[0] + rolled[1] == 10) { // strike or spare
                 return rolled[0] + rolled[1] + rolled[2];
             } else {
                 return rolled[0] + rolled[1];
             }
         } else {
-            if(rolled[0] == 10) {
+            if(isFirstRollStrike()) {
                 return score(1) + rolled[1];
             } else {
                 return score(1) + rolled[2];
             }
         }
+    }
+
+    private boolean isFirstRollStrike() {
+        return rolled[0] == 10;
     }
 }
