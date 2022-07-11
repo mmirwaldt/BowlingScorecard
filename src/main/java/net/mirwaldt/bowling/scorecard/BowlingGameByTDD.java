@@ -1,13 +1,15 @@
 package net.mirwaldt.bowling.scorecard;
 
 public class BowlingGameByTDD implements BowlingGame {
+    private int rolled;
+
     @Override
     public int score() {
-        return 0;
+        return rolled;
     }
 
     @Override
     public void roll(int pins) {
-
+        rolled = pins;
     }
 }
