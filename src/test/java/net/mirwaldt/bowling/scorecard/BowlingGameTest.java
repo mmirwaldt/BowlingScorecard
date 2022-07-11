@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,28 +49,18 @@ public class BowlingGameTest {
     @DisplayName("Given two balls are rolled")
     @Nested
     class GivenTwoBallsAreRolled {
-        @DisplayName("when no pins are hit, then the score is 0")
-        @Test
-        void whenNoPinsAreHit_thenScoreIs0() {
-            bowlingGame.roll(0);
+        @DisplayName("when first m pins are hit and second n pins are hit, then the score is m + n")
+        @ParameterizedTest(name = "when first {0} pins are hit and second {1} pins are hit, " +
+                "then the score is {0} + {1}")
+        @CsvSource({"0, 0", "1, 0"})
+        void whenNoStrikeAndNoSpare_thenScoreIsNplusM(int m, int n) {
+            bowlingGame.roll(m);
             assertFalse(bowlingGame.isStrike());
 
-            bowlingGame.roll(0);
+            bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
 
-            assertEquals(0, bowlingGame.score());
-        }
-
-        @DisplayName("when 1 pin is hit first, then the score is 1")
-        @Test
-        void whenOnePinIsHitFirst_thenScoreIs1() {
-            bowlingGame.roll(1);
-            assertFalse(bowlingGame.isStrike());
-
-            bowlingGame.roll(0);
-            assertFalse(bowlingGame.isStrike());
-
-            assertEquals(1, bowlingGame.score());
+            assertEquals(m + n, bowlingGame.score());
         }
     }
 }
