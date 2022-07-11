@@ -114,7 +114,8 @@ public class BowlingGameTest {
             bowlingGame.roll(10);
             assertTrue(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
-            assertEquals(10 + 10, bowlingGame.score());
+            assertEquals(10 + 10, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + 10, bowlingGame.score());
         }
 
         @DisplayName("when m pins are hit first and n second so that 10 < m + n," +
