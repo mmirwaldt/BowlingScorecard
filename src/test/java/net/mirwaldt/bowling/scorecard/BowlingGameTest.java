@@ -23,7 +23,7 @@ public class BowlingGameTest {
     class GivenOneBallIsRolled {
         @DisplayName("when n pin(s) are hit, then the score is n")
         @ParameterizedTest(name = "when {0} pin(s) are hit, then the score is {0}")
-        @ValueSource(ints = {0, 1, 2})
+        @ValueSource(ints = {0, 1, 2, 9})
         void whenNPinsAreHit_thenScoreIsN(int n) {
             bowlingGame.roll(n);
             assertEquals(n, bowlingGame.score());
