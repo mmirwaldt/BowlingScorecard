@@ -216,7 +216,7 @@ public class BowlingGameTest {
         @ParameterizedTest(name = "when two strikes are rolled first and third roll hits {0} pins, " +
                 "then the score is first 10, second 10 + {0} and third 10 + {0} + {1}")
         @CsvSource({"0, 0", "0, 4", "5, 0", "3, 3", "1, 2", "6, 3"})
-        void whenOneStrikeFirstAndSecondRollHitsMAndThirdRollHitsN_thenScoreIsFirst10Second10plusMAndThird10plusMplusN(
+        void whenOneStrikeFirstAndSecondAndThirdRollHitMandNPins_thenScoreIsFirst10Second10plusMAndThird10plusMplusN(
                 int m, int n) {
             bowlingGame.roll(10);
             assertTrue(bowlingGame.isStrike());
