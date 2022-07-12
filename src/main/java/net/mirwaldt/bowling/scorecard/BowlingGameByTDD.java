@@ -69,10 +69,10 @@ public class BowlingGameByTDD implements BowlingGame {
                 score += pins;
                 if (exists(roll + 2)) {
                     score += rolled[roll + 2];
-                    if (isStrike(rolled[roll + 2]) && exists(roll + 4)) {
-                        score += rolled[roll + 4];
-                    } else if (!isStrike(rolled[roll + 2]) && exists(roll + 3)) {
-                        score += rolled[roll + 3];
+                    if (isStrike(rolled[roll + 2])) {
+                        score += ifExists(roll + 4);
+                    } else {
+                        score += ifExists(roll + 3);
                     }
                 }
             } else if (rolled[roll] + ifExists(roll + 1) == 10) {
