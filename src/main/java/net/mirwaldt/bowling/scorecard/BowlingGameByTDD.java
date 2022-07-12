@@ -60,7 +60,7 @@ public class BowlingGameByTDD implements BowlingGame {
     public boolean isSpare() {
         int frame = frame(rolls);
         int index = index(frame);
-        return 1 < rolls && rolled[index] != 10 && rolled[index] + rolled[index + 1] == 10;
+        return 1 < rolls && rolled[index] != 10 && isSpare(index);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class BowlingGameByTDD implements BowlingGame {
                         score += rolled[roll + 3];
                     }
                 }
-            } else if (roll + 1 < rolls && rolled[roll] + rolled[roll + 1] == 10) {
+            } else if (roll + 1 < rolls && isSpare(roll)) {
                 score += 10;
                 if (roll + 2 < rolls) {
                     score += rolled[roll + 2];
@@ -93,6 +93,10 @@ public class BowlingGameByTDD implements BowlingGame {
             roll += 2;
         }
         return score;
+    }
+
+    private boolean isSpare(int roll) {
+        return rolled[roll] + rolled[roll + 1] == 10;
     }
 
     private int frame(int roll) {
