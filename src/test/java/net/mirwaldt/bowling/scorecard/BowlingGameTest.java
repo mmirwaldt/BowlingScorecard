@@ -456,4 +456,16 @@ public class BowlingGameTest {
         }
         assertEquals(300, bowlingGame.score());
     }
+
+    @DisplayName("Given all balls are rolled, when 9 strikes and one spare by 2 and 8, then the score is 262")
+    @Test
+    void givenAllBallsAreRolled_when9StrikesAndOneSpareBy2And8_thenScoreIs262() {
+        for (int i = 0; i < 9; i++) {
+            bowlingGame.roll(10);
+        }
+        bowlingGame.roll(2);
+        bowlingGame.roll(8);
+        bowlingGame.roll(0);
+        assertEquals(8 * 30 + 20 + 2, bowlingGame.score());
+    }
 }
