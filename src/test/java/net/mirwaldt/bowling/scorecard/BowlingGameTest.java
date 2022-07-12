@@ -314,4 +314,39 @@ public class BowlingGameTest {
             assertEquals(bowlingGame.score(1) + 10, bowlingGame.score());
         }
     }
+
+    @DisplayName("Given four balls are rolled")
+    @Nested
+    class GivenFourBallsAreRolled {
+        @DisplayName("when 10 pins are hit four times, " +
+                "then those rolls are 4 strikes and the score is first 10 and second 30 and third 60 and fourth 90")
+        @Test
+        void whenFourStrikes_thenItIsAStrikeAndScoreIs10() {
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10, bowlingGame.score());
+
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + 10, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + 10, bowlingGame.score());
+
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + 10 + 10, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + 10 + 10, bowlingGame.score(2));
+            assertEquals(bowlingGame.score(2) + 10, bowlingGame.score());
+
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + 10 + 10, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + 10 + 10 + 10, bowlingGame.score(2));
+            assertEquals(bowlingGame.score(2) + 10 + 10, bowlingGame.score(3));
+            assertEquals(bowlingGame.score(3) + 10, bowlingGame.score());
+        }
+    }
 }
