@@ -25,30 +25,16 @@ public class BowlingGameByTDD implements BowlingGame {
     private int rolls;
 
     @Override
-    public int score() {
-        return score(frame(rolls));
-    }
-
-    @Override
     public void roll(int pins) {
-        if (pins < 0 || 10 < pins) {
-            throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
-        }
-        if (rolls % 2 == 1 && 10 < rolled[index()] + pins && frame(rolls) < 9) {
-            throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
-                    + rolled[index()] + " + " + pins + " == " + (rolled[index()] + pins));
-        }
-        rolled[rolls] = pins;
+        checkRange(pins);
+        checkNonStrike(pins);
 
+        rolled[rolls] = pins;
         if (rolls % 2 == 0 && isStrike(pins) && frame(rolls) < 9) {
             rolls += 2;
         } else {
             rolls++;
         }
-    }
-
-    private int index() {
-        return index(frame(rolls));
     }
 
     @Override
@@ -63,6 +49,11 @@ public class BowlingGameByTDD implements BowlingGame {
         int frame = frame(rolls);
         int index = index(frame);
         return 1 < rolls && !isStrike() && rolled[index] + rolled[index + 1] == 10;
+    }
+
+    @Override
+    public int score() {
+        return score(frame(rolls));
     }
 
     @Override
@@ -90,6 +81,10 @@ public class BowlingGameByTDD implements BowlingGame {
         return score;
     }
 
+    private int index() {
+        return index(frame(rolls));
+    }
+
     private boolean isSpareRoll(int roll) {
         return roll < 10 * 2 && rolled[roll] + ifExists(roll + 1) == 10;
     }
@@ -112,5 +107,18 @@ public class BowlingGameByTDD implements BowlingGame {
 
     private int index(int frame) {
         return (frame - 1) * 2;
+    }
+
+    private void checkRange(int pins) {
+        if (pins < 0 || 10 < pins) {
+            throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
+        }
+    }
+
+    private void checkNonStrike(int pins) {
+        if (rolls % 2 == 1 && 10 < rolled[index()] + pins && frame(rolls) < 9) {
+            throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
+                    + rolled[index()] + " + " + pins + " == " + (rolled[index()] + pins));
+        }
     }
 }
