@@ -56,7 +56,7 @@ public class BowlingGameByTDD implements BowlingGame {
     public boolean isSpare() {
         int frame = frame(rolls);
         int index = index(frame);
-        return 1 < rolls && rolled[index] != 10 && isSpare(index);
+        return 1 < rolls && !isStrike() && isSpare(index);
     }
 
     @Override
