@@ -38,18 +38,22 @@ public class BowlingGameByTDD implements BowlingGame {
         }
         rolled[rolls] = pins;
 
-        if (rolls % 2 == 0 && pins == 10) {
+        if (rolls % 2 == 0 && isStrike(pins)) {
             rolls += 2;
         } else {
             rolls++;
         }
     }
 
+    private boolean isStrike(int pins) {
+        return pins == 10;
+    }
+
     @Override
     public boolean isStrike() {
         int frame = frame(rolls);
         int index = index(frame);
-        return 0 < rolls && rolled[index] == 10;
+        return 0 < rolls && isStrike(rolled[index]);
     }
 
     @Override
@@ -65,7 +69,7 @@ public class BowlingGameByTDD implements BowlingGame {
         int score = 0;
         for (int roll = 0; roll < maxRolls; ) {
             int pins = rolled[roll];
-            if (pins == 10) {
+            if (isStrike(pins)) {
                 score += 10;
                 if (roll + 2 < rolls) {
                     score += rolled[roll + 2];
