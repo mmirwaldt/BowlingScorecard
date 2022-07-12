@@ -418,7 +418,7 @@ public class BowlingGameTest {
                 "then the score is m + n + 2 * p + q")
         @ParameterizedTest(name = "when no strikes and no spares by {0} pins and {1} pins " +
                 "and {2} pins and {3} pins are rolled, then the score is {0} + {1} + 2 * {2} + {3}")
-        @CsvSource({"0, 10, 0, 10", "0, 10, 1, 9"})
+        @CsvSource({"0, 10, 0, 10", "0, 10, 1, 9", "3, 7, 0, 10"})
         void whenTwoSparesAreRolledByMandNandPandQ_thenScoreIsMplusNplusTwoTimesPplusQ(
                 int m, int n, int p, int q) {
             assertEquals(10, m + n);
