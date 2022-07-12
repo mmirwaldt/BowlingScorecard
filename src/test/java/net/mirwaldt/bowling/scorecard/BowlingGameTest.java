@@ -210,5 +210,30 @@ public class BowlingGameTest {
             assertEquals(bowlingGame.score(1) + 10 + n, bowlingGame.score(2));
             assertEquals(bowlingGame.score(2) + n, bowlingGame.score());
         }
+
+        @DisplayName("when one strikes is rolled first and second roll hits m pins and third roll hits n pins, " +
+                "then the score is first 10, second 10 + m and third 10 + m + n")
+        @ParameterizedTest(name = "when two strikes are rolled first and third roll hits {0} pins, " +
+                "then the score is first 10, second 10 + {0} and third 10 + {0} + {1}")
+        @CsvSource({"1, 2"})
+        void whenOneStrikeFirstAndSecondRollHitsMAndThirdRollHitsN_thenScoreIsFirst10Second10plusMAndThird10plusMplusN(
+                int m, int n) {
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10, bowlingGame.score());
+
+            bowlingGame.roll(m);
+            assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + m, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + m, bowlingGame.score());
+
+            bowlingGame.roll(n);
+            assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + m + n, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + m + n, bowlingGame.score());
+        }
     }
 }
