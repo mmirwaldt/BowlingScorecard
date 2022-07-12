@@ -190,7 +190,7 @@ public class BowlingGameTest {
                 "then the score is first 10, second 20 + 10 and third 20 + 10 + 3 * n")
         @ParameterizedTest(name = "when two strikes are rolled first and third roll hits {0} pins, " +
                 "then the score is first 10, second 20 + 10 and third 20 + 10 + 3 * {0}")
-        @ValueSource(ints = {0, 2, 6})
+        @ValueSource(ints = {0, 2, 6, 9})
         void whenOneStrikeFirstAndNPinsSecond_thenScoreStrikeFirst10AndSecond10plusN(int n) {
             bowlingGame.roll(10);
             assertTrue(bowlingGame.isStrike());
