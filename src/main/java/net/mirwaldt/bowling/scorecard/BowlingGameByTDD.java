@@ -76,15 +76,9 @@ public class BowlingGameByTDD implements BowlingGame {
                     }
                 }
             } else if (exists(roll + 1) && isSpare(roll)) {
-                score += 10;
-                if (exists(roll + 2)) {
-                    score += rolled[roll + 2];
-                }
+                score += 10 + ifExists(roll + 2);
             } else {
-                score += pins;
-                if (exists(roll + 1)) {
-                    score += rolled[roll + 1];
-                }
+                score += pins + ifExists(roll + 1);
             }
             roll += 2;
         }
@@ -93,6 +87,10 @@ public class BowlingGameByTDD implements BowlingGame {
 
     private boolean exists(int roll) {
         return roll < rolls;
+    }
+
+    private int ifExists(int roll) {
+        return exists(roll) ? rolled[roll] : 0;
     }
 
     private boolean isSpare(int roll) {
