@@ -187,7 +187,7 @@ public class BowlingGameTest {
         }
 
         @DisplayName("when two strikes are rolled first and third roll hits 6 pins, " +
-                "then the score is First10Second30AndThird30plusTwoTimes6")
+                "then the score is first 10, second 30 and third 48")
         @Test
         void whenTwoStrikesAreRolledFirstAndThirdRollHitsNPins_thenScoreIsFirst10Second30AndThird30plusThreeTimes6() {
             bowlingGame.roll(10);
