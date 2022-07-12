@@ -67,14 +67,10 @@ public class BowlingGameByTDD implements BowlingGame {
             int pins = rolled[roll];
             if (isStrike(pins)) {
                 score += pins;
-                if (exists(roll + 2)) {
+                for (int rollOfFrame = roll + 2; exists(rollOfFrame) && rollOfFrame <= roll + 4; ) {
                     int nextPins = rolled[roll + 2];
                     score += nextPins;
-                    if (isStrike(nextPins)) {
-                        score += ifExists(roll + 4);
-                    } else {
-                        score += ifExists(roll + 3);
-                    }
+                    rollOfFrame += isStrike(nextPins) ? 2 : 1;
                 }
             } else if (isSpareRoll(roll)) {
                 score += 10 + ifExists(roll + 2);
