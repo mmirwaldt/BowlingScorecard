@@ -240,7 +240,7 @@ public class BowlingGameTest {
                 "then the score is first 10, second 10 + m and third 10 + m + n")
         @ParameterizedTest(name = "when two strikes are rolled first and third roll hits {0} pins, " +
                 "then the score is first 10, second 10 + {0} and third 10 + {0} + {1}")
-        @CsvSource({"0, 10", "3, 7", "9, 1"})
+        @CsvSource({"0, 10", "3, 7", "9, 1", "5, 5"})
         void whenOneStrikeFirstAndOneSpareSecondByMandN_thenScoreIsFirst10Second10plusMAndThird10plusMplusN(
                 int m, int n) {
             assertEquals(10, m + n);
