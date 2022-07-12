@@ -469,28 +469,27 @@ public class BowlingGameTest {
             assertEquals(300, bowlingGame.score());
         }
 
-        @DisplayName("when 9 strikes and one spare by 2 and 8, then the score is 262")
-        @Test
-        void when9StrikesAndOneSpareBy2And8_thenScoreIs262() {
+        @DisplayName("when 9 strikes and one spare by m pins and n pins and third p pins, " +
+                "then the score 8 * 30 + 20 + 10 + ")
+        @ParameterizedTest(name = "when one spare is rolled first by {0} and {1} and third roll hits {2} pins, " +
+                "then the score is first {0}, second {0} + {1} and third {0} + {1} + 2 * {2}")
+        @CsvSource({"2, 8, 0", "5, 5, 3"})
+        void when9StrikesAndOneSpareByMandNandLastRollIsP_thenScoreIs262(
+                int m, int n, int p) {
+            assertEquals(10, m + n);
             for (int i = 0; i < 9; i++) {
                 bowlingGame.roll(10);
             }
-            bowlingGame.roll(2);
-            bowlingGame.roll(8);
-            bowlingGame.roll(0);
-            assertEquals(8 * 30 + 20 + 2, bowlingGame.score());
-        }
+            assertEquals(7 * 30 + 20 + 10, bowlingGame.score());
 
-        @DisplayName("when 9 strikes and one spare by 2 and 8 and 3 as bonus, then the score is 268")
-        @Test
-        void when9StrikesAndOneSpareBy5And5_thenScoreIs265() {
-            for (int i = 0; i < 9; i++) {
-                bowlingGame.roll(10);
-            }
-            bowlingGame.roll(5);
-            bowlingGame.roll(5);
-            bowlingGame.roll(3);
-            assertEquals(8 * 30 + 20 + 5 + 3, bowlingGame.score());
+            bowlingGame.roll(m);
+            assertEquals(7 * 30 + 20 + 10 + 2 * m, bowlingGame.score());
+
+            bowlingGame.roll(n);
+            assertEquals(7 * 30 + 20 + 10 + 2 * m + n, bowlingGame.score());
+
+            bowlingGame.roll(p);
+            assertEquals(7 * 30 + 20 + 10 + 3 * m + 2 * n + p, bowlingGame.score());
         }
     }
 }
