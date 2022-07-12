@@ -451,6 +451,15 @@ public class BowlingGameTest {
     @DisplayName("Given all balls are rolled")
     @Nested
     class GivenAllBallsAreRolled {
+        @DisplayName("when always no pins, then the score is 0")
+        @Test
+        void whenAlwaysNoPins_thenScoreIs0() {
+            for (int i = 0; i < 11; i++) {
+                bowlingGame.roll(0);
+            }
+            assertEquals(0, bowlingGame.score());
+        }
+
         @DisplayName("when always strike, then the score is 300")
         @Test
         void whenAlwaysStrike_thenScoreIs300() {
