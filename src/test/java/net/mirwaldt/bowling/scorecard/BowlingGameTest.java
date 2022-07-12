@@ -413,5 +413,38 @@ public class BowlingGameTest {
             assertEquals(bowlingGame.score(2) + 10 + n, bowlingGame.score(3));
             assertEquals(bowlingGame.score(3) + n, bowlingGame.score());
         }
+
+        @DisplayName("when two spares by m pins and n pins and p pins and q pins are rolled, " +
+                "then the score is m + n + 2 * p + q")
+        @ParameterizedTest(name = "when no strikes and no spares by {0} pins and {1} pins " +
+                "and {2} pins and {3} pins are rolled, then the score is {0} + {1} + 2 * {2} + {3}")
+        @CsvSource({"0, 10, 0, 10"})
+        void whenTwoSparesAreRolledByMandNandPandQ_thenScoreIsMplusNplusTwoTimesPplusQ(
+                int m, int n, int p, int q) {
+            assertEquals(10, m + n);
+            assertEquals(10, p + q);
+
+            bowlingGame.roll(m);
+            assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(m, bowlingGame.score());
+
+            bowlingGame.roll(n);
+            assertFalse(bowlingGame.isStrike());
+            assertTrue(bowlingGame.isSpare());
+            assertEquals(10, bowlingGame.score());
+
+            bowlingGame.roll(p);
+            assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + p, bowlingGame.score(1));
+            assertEquals(10 + 2 * p, bowlingGame.score());
+
+            bowlingGame.roll(q);
+            assertFalse(bowlingGame.isStrike());
+            assertTrue(bowlingGame.isSpare());
+            assertEquals(10 + p, bowlingGame.score(1));
+            assertEquals(10 + 2 * p + q, bowlingGame.score());
+        }
     }
 }
