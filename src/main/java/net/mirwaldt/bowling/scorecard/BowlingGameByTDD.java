@@ -45,10 +45,6 @@ public class BowlingGameByTDD implements BowlingGame {
         }
     }
 
-    private boolean isStrike(int pins) {
-        return pins == 10;
-    }
-
     @Override
     public boolean isStrike() {
         int frame = frame(rolls);
@@ -73,9 +69,9 @@ public class BowlingGameByTDD implements BowlingGame {
                 score += 10;
                 if (roll + 2 < rolls) {
                     score += rolled[roll + 2];
-                    if (rolled[roll + 2] == 10 && roll + 4 < rolls) {
+                    if (isStrike(rolled[roll + 2]) && roll + 4 < rolls) {
                         score += rolled[roll + 4];
-                    } else if (rolled[roll + 2] != 10 && roll + 3 < rolls) {
+                    } else if (!isStrike(rolled[roll + 2]) && roll + 3 < rolls) {
                         score += rolled[roll + 3];
                     }
                 }
@@ -97,6 +93,10 @@ public class BowlingGameByTDD implements BowlingGame {
 
     private boolean isSpare(int roll) {
         return rolled[roll] + rolled[roll + 1] == 10;
+    }
+
+    private boolean isStrike(int pins) {
+        return pins == 10;
     }
 
     private int frame(int roll) {
