@@ -18,7 +18,7 @@ package net.mirwaldt.bowling.scorecard;
  */
 
 public class BowlingGameByTDD implements BowlingGame {
-    private final int[] rolled = new int[8];
+    private final int[] rolled = new int[21];
 
     private int rolls;
 
