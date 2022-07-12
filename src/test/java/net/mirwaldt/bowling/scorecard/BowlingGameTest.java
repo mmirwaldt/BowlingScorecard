@@ -469,6 +469,17 @@ public class BowlingGameTest {
             assertEquals(300, bowlingGame.score());
         }
 
+        @DisplayName("when 9 strikes first and neither a strike nor a spare in last frame 10, then no bonus")
+        @Test
+        void when9StrikesAndNetherStrikeNorSpareInLastFrame10_thenNoBonus() {
+            for (int i = 0; i < 9; i++) {
+                bowlingGame.roll(10);
+            }
+            bowlingGame.roll(0);
+            bowlingGame.roll(0);
+            assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(0));
+        }
+
         @DisplayName("when 9 strikes and one spare by m pins and n pins and third p pins, " +
                 "then the score 7 * 30 + 20 + 10 + 3 * m + 2 * n + p")
         @ParameterizedTest(name = "when 9 strikes and one spare by {0} pins and {1} pins and third {2} pins, " +
