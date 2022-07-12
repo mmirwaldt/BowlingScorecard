@@ -186,10 +186,10 @@ public class BowlingGameTest {
             assertEquals(bowlingGame.score(2) + 10, bowlingGame.score());
         }
 
-        @DisplayName("when first and second roll are strikes and third roll hits 6 pins, " +
+        @DisplayName("when two strikes are rolled first and third roll hits 6 pins, " +
                 "then the score is First10Second30AndThird30plusTwoTimes6")
         @Test
-        void whenFirstAndSecondRollAreStrikesAndThirdRollHitsNPins_thenScoreIsFirst10Second30AndThird30plusThreeTimes6() {
+        void whenTwoStrikesAreRolledFirstAndThirdRollHitsNPins_thenScoreIsFirst10Second30AndThird30plusThreeTimes6() {
             bowlingGame.roll(10);
             assertTrue(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
