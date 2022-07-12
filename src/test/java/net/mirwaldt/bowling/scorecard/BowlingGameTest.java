@@ -207,8 +207,8 @@ public class BowlingGameTest {
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
             assertEquals(20 + n, bowlingGame.score(1));
-            assertEquals(bowlingGame.score(1) + 10 + n, bowlingGame.score(2));
-            assertEquals(bowlingGame.score(2) + n, bowlingGame.score());
+            assertEquals(30 + 2 * n, bowlingGame.score(2));
+            assertEquals(30 + 3 * n, bowlingGame.score());
         }
 
         @DisplayName("when one strikes is rolled first and second roll hits m pins and third roll hits n pins, " +
@@ -259,8 +259,8 @@ public class BowlingGameTest {
             bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
             assertTrue(bowlingGame.isSpare());
-            assertEquals(10 + m + n, bowlingGame.score(1));
-            assertEquals(bowlingGame.score(1) + m + n, bowlingGame.score());
+            assertEquals(20, bowlingGame.score(1));
+            assertEquals(30, bowlingGame.score());
         }
 
         @DisplayName("when one spare is rolled first by m and n and third roll hits p pins, " +
