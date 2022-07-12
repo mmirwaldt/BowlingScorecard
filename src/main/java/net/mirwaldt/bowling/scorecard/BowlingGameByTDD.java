@@ -63,7 +63,7 @@ public class BowlingGameByTDD implements BowlingGame {
     public int score(int frame) {
         int maxRolls = frame * 2;
         int score = 0;
-        for (int roll = 0; roll < maxRolls; ) {
+        for (int roll = 0; roll < maxRolls; roll += 2) {
             int pins = rolled[roll];
             if (isStrike(pins)) {
                 score += pins;
@@ -81,7 +81,6 @@ public class BowlingGameByTDD implements BowlingGame {
             } else {
                 score += pins + ifExists(roll + 1);
             }
-            roll += 2;
         }
         return score;
     }
