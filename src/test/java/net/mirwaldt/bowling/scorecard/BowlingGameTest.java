@@ -183,7 +183,7 @@ public class BowlingGameTest {
             assertFalse(bowlingGame.isSpare());
             assertEquals(10 + 10 + 10, bowlingGame.score(1));
             assertEquals(bowlingGame.score(1) + 10 + 10, bowlingGame.score(2));
-            assertEquals(bowlingGame.score(2) + 10, bowlingGame.score(3));
+            assertEquals(bowlingGame.score(2) + 10, bowlingGame.score());
         }
     }
 }
