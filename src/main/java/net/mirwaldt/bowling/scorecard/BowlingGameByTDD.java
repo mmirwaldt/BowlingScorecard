@@ -67,15 +67,15 @@ public class BowlingGameByTDD implements BowlingGame {
             int pins = rolled[roll];
             if (isStrike(pins)) {
                 score += 10;
-                if (roll + 2 < rolls) {
+                if (exists(roll + 2)) {
                     score += rolled[roll + 2];
-                    if (isStrike(rolled[roll + 2]) && roll + 4 < rolls) {
+                    if (isStrike(rolled[roll + 2]) && exists(roll + 4)) {
                         score += rolled[roll + 4];
-                    } else if (!isStrike(rolled[roll + 2]) && roll + 3 < rolls) {
+                    } else if (!isStrike(rolled[roll + 2]) && exists(roll + 3)) {
                         score += rolled[roll + 3];
                     }
                 }
-            } else if (roll + 1 < rolls && isSpare(roll)) {
+            } else if (exists(roll + 1) && isSpare(roll)) {
                 score += 10;
                 if (roll + 2 < rolls) {
                     score += rolled[roll + 2];
@@ -89,6 +89,10 @@ public class BowlingGameByTDD implements BowlingGame {
             roll += 2;
         }
         return score;
+    }
+
+    private boolean exists(int roll) {
+        return roll < rolls;
     }
 
     private boolean isSpare(int roll) {
