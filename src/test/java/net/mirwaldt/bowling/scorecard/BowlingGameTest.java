@@ -91,7 +91,7 @@ public class BowlingGameTest {
         @ParameterizedTest(name = "when 10 pins are hit first and {0} second, " +
                 "then score strike first 10 and second 10 + {0}")
         @ValueSource(ints = {0, 3, 4})
-        void whenOneStrikeFirstAndNPinsSecond_thenScoreIs10plus2timesN(int n) {
+        void whenOneStrikeFirstAndNPinsSecond_thenScoreIs10plusTwotimesN(int n) {
             bowlingGame.roll(10);
             assertTrue(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
@@ -101,7 +101,7 @@ public class BowlingGameTest {
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
             assertEquals(10 + n, bowlingGame.score(1));
-            assertEquals(bowlingGame.score(1) + n, bowlingGame.score());
+            assertEquals(10 + 2 * n, bowlingGame.score());
         }
 
         @DisplayName("when 10 pins are hit twice, then those rolls are strikes and the score is first 10 and second 20")
@@ -227,13 +227,13 @@ public class BowlingGameTest {
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
             assertEquals(10 + m, bowlingGame.score(1));
-            assertEquals(bowlingGame.score(1) + m, bowlingGame.score());
+            assertEquals(10 + 2 * m, bowlingGame.score());
 
             bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
             assertEquals(10 + m + n, bowlingGame.score(1));
-            assertEquals(bowlingGame.score(1) + m + n, bowlingGame.score());
+            assertEquals(10 + 2 * (m + n), bowlingGame.score());
         }
 
         @DisplayName("when one strike is rolled first and one spare is rolled second by m and n, " +
