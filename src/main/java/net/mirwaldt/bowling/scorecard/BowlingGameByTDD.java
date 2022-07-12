@@ -32,9 +32,9 @@ public class BowlingGameByTDD implements BowlingGame {
         if (pins < 0 || 10 < pins) {
             throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
         }
-        if (rolls % 2 == 1 && !isStrike(index(frame(rolls))) && 10 < rolled[index(frame(rolls))] + pins) {
+        if (rolls % 2 == 1 && 10 < rolled[index()] + pins) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
-                    + rolled[index(frame(rolls))] + " + " + pins + " == " + (rolled[index(frame(rolls))] + pins));
+                    + rolled[index()] + " + " + pins + " == " + (rolled[index()] + pins));
         }
         rolled[rolls] = pins;
 
@@ -43,6 +43,10 @@ public class BowlingGameByTDD implements BowlingGame {
         } else {
             rolls++;
         }
+    }
+
+    private int index() {
+        return index(frame(rolls));
     }
 
     @Override
