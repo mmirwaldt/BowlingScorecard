@@ -162,5 +162,28 @@ public class BowlingGameTest {
             assertEquals(m + n, bowlingGame.score(1));
             assertEquals(bowlingGame.score(1) + p, bowlingGame.score());
         }
+
+        @DisplayName("when 10 pins are hit three times, " +
+                "then those rolls are strikes and the score is first 10 and second 20 and third 30")
+        @Test
+        void whenThreeStrikes_thenItIsAStrikeAndScoreIs10() {
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10, bowlingGame.score());
+
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + 10, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + 10, bowlingGame.score());
+
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + 10 + 10, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + 10 + 10, bowlingGame.score(2));
+            assertEquals(bowlingGame.score(2) + 10, bowlingGame.score(3));
+        }
     }
 }
