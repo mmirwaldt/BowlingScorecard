@@ -32,7 +32,7 @@ public class BowlingGameByTDD implements BowlingGame {
         if (pins < 0 || 10 < pins) {
             throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
         }
-        if (rolls % 2 == 1 && 10 < rolled[0] + pins) {
+        if (rolls % 2 == 1 && isStrike(index(frame(rolls))) && 10 < rolled[0] + pins) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
                     + rolled[0] + " + " + pins + " == " + (rolled[0] + pins));
         }
