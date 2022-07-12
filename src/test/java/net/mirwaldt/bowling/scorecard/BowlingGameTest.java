@@ -387,7 +387,7 @@ public class BowlingGameTest {
         @ParameterizedTest(name = "when three strikes are rolled first and fourth roll hits {0} pins, " +
                 "then the score is first 10, second 20 + 10 and third 30 + 20 + 10 and fourth 30 + 20 + 10 + 3 * {0}")
         @ValueSource(ints = {0, 1, 5, 9})
-        void whenTwoStrikesAreRolledFirstAndThirdRollHitsNPins_thenScoreIsFirst10Second30AndThird30plusThreeTimesN(int n) {
+        void whenThreeStrikesAreRolledFirstAndFourthRollHitsNPins_thenScoreIs50plusN(int n) {
             bowlingGame.roll(10);
             assertTrue(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
