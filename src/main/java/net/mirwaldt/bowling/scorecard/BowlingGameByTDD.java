@@ -91,14 +91,6 @@ public class BowlingGameByTDD implements BowlingGame {
         return score;
     }
 
-    private boolean areFirstTwoRollsSpare() {
-        return rolled[0] + rolled[1] == 10;
-    }
-
-    private boolean isFirstRollStrike() {
-        return rolled[0] == 10;
-    }
-
     private int frame(int roll) {
         return (roll + 1) / 2;
     }
