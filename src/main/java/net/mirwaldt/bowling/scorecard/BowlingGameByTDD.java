@@ -77,12 +77,12 @@ public class BowlingGameByTDD implements BowlingGame {
                 }
             } else if (exists(roll + 1) && isSpare(roll)) {
                 score += 10;
-                if (roll + 2 < rolls) {
+                if (exists(roll + 2)) {
                     score += rolled[roll + 2];
                 }
             } else {
                 score += pins;
-                if (roll + 1 < rolls) {
+                if (exists(roll + 1)) {
                     score += rolled[roll + 1];
                 }
             }
