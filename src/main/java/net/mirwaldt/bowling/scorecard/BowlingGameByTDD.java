@@ -2,18 +2,19 @@ package net.mirwaldt.bowling.scorecard;
 
 /**
  * rolls | frame | index
- *     0 |     0 |     0
- *     1 |     1 |     0
- *     2 |     1 |     0
- *     3 |     2 |     2
- *     4 |     2 |     2
- *     5 |     3 |     4
- *     6 |     3 |     4
- *     7 |     4 |     6
- *     8 |     4 |     6
- *
- *  frame(rolls) = (rolls + 1) / 2
- *  index(frame) = (frame - 1) * 2
+ * 0 |     0 |     0
+ * 1 |     1 |     0
+ * 2 |     1 |     0
+ * 3 |     2 |     2
+ * 4 |     2 |     2
+ * 5 |     3 |     4
+ * 6 |     3 |     4
+ * 7 |     4 |     6
+ * 8 |     4 |     6
+ * <p>
+ * frame(rolls) = (rolls + 1) / 2
+ * index(frame) = (frame - 1) * 2
+ * indexFromRolls(rolls) = index(frame(rolls)) = ((rolls + 1) / 2 - 1) * 2
  */
 
 public class BowlingGameByTDD implements BowlingGame {
@@ -31,7 +32,7 @@ public class BowlingGameByTDD implements BowlingGame {
         if (pins < 0 || 10 < pins) {
             throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
         }
-        if (rolls == 1 && !isFirstRollStrike() && 10 < rolled[0] + pins) {
+        if (rolls % 2 == 1 && rolled[indexFromRoll(rolls)] != 0 && 10 < rolled[0] + pins) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
                     + rolled[0] + " + " + pins + " == " + (rolled[0] + pins));
         }
@@ -64,24 +65,24 @@ public class BowlingGameByTDD implements BowlingGame {
         int score = 0;
         for (int roll = 0; roll < maxRolls; ) {
             int pins = rolled[roll];
-            if(pins == 10) {
+            if (pins == 10) {
                 score += 10;
-                if(roll + 2 < rolls) {
+                if (roll + 2 < rolls) {
                     score += rolled[roll + 2];
                     if (rolled[roll + 2] == 10 && roll + 4 < rolls) {
                         score += rolled[roll + 4];
-                    } else if(rolled[roll + 2] != 10 && roll + 3 < rolls) {
+                    } else if (rolled[roll + 2] != 10 && roll + 3 < rolls) {
                         score += rolled[roll + 3];
                     }
                 }
-            } else if(roll + 1 < rolls && rolled[roll] + rolled[roll + 1] == 10) {
+            } else if (roll + 1 < rolls && rolled[roll] + rolled[roll + 1] == 10) {
                 score += 10;
-                if(roll + 2 < rolls) {
+                if (roll + 2 < rolls) {
                     score += rolled[roll + 2];
                 }
             } else {
                 score += pins;
-                if(roll + 1 < rolls) {
+                if (roll + 1 < rolls) {
                     score += rolled[roll + 1];
                 }
             }
@@ -104,5 +105,9 @@ public class BowlingGameByTDD implements BowlingGame {
 
     private int index(int frame) {
         return (frame - 1) * 2;
+    }
+
+    private int indexFromRoll(int roll) {
+        return index(frame(roll));
     }
 }
