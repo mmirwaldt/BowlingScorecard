@@ -381,5 +381,38 @@ public class BowlingGameTest {
             assertEquals(bowlingGame.score(2) + 10 + 10, bowlingGame.score(3));
             assertEquals(bowlingGame.score(3) + 10, bowlingGame.score());
         }
+
+        @DisplayName("when three strikes are rolled first and fourth roll hits n pins, " +
+                "then the score is first 10, second 20 + 10 and third 30 + 20 + 10 and fourth 30 + 20 + 10 + 3 * n")
+        @ParameterizedTest(name = "when three strikes are rolled first and fourth roll hits {0} pins, " +
+                "then the score is first 10, second 20 + 10 and third 30 + 20 + 10 and fourth 30 + 20 + 10 + 3 * {0}")
+        @ValueSource(ints = {0})
+        void whenTwoStrikesAreRolledFirstAndThirdRollHitsNPins_thenScoreIsFirst10Second30AndThird30plusThreeTimesN(int n) {
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10, bowlingGame.score());
+
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + 10, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + 10, bowlingGame.score());
+
+            bowlingGame.roll(10);
+            assertTrue(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + 10 + 10, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + 10 + 10, bowlingGame.score(2));
+            assertEquals(bowlingGame.score(2) + 10, bowlingGame.score());
+
+            bowlingGame.roll(n);
+            assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + 10 + 10, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + 10 + 10, bowlingGame.score(2));
+            assertEquals(bowlingGame.score(2) + 10, bowlingGame.score(3));
+            assertEquals(bowlingGame.score(3) + n, bowlingGame.score());
+        }
     }
 }
