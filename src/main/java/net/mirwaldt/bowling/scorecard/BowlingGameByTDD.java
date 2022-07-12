@@ -1,5 +1,7 @@
 package net.mirwaldt.bowling.scorecard;
 
+import static java.lang.Math.min;
+
 /**
  * rolls | frame | index
  * 0 |     0 |     0
@@ -32,13 +34,13 @@ public class BowlingGameByTDD implements BowlingGame {
         if (pins < 0 || 10 < pins) {
             throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
         }
-        if (rolls % 2 == 1 && 10 < rolled[index()] + pins) {
+        if (rolls % 2 == 1 && 10 < rolled[index()] + pins && frame(rolls) < 9) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
                     + rolled[index()] + " + " + pins + " == " + (rolled[index()] + pins));
         }
         rolled[rolls] = pins;
 
-        if (rolls % 2 == 0 && isStrike(pins)) {
+        if (rolls % 2 == 0 && isStrike(pins) && frame(rolls) < 9) {
             rolls += 2;
         } else {
             rolls++;
@@ -65,7 +67,7 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public int score(int frame) {
-        int maxRolls = frame * 2;
+        int maxRolls = min(9, frame) * 2;
         int score = 0;
         for (int roll = 0; roll < maxRolls; roll += 2) {
             int pins = rolled[roll];
@@ -82,11 +84,14 @@ public class BowlingGameByTDD implements BowlingGame {
                 score += pins + ifExists(roll + 1);
             }
         }
+        if (frame == 11) {
+            score += rolled[18] + rolled[19] + rolled[20];
+        }
         return score;
     }
 
     private boolean isSpareRoll(int roll) {
-        return rolled[roll] + ifExists(roll + 1) == 10;
+        return roll < 10 * 2 && rolled[roll] + ifExists(roll + 1) == 10;
     }
 
     private boolean exists(int roll) {

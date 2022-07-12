@@ -451,7 +451,7 @@ public class BowlingGameTest {
     @DisplayName("Given all balls are rolled, when always strike, then the score is 300")
     @Test
     void givenAllBallsAreRolled_whenAlwaysStrike_thenScoreIs300() {
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 12; i++) {
             bowlingGame.roll(10);
         }
         assertEquals(300, bowlingGame.score());
