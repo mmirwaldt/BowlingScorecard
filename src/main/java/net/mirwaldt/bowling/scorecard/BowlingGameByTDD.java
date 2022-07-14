@@ -128,9 +128,17 @@ public class BowlingGameByTDD implements BowlingGame {
     }
 
     private void checkNonStrike(int pins) {
-        if (rolls % 2 == 1 && 10 < rolled[index()] + pins && isOneFrameBeforetheLastFrame()) {
+        if (isSecondRollOfFrame() && 10 < currentRoll() + pins && isOneFrameBeforetheLastFrame()) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
-                    + rolled[index()] + " + " + pins + " == " + (rolled[index()] + pins));
+                    + currentRoll() + " + " + pins + " == " + (currentRoll() + pins));
         }
+    }
+
+    private int currentRoll() {
+        return rolled[index()];
+    }
+
+    private boolean isSecondRollOfFrame() {
+        return rolls % 2 == 1;
     }
 }
