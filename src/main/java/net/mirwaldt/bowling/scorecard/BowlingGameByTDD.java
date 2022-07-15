@@ -44,7 +44,7 @@ public class BowlingGameByTDD implements BowlingGame {
 
     private void checkBonus() {
         if(19 < rolls && rolled[18] + rolled[19] < 10) {
-            throw new IllegalArgumentException("No bonus allowed because the two rolls sum is " +
+            throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
                     (rolled[18] + rolled[19]) + " which is smaller than 10!");
         }
     }

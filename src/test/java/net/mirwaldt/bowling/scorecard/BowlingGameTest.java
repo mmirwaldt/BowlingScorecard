@@ -477,7 +477,7 @@ public class BowlingGameTest {
             }
             bowlingGame.roll(0);
             bowlingGame.roll(0);
-            assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(0));
+            assertThrows(IllegalStateException.class, () -> bowlingGame.roll(0));
         }
 
         @DisplayName("when 9 strikes and one spare by m pins and n pins and third p pins, " +
