@@ -31,14 +31,14 @@ public class BowlingGameByTDD implements BowlingGame {
         checkBonus();
 
         rolled[rolls] = pins;
-        if (rolls % 2 == 0 && isStrike(pins) && isOneFrameBeforetheLastFrame()) {
+        if (rolls % 2 == 0 && isStrike(pins) && isOneFrameBeforeTheLastFrame()) {
             rolls += 2;
         } else {
             rolls++;
         }
     }
 
-    private boolean isOneFrameBeforetheLastFrame() {
+    private boolean isOneFrameBeforeTheLastFrame() {
         return frame(rolls) < 9;
     }
 
@@ -128,7 +128,7 @@ public class BowlingGameByTDD implements BowlingGame {
     }
 
     private void checkNonStrike(int pins) {
-        if (isSecondRollOfFrame() && isTooManyPins(currentRoll() + pins) && isOneFrameBeforetheLastFrame()) {
+        if (isSecondRollOfFrame() && isTooManyPins(currentRoll() + pins) && isOneFrameBeforeTheLastFrame()) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
                     + currentRoll() + " + " + pins + " == " + (currentRoll() + pins));
         }
