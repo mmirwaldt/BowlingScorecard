@@ -51,16 +51,24 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public boolean isStrike() {
+        return 0 < rolls && isStrike(firstRollOfCurrentFrame());
+    }
+
+    private int firstRollOfCurrentFrame() {
         int frame = frame(rolls);
         int index = index(frame);
-        return 0 < rolls && isStrike(rolled[index]);
+        return rolled[index];
+    }
+
+    private int secondRollOfCurrentFrame() {
+        int frame = frame(rolls);
+        int index = index(frame);
+        return rolled[index + 1];
     }
 
     @Override
     public boolean isSpare() {
-        int frame = frame(rolls);
-        int index = index(frame);
-        return 1 < rolls && !isStrike() && rolled[index] + rolled[index + 1] == 10;
+        return 1 < rolls && !isStrike() && firstRollOfCurrentFrame() + secondRollOfCurrentFrame() == 10;
     }
 
     @Override
