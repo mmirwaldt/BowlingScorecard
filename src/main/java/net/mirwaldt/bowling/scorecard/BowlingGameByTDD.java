@@ -38,32 +38,9 @@ public class BowlingGameByTDD implements BowlingGame {
         }
     }
 
-    private boolean isOneFrameBeforeTheLastFrame() {
-        return frame(rolls) < 9;
-    }
-
-    private void checkBonus() {
-        if(19 < rolls && rolled[18] + rolled[19] < 10) {
-            throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
-                    (rolled[18] + rolled[19]) + " which is smaller than 10!");
-        }
-    }
-
     @Override
     public boolean isStrike() {
         return 0 < rolls && isStrike(firstRollOfCurrentFrame());
-    }
-
-    private int firstRollOfCurrentFrame() {
-        int frame = frame(rolls);
-        int index = index(frame);
-        return rolled[index];
-    }
-
-    private int secondRollOfCurrentFrame() {
-        int frame = frame(rolls);
-        int index = index(frame);
-        return rolled[index + 1];
     }
 
     @Override
@@ -101,6 +78,17 @@ public class BowlingGameByTDD implements BowlingGame {
         return score;
     }
 
+    private boolean isOneFrameBeforeTheLastFrame() {
+        return frame(rolls) < 9;
+    }
+
+    private void checkBonus() {
+        if(19 < rolls && rolled[18] + rolled[19] < 10) {
+            throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
+                    (rolled[18] + rolled[19]) + " which is smaller than 10!");
+        }
+    }
+
     private int index() {
         return index(frame(rolls));
     }
@@ -127,6 +115,19 @@ public class BowlingGameByTDD implements BowlingGame {
 
     private int index(int frame) {
         return (frame - 1) * 2;
+    }
+
+    private int firstRollOfCurrentFrame() {
+        return rolled[firstRollIndexOfCurrentFrame()];
+    }
+
+    private int secondRollOfCurrentFrame() {
+        return rolled[firstRollIndexOfCurrentFrame() + 1];
+    }
+
+    private int firstRollIndexOfCurrentFrame() {
+        int frame = frame(rolls);
+        return index(frame);
     }
 
     private void checkRange(int pins) {
