@@ -40,12 +40,12 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public boolean isStrike() {
-        return 0 < rolls && isStrike(firstRollOfCurrentFrame());
+        return minRolls(1) && isStrike(firstRollOfCurrentFrame());
     }
 
     @Override
     public boolean isSpare() {
-        return 1 < rolls && !isStrike() && firstRollOfCurrentFrame() + secondRollOfCurrentFrame() == 10;
+        return minRolls(2) && !isStrike() && firstRollOfCurrentFrame() + secondRollOfCurrentFrame() == 10;
     }
 
     @Override
@@ -76,6 +76,10 @@ public class BowlingGameByTDD implements BowlingGame {
             score += rolled[18] + rolled[19] + rolled[20];
         }
         return score;
+    }
+
+    private boolean minRolls(int minRolls) {
+        return minRolls <= rolls;
     }
 
     private boolean isOneFrameBeforeTheLastFrame() {
