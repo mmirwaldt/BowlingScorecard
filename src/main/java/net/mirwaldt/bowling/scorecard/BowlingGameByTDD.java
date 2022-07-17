@@ -27,7 +27,7 @@ public class BowlingGameByTDD implements BowlingGame {
     @Override
     public void roll(int pins) {
         checkRange(pins);
-        checkNonStrike(pins);
+        checkTooManyPins(pins);
         checkBonus();
 
         rolled[rolls] = pins;
@@ -140,7 +140,7 @@ public class BowlingGameByTDD implements BowlingGame {
         }
     }
 
-    private void checkNonStrike(int pins) {
+    private void checkTooManyPins(int pins) {
         if (isSecondRollOfFrame() && isTooManyPins(currentRoll() + pins) && isOneFrameBeforeTheLastFrame()) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
                     + currentRoll() + " + " + pins + " == " + (currentRoll() + pins));
