@@ -127,7 +127,7 @@ public class BowlingGameTest {
         @ParameterizedTest(name = "when {0} pins are hit first and {1} second so that 10 < {0} + {1}," +
                 "then throw an IllegalArgumentException")
         @CsvSource({"3, 8", "7, 6", "1, 10"})
-        void whenMPinsAreHitFirstAndNSecondSoThatMoreThan10PinsAreHit_thenThrowAnIllegalArgumentException(int m, int n) {
+        void whenMoreThan10PinsAreHit_thenThrowAnIllegalArgumentException(int m, int n) {
             bowlingGame.roll(m);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
@@ -145,8 +145,7 @@ public class BowlingGameTest {
         @ParameterizedTest(name = "when no strikes and no spares by {0} pins, {1} pins and {2} pins are rolled, " +
                 "then the score is {0} + {1} + {2}")
         @CsvSource({"0, 0, 0", "0, 1, 2", "4, 0, 7", "0, 0, 8", "3, 6, 0", "5, 3, 9"})
-        void whenNoStrikeAndNoSpareIsRolledByMandNandP_thenScoreIsMplusNplusP(
-                int m, int n, int p) {
+        void whenNoStrikeAndNoSpareIsRolledByMandNandPpins_thenScoreIsMplusNplusP(int m, int n, int p) {
             assertNotEquals(10, m + n);
 
             bowlingGame.roll(m);
@@ -219,8 +218,7 @@ public class BowlingGameTest {
         @ParameterizedTest(name = "when two strikes are rolled first and third roll hits {0} pins, " +
                 "then the score is first 10, second 10 + {0} and third 10 + {0} + {1}")
         @CsvSource({"0, 0", "0, 4", "5, 0", "3, 3", "1, 2", "6, 3"})
-        void whenOneStrikeFirstAndSecondAndThirdRollHitMandNPins_thenScoreIs10plusTwoTimesSumOfMplusN(
-                int m, int n) {
+        void whenOneStrikeFirstAndSecondAndThirdRollHitMandNPins_thenScoreIs10plusTwoTimesSumOfMplusN(int m, int n) {
             bowlingGame.roll(10);
             assertTrue(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
@@ -244,8 +242,7 @@ public class BowlingGameTest {
         @ParameterizedTest(name = "when two strikes are rolled first and third roll hits {0} pins, " +
                 "then the score is first 10, second 10 + {0} and third 10 + {0} + {1}")
         @CsvSource({"0, 10", "3, 7", "9, 1", "5, 5"})
-        void whenOneStrikeFirstAndOneSpareSecondByMandN_thenScoreIs30(
-                int m, int n) {
+        void whenOneStrikeFirstAndOneSpareSecondByMandN_thenScoreIs30(int m, int n) {
             assertEquals(10, m + n);
 
             bowlingGame.roll(10);
@@ -271,8 +268,7 @@ public class BowlingGameTest {
         @ParameterizedTest(name = "when one spare is rolled first by {0} and {1} and third roll hits {2} pins, " +
                 "then the score is first {0}, second {0} + {1} and third {0} + {1} + 2 * {2}")
         @CsvSource({"0, 10, 0", "0, 10, 1", "5, 5, 0", "8, 2, 1", "1, 9, 3"})
-        void whenOneSpareFirstByMandNandThirdRollHitsPpins_thenScoreIs10plusP(
-                int m, int n, int p) {
+        void whenOneSpareFirstByMandNandThirdRollHitsPpins_thenScoreIs10plusP(int m, int n, int p) {
             assertEquals(10, m + n);
 
             bowlingGame.roll(m);
@@ -326,8 +322,7 @@ public class BowlingGameTest {
         @ParameterizedTest(name = "when no strikes and no spares by {0} pins, {1} pins and {2} pins are rolled, " +
                 "then the score is {0} + {1} + {2} + {3}")
         @CsvSource({"0, 0, 0, 0", "0, 1, 2, 3", "0, 0, 5, 1", "3, 4, 0, 0", "7, 1, 2, 0", "8, 1, 5, 3"})
-        void whenNoStrikeAndNoSpareIsRolledByMandNandPandQ_thenScoreIsMplusNplusPplusQ(
-                int m, int n, int p, int q) {
+        void whenNoStrikeAndNoSpareIsRolledByMandNandPandQ_thenScoreIsMplusNplusPplusQ(int m, int n, int p, int q) {
             assertNotEquals(10, m + n);
             assertNotEquals(10, p + q);
 
