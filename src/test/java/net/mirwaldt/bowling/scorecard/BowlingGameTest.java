@@ -1,5 +1,6 @@
 package net.mirwaldt.bowling.scorecard;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,8 @@ public class BowlingGameTest {
     @DisplayName("Given one ball is rolled")
     @Nested
     class GivenOneBallIsRolled {
+        protected int startScore = 0;
+
         @DisplayName("when n pin(s) are hit, then the score is n")
         @ParameterizedTest(name = "when {0} pin(s) are hit, then the score is {0}")
         @ValueSource(ints = {0, 1, 2, 9})
@@ -28,7 +31,7 @@ public class BowlingGameTest {
             bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
-            assertEquals(n, bowlingGame.score());
+            assertEquals(startScore + n, bowlingGame.score());
         }
 
         @DisplayName("when 10 pins are hit, then it is a strike and the score is 10")
@@ -37,7 +40,7 @@ public class BowlingGameTest {
             bowlingGame.roll(10);
             assertTrue(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
-            assertEquals(10, bowlingGame.score());
+            assertEquals(startScore + 10, bowlingGame.score());
         }
 
         @DisplayName("when a invalid number of pins are hit, then throw an IllegalArgumentException")
@@ -502,6 +505,30 @@ public class BowlingGameTest {
 
             assertEquals(7 * 30 + 20 + 10 + 2 * m + n, bowlingGame.score(9));
             assertEquals(bowlingGame.score(9) + m + n + p, bowlingGame.score());
+        }
+    }
+
+    @DisplayName("Given one ball is rolled after one roll")
+    @Nested
+    class GivenOneBallIsRolledAfterOneRoll extends GivenOneBallIsRolled {
+        @BeforeEach
+        void startPlaying() {
+            bowlingGame.roll(2);
+            bowlingGame.roll(5);
+            startScore = 2 + 5;
+        }
+    }
+
+    @DisplayName("Given one ball is rolled after two rolls")
+    @Nested
+    class GivenOneBallIsRolledAfterTwoRolls extends GivenOneBallIsRolled {
+        @BeforeEach
+        void startPlaying() {
+            bowlingGame.roll(4);
+            bowlingGame.roll(1);
+            bowlingGame.roll(0);
+            bowlingGame.roll(8);
+            startScore = 4 + 1 + 8;
         }
     }
 }
