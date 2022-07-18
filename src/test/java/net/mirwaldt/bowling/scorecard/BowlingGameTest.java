@@ -458,6 +458,9 @@ public class BowlingGameTest {
     @DisplayName("Given five balls are rolled")
     @Nested
     class GivenFiveBallsAreRolled {
+        protected int startScore = 0;
+        protected int startFrame = 0;
+
         @DisplayName("when two spares by m pins, n pins, p pins, q pins and then r pins are rolled, " +
                 "then the score is m + n + 2 * p + q + 2 * r")
         @ParameterizedTest(name = "when no strikes and no spares by {0} pins, {1} pins and {2} pins are rolled, " +
@@ -470,31 +473,31 @@ public class BowlingGameTest {
             bowlingGame.roll(m);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
-            assertEquals(m, bowlingGame.score());
+            assertEquals(startScore + m, bowlingGame.score());
 
             bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
             assertTrue(bowlingGame.isSpare());
-            assertEquals(10, bowlingGame.score());
+            assertEquals(startScore + 10, bowlingGame.score());
 
             bowlingGame.roll(p);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
-            assertEquals(10 + p, bowlingGame.score(1));
-            assertEquals(10 + 2 * p, bowlingGame.score());
+            assertEquals(startScore + 10 + p, bowlingGame.score(startFrame + 1));
+            assertEquals(bowlingGame.score(startFrame + 1) + p, bowlingGame.score());
 
             bowlingGame.roll(q);
             assertFalse(bowlingGame.isStrike());
             assertTrue(bowlingGame.isSpare());
-            assertEquals(10 + p, bowlingGame.score(1));
-            assertEquals(10 + 2 * p + q, bowlingGame.score());
+            assertEquals(startScore + 10 + p, bowlingGame.score(startFrame + 1));
+            assertEquals(bowlingGame.score(startFrame + 1) + p + q, bowlingGame.score());
 
             bowlingGame.roll(r);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
-            assertEquals(10 + p, bowlingGame.score(1));
-            assertEquals(bowlingGame.score(1) + p + q + r, bowlingGame.score(2));
-            assertEquals(bowlingGame.score(2) + r, bowlingGame.score());
+            assertEquals(startScore + 10 + p, bowlingGame.score(startFrame + 1));
+            assertEquals(bowlingGame.score(startFrame + 1) + p + q + r, bowlingGame.score(startFrame + 2));
+            assertEquals(bowlingGame.score(startFrame + 2) + r, bowlingGame.score());
         }
     }
 
@@ -646,6 +649,32 @@ public class BowlingGameTest {
     @DisplayName("Given four balls are rolled after two frames")
     @Nested
     class GivenFourBallsAreRolledAfterTwoFrames extends GivenFourBallsAreRolled {
+        @BeforeEach
+        void startPlaying() {
+            bowlingGame.roll(4);
+            bowlingGame.roll(1);
+            bowlingGame.roll(0);
+            bowlingGame.roll(8);
+            startScore = 4 + 1 + 8;
+            startFrame = 2;
+        }
+    }
+
+    @DisplayName("Given four balls are rolled after one frame")
+    @Nested
+    class GivenFiveBallsAreRolledAfterOneFrame extends GivenFiveBallsAreRolled {
+        @BeforeEach
+        void startPlaying() {
+            bowlingGame.roll(2);
+            bowlingGame.roll(5);
+            startScore = 2 + 5;
+            startFrame = 1;
+        }
+    }
+
+    @DisplayName("Given four balls are rolled after two frames")
+    @Nested
+    class GivenFiveBallsAreRolledAfterTwoFrames extends GivenFiveBallsAreRolled {
         @BeforeEach
         void startPlaying() {
             bowlingGame.roll(4);
