@@ -55,6 +55,7 @@ public class BowlingGameTest {
     @Nested
     class GivenTwoBallsAreRolled {
         protected int startScore = 0;
+        protected int startFrame = 0;
 
         @DisplayName("when first m pins are hit and second n pins are hit, then the score is m + n")
         @ParameterizedTest(name = "when first {0} pins are hit and second {1} pins are hit, " +
@@ -105,8 +106,8 @@ public class BowlingGameTest {
             bowlingGame.roll(n);
             assertFalse(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10 + n, bowlingGame.score(1));
-            assertEquals(bowlingGame.score(1) + n, bowlingGame.score());
+            assertEquals(startScore + 10 + n, bowlingGame.score(startFrame + 1));
+            assertEquals(bowlingGame.score(startFrame + 1) + n, bowlingGame.score());
         }
 
         @DisplayName("when 10 pins are hit twice, then those rolls are strikes and the score is first 10 and second 20")
@@ -120,8 +121,8 @@ public class BowlingGameTest {
             bowlingGame.roll(10);
             assertTrue(bowlingGame.isStrike());
             assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 20, bowlingGame.score(1));
-            assertEquals(startScore + 30, bowlingGame.score());
+            assertEquals(startScore + 20, bowlingGame.score(startFrame + 1));
+            assertEquals(bowlingGame.score(startFrame + 1) + 10, bowlingGame.score());
         }
 
         @DisplayName("when m pins are hit first and n second so that 10 < m + n," +
@@ -580,6 +581,7 @@ public class BowlingGameTest {
             bowlingGame.roll(2);
             bowlingGame.roll(5);
             startScore = 2 + 5;
+            startFrame = 1;
         }
     }
 }
