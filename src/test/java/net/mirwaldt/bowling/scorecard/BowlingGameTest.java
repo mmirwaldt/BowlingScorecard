@@ -563,8 +563,8 @@ public class BowlingGameTest {
     class GivenTwoRollsAfterOneFrame extends GivenTwoRolls {
         @BeforeEach
         void startPlaying() {
+            game.roll(3);
             game.roll(2);
-            game.roll(5);
             startFrame = 1;
         }
     }
@@ -574,10 +574,10 @@ public class BowlingGameTest {
     class GivenTwoRollsAfterTwoFrames extends GivenTwoRolls {
         @BeforeEach
         void startPlaying() {
+            game.roll(7);
+            game.roll(2);
+            game.roll(5);
             game.roll(4);
-            game.roll(1);
-            game.roll(0);
-            game.roll(8);
             startFrame = 2;
         }
     }
@@ -587,8 +587,8 @@ public class BowlingGameTest {
     class GivenThreeRollsAfterOneFrame extends GivenThreeRolls {
         @BeforeEach
         void startPlaying() {
-            game.roll(2);
-            game.roll(5);
+            game.roll(0);
+            game.roll(6);
             startFrame = 1;
         }
     }
@@ -598,10 +598,10 @@ public class BowlingGameTest {
     class GivenThreeRollsAfterTwoFrames extends GivenThreeRolls {
         @BeforeEach
         void startPlaying() {
-            game.roll(4);
-            game.roll(1);
-            game.roll(0);
             game.roll(8);
+            game.roll(0);
+            game.roll(0);
+            game.roll(2);
             startFrame = 2;
         }
     }
@@ -611,8 +611,8 @@ public class BowlingGameTest {
     class GivenFourRollsAfterOneFrame extends GivenFourRolls {
         @BeforeEach
         void startPlaying() {
-            game.roll(2);
-            game.roll(5);
+            game.roll(4);
+            game.roll(0);
             startFrame = 1;
         }
     }
@@ -622,10 +622,10 @@ public class BowlingGameTest {
     class GivenFourRollsAfterTwoFrames extends GivenFourRolls {
         @BeforeEach
         void startPlaying() {
-            game.roll(4);
             game.roll(1);
+            game.roll(3);
             game.roll(0);
-            game.roll(8);
+            game.roll(0);
             startFrame = 2;
         }
     }
@@ -635,8 +635,8 @@ public class BowlingGameTest {
     class GivenFiveRollsAfterOneFrame extends GivenFiveRolls {
         @BeforeEach
         void startPlaying() {
+            game.roll(7);
             game.roll(2);
-            game.roll(5);
             startFrame = 1;
         }
     }
@@ -646,10 +646,10 @@ public class BowlingGameTest {
     class GivenFiveRollsAfterTwoFrames extends GivenFiveRolls {
         @BeforeEach
         void startPlaying() {
+            game.roll(3);
             game.roll(4);
-            game.roll(1);
-            game.roll(0);
-            game.roll(8);
+            game.roll(3);
+            game.roll(3);
             startFrame = 2;
         }
     }
