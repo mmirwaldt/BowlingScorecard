@@ -519,18 +519,20 @@ public class BowlingGameTest {
             for (int i = 0; i < 9; i++) {
                 game.roll(10);
             }
-            assertEquals(7 * 30 + 20 + 10, game.score());
+            assertEquals(7 * 30 + 20 + 10, game.score(9));
 
             game.roll(m);
-            assertEquals(7 * 30 + 20 + 10 + 2 * m, game.score());
+            assertEquals(7 * 30 + 20 + 10 + 2 * m, game.score(9));
+            assertEquals(game.score(9) + m, game.score());
 
             game.roll(n);
-            assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score());
+            assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
+            assertEquals(game.score(9) + 10, game.score());
 
             game.roll(p);
 
             assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
-            assertEquals(game.score(9) + m + n + p, game.score());
+            assertEquals(game.score(9) + 10 + p, game.score());
         }
 
         @DisplayName("when no strikes and no spares, then score is sum")
