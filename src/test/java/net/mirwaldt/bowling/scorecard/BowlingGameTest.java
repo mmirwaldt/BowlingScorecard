@@ -446,6 +446,50 @@ public class BowlingGameTest {
         }
     }
 
+    @DisplayName("Given five balls are rolled")
+    @Nested
+    class GivenFiveBallsAreRolled {
+        @DisplayName("when two spares by m pins, n pins, p pins, q pins and then r pins are rolled, " +
+                "then the score is m + n + 2 * p + q + 2 * r")
+        @ParameterizedTest(name = "when no strikes and no spares by {0} pins, {1} pins and {2} pins are rolled, " +
+                "then the score is {0} + {1} + 2 * {2} + {3} + 2 * {4}")
+        @CsvSource({"0, 10, 0, 10, 0", "0, 10, 0, 10, 9", "3, 7, 8, 2, 1", "5, 5, 0, 10, 5"})
+        void whenTwoSparesAreRolled_thenScoreIsMplusNplus2PplusQplus2R(
+                int m, int n, int p, int q, int r) {
+            assertEquals(10, m + n);
+            assertEquals(10, p + q);
+
+            bowlingGame.roll(m);
+            assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(m, bowlingGame.score());
+
+            bowlingGame.roll(n);
+            assertFalse(bowlingGame.isStrike());
+            assertTrue(bowlingGame.isSpare());
+            assertEquals(10, bowlingGame.score());
+
+            bowlingGame.roll(p);
+            assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + p, bowlingGame.score(1));
+            assertEquals(10 + 2 * p, bowlingGame.score());
+
+            bowlingGame.roll(q);
+            assertFalse(bowlingGame.isStrike());
+            assertTrue(bowlingGame.isSpare());
+            assertEquals(10 + p, bowlingGame.score(1));
+            assertEquals(10 + 2 * p + q, bowlingGame.score());
+
+            bowlingGame.roll(r);
+            assertFalse(bowlingGame.isStrike());
+            assertFalse(bowlingGame.isSpare());
+            assertEquals(10 + p, bowlingGame.score(1));
+            assertEquals(bowlingGame.score(1) + p + q + r, bowlingGame.score(2));
+            assertEquals(bowlingGame.score(2) + r, bowlingGame.score());
+        }
+    }
+
     @DisplayName("Given all balls are rolled")
     @Nested
     class GivenAllBallsAreRolled {
