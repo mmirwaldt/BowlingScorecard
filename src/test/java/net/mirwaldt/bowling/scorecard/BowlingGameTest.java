@@ -546,9 +546,9 @@ public class BowlingGameTest {
         }
     }
 
-    @DisplayName("Given one ball is rolled after one roll")
+    @DisplayName("Given one ball is rolled after one frame")
     @Nested
-    class GivenOneBallIsRolledAfterOneRoll extends GivenOneBallIsRolled {
+    class GivenOneBallIsRolledAfterOneFrame extends GivenOneBallIsRolled {
         @BeforeEach
         void startPlaying() {
             bowlingGame.roll(2);
@@ -557,9 +557,9 @@ public class BowlingGameTest {
         }
     }
 
-    @DisplayName("Given one ball is rolled after two rolls")
+    @DisplayName("Given one ball is rolled after two frames")
     @Nested
-    class GivenOneBallIsRolledAfterTwoRolls extends GivenOneBallIsRolled {
+    class GivenOneBallIsRolledAfterTwoFrames extends GivenOneBallIsRolled {
         @BeforeEach
         void startPlaying() {
             bowlingGame.roll(4);
