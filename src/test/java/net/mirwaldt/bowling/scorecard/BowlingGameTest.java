@@ -469,7 +469,7 @@ public class BowlingGameTest {
 
         @DisplayName("when 9 strikes first and neither a strike nor a spare in last frame 10, then no bonus")
         @Test
-        void when9StrikesAndNetherStrikeNorSpareInLastFrame10_thenNoBonus() {
+        void when9StrikesAndNeitherStrikeNorSpareInLastFrame10_thenNoBonus() {
             for (int i = 0; i < 9; i++) {
                 bowlingGame.roll(10);
             }
