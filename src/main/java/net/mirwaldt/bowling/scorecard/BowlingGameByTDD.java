@@ -72,7 +72,7 @@ public class BowlingGameByTDD implements BowlingGame {
                 score += pins + ifExists(roll + 1);
             }
         }
-        if (frame == 11) {
+        if (frame == 10) {
             score += rolled[18] + rolled[19] + rolled[20];
         }
         return score;
@@ -114,7 +114,7 @@ public class BowlingGameByTDD implements BowlingGame {
     }
 
     private int frame(int roll) {
-        return (roll + 1) / 2;
+        return min(10, (roll + 1) / 2);
     }
 
     private int index(int frame) {
