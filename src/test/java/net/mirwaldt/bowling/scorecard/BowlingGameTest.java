@@ -584,4 +584,18 @@ public class BowlingGameTest {
             startFrame = 1;
         }
     }
+
+    @DisplayName("Given one ball is rolled after two frames")
+    @Nested
+    class GivenTwoBallsAreRolledAfterTwoFrames extends GivenTwoBallsAreRolled {
+        @BeforeEach
+        void startPlaying() {
+            bowlingGame.roll(4);
+            bowlingGame.roll(1);
+            bowlingGame.roll(0);
+            bowlingGame.roll(8);
+            startScore = 4 + 1 + 8;
+            startFrame = 2;
+        }
+    }
 }
