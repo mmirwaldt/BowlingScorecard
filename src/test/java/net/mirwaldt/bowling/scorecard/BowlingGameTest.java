@@ -11,50 +11,49 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BowlingGameTest {
-    private final BowlingGame bowlingGame = new BowlingGameByTDD();
+    private final BowlingGame game = new BowlingGameByTDD();
 
     @DisplayName("Given no roll, when no pins are hit, then the score is 0")
     @Test
     void givenNoRoll_whenNoPinsAreHit_thenScoreIs0() {
-        assertEquals(0, bowlingGame.score());
+        assertEquals(0, game.score());
     }
 
     @DisplayName("Given one roll")
     @Nested
     class GivenOneRoll {
-        protected int startScore = 0;
+        protected int startFrame = 0;
 
         @DisplayName("when n pin(s) are hit, then the score is n more")
         @ParameterizedTest(name = "when {0} pin(s) are hit, then the score is {0} more")
         @ValueSource(ints = {0, 1, 2, 9})
         void whenNPinsAreHit_thenScoreIsNmore(int n) {
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + n, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + n, game.score());
         }
 
         @DisplayName("when 10 pins are hit, then it is a strike and the score is 10 more")
         @Test
         void when10PinsAreHit_thenItIsAStrikeAndScoreIs10more() {
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
         }
 
         @DisplayName("when a invalid number of pins are hit, then throw an IllegalArgumentException")
         @ParameterizedTest(name = "when {0} pins are hit, then throw an IllegalArgumentException")
         @ValueSource(ints = {-1, 11})
         void whenAnInvalidNumberOfPinsAreHit_thenThrowAnIllegalArgumentException(int n) {
-            assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(n));
+            assertThrows(IllegalArgumentException.class, () -> game.roll(n));
         }
     }
 
     @DisplayName("Given two rolls")
     @Nested
     class GivenTwoRolls {
-        protected int startScore = 0;
         protected int startFrame = 0;
 
         @DisplayName("when first m pins are hit and second n pins are hit, then the score is m + n more")
@@ -64,15 +63,15 @@ public class BowlingGameTest {
         void whenNoStrikeAndNoSpare_thenScoreIsNplusMmore(int m, int n) {
             assertNotEquals(10, m + n);
 
-            bowlingGame.roll(m);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m, bowlingGame.score());
+            game.roll(m);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m + n, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m + n, game.score());
         }
 
         @DisplayName("when a spare is rolled by m and n so that m + n = 10, then the score is 10 more")
@@ -82,15 +81,15 @@ public class BowlingGameTest {
         void whenSpare_thenScoreIs10more(int m, int n) {
             assertEquals(10, m + n);
 
-            bowlingGame.roll(m);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m, bowlingGame.score());
+            game.roll(m);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertTrue(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertTrue(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
         }
 
         @DisplayName("when 10 pins are hit first and n second, " +
@@ -99,31 +98,31 @@ public class BowlingGameTest {
                 "then score strike first 10 and second 10 + {0} more")
         @ValueSource(ints = {0, 3, 4})
         void whenOneStrike_thenScoreIs10plusTwoTimesNmore(int n) {
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10 + n, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + n, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10 + n, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + n, game.score());
         }
 
         @DisplayName("when two strikes, then score is 30 more")
         @Test
         void whenTwoStrikes_thenScoreIs30more() {
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
 
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 20, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 10, game.score());
         }
 
         @DisplayName("when m pins are hit first and n second so that 10 < m + n," +
@@ -132,19 +131,18 @@ public class BowlingGameTest {
                 "then throw an IllegalArgumentException")
         @CsvSource({"3, 8", "7, 6", "1, 10"})
         void whenMoreThan10PinsAreHit_thenThrowAnIllegalArgumentException(int m, int n) {
-            bowlingGame.roll(m);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m, bowlingGame.score());
+            game.roll(m);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m, game.score());
 
-            assertThrows(IllegalArgumentException.class, () -> bowlingGame.roll(n));
+            assertThrows(IllegalArgumentException.class, () -> game.roll(n));
         }
     }
 
     @DisplayName("Given three rolls")
     @Nested
     class GivenThreeRolls {
-        protected int startScore = 0;
         protected int startFrame = 0;
 
         @DisplayName("when no strikes and no spares by m pins, n pins and p pins are rolled, " +
@@ -155,88 +153,88 @@ public class BowlingGameTest {
         void whenNoStrikeAndNoSpare_thenScoreIsMplusNplusPmore(int m, int n, int p) {
             assertNotEquals(10, m + n);
 
-            bowlingGame.roll(m);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m, bowlingGame.score());
+            game.roll(m);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m + n, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m + n, game.score());
 
-            bowlingGame.roll(p);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m + n, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + p, bowlingGame.score());
+            game.roll(p);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m + n, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + p, game.score());
         }
 
         @DisplayName("when three strikes, then score is 60 more")
         @Test
         void whenThreeStrikes_thenScoreIs60more() {
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
 
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 20, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 10, game.score());
 
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 30, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 20, bowlingGame.score(startFrame + 2));
-            assertEquals(bowlingGame.score(startFrame + 2) + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 20, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame + 2) + 10, game.score());
         }
 
         @DisplayName("when two strikes, then the score is 20 + 10 + 3 * n more")
         @ParameterizedTest(name = "when two strikes, then score is 20 + 10 + 3 * {0} more")
         @ValueSource(ints = {0, 2, 6, 9})
         void whenTwoStrikes_thenScoreIs30plusThreeTimesNmore(int n) {
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
 
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 20, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 10, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 20 + n, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 10 + n, bowlingGame.score(startFrame + 2));
-            assertEquals(bowlingGame.score(startFrame + 2) + n, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 20 + n, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 10 + n, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame + 2) + n, game.score());
         }
 
         @DisplayName("when one strike, then the score is 10 + m + n more")
         @ParameterizedTest(name = "when two strikes, then the score is 10 + {0} + {1} more")
         @CsvSource({"0, 0", "0, 4", "5, 0", "3, 3", "1, 2", "6, 3"})
         void whenOneStrike_thenScoreIs10plusTwoTimesSumOfMplusNMore(int m, int n) {
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
 
-            bowlingGame.roll(m);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10 + m, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) +  m, bowlingGame.score());
+            game.roll(m);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10 + m, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) +  m, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10 + m + n, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + m + n, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10 + m + n, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + m + n, game.score());
         }
 
         @DisplayName("when one strike and one spare, then the score is 10 + m + n more")
@@ -245,22 +243,22 @@ public class BowlingGameTest {
         void whenOneStrikeFirstAndOneSpareSecondByMandN_thenScoreIs10plusMplusNmore(int m, int n) {
             assertEquals(10, m + n);
 
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
 
-            bowlingGame.roll(m);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10 + m, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + m, bowlingGame.score());
+            game.roll(m);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10 + m, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + m, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertTrue(bowlingGame.isSpare());
-            assertEquals(startScore + 20, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 10, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertTrue(game.isSpare());
+            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 10, game.score());
         }
 
         @DisplayName("when one spare, then the score m + n + 2 * p more")
@@ -269,21 +267,21 @@ public class BowlingGameTest {
         void whenOneSpare_thenScoreIsMplusNplus2TimesPmore(int m, int n, int p) {
             assertEquals(10, m + n);
 
-            bowlingGame.roll(m);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m, bowlingGame.score());
+            game.roll(m);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertTrue(bowlingGame.isSpare());
-            assertEquals(startScore + m + n, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertTrue(game.isSpare());
+            assertEquals(game.score(startFrame) + m + n, game.score());
 
-            bowlingGame.roll(p);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m + n + p, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + p, bowlingGame.score());
+            game.roll(p);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m + n + p, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + p, game.score());
         }
 
         @DisplayName("when one spare and one strike, then the score 30 more")
@@ -292,28 +290,27 @@ public class BowlingGameTest {
         void whenOneSpareAndOneStrike_thenScoreIs30more(int m, int n) {
             assertEquals(10, m + n);
 
-            bowlingGame.roll(m);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m, bowlingGame.score());
+            game.roll(m);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertTrue(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertTrue(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
 
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 20, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 10, game.score());
         }
     }
 
     @DisplayName("Given four rolls")
     @Nested
     class GivenFourRolls {
-        protected int startScore = 0;
         protected int startFrame = 0;
 
         @DisplayName("when no strikes and no spares, then the score is m + n + p + q more")
@@ -323,88 +320,88 @@ public class BowlingGameTest {
             assertNotEquals(10, m + n);
             assertNotEquals(10, p + q);
 
-            bowlingGame.roll(m);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m, bowlingGame.score());
+            game.roll(m);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m + n, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m + n, game.score());
 
-            bowlingGame.roll(p);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m + n, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + p, bowlingGame.score());
+            game.roll(p);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m + n, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + p, game.score());
 
-            bowlingGame.roll(q);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m + n, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + p + q, bowlingGame.score());
+            game.roll(q);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m + n, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + p + q, game.score());
         }
 
         @DisplayName("when four strikes, then the score is 90 more")
         @Test
         void whenFourStrikes_thenScoreIs90more() {
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
 
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 20, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 10, game.score());
 
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 30, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 20, bowlingGame.score(startFrame + 2));
-            assertEquals(bowlingGame.score(startFrame + 2) + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 20, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame + 2) + 10, game.score());
 
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 30, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 30, bowlingGame.score(startFrame + 2));
-            assertEquals(bowlingGame.score(startFrame + 2) + 20, bowlingGame.score(startFrame + 3));
-            assertEquals(bowlingGame.score(startFrame + 3) + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 30, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame + 2) + 20, game.score(startFrame + 3));
+            assertEquals(game.score(startFrame + 3) + 10, game.score());
         }
 
         @DisplayName("when three strikes, then the score 60 + 3 * n")
         @ParameterizedTest(name = "when three strikes, then the score is 60 + 3 * {0}")
         @ValueSource(ints = {0, 1, 5, 9})
         void whenThreeStrikes_thenScoreIs60plusThreeTimesNmore(int n) {
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
 
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 20, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 10, game.score());
 
-            bowlingGame.roll(10);
-            assertTrue(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 30, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 20, bowlingGame.score(startFrame + 2));
-            assertEquals(bowlingGame.score(startFrame + 2) + 10, bowlingGame.score());
+            game.roll(10);
+            assertTrue(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 20, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame + 2) + 10, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 30, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + 20 + n, bowlingGame.score(startFrame + 2));
-            assertEquals(bowlingGame.score(startFrame + 2) + 10 + n, bowlingGame.score(startFrame + 3));
-            assertEquals(bowlingGame.score(startFrame + 3) + n, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + 20 + n, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame + 2) + 10 + n, game.score(startFrame + 3));
+            assertEquals(game.score(startFrame + 3) + n, game.score());
         }
 
         @DisplayName("when two spares, then the score is m + n + 2 * p + q")
@@ -414,34 +411,33 @@ public class BowlingGameTest {
             assertEquals(10, m + n);
             assertEquals(10, p + q);
 
-            bowlingGame.roll(m);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m, bowlingGame.score());
+            game.roll(m);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertTrue(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertTrue(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
 
-            bowlingGame.roll(p);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10 + p, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + p, bowlingGame.score());
+            game.roll(p);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + p, game.score());
 
-            bowlingGame.roll(q);
-            assertFalse(bowlingGame.isStrike());
-            assertTrue(bowlingGame.isSpare());
-            assertEquals(startScore + 10 + p, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + p + q, bowlingGame.score());
+            game.roll(q);
+            assertFalse(game.isStrike());
+            assertTrue(game.isSpare());
+            assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + p + q, game.score());
         }
     }
 
     @DisplayName("Given five rolls")
     @Nested
     class GivenFiveRolls {
-        protected int startScore = 0;
         protected int startFrame = 0;
 
         @DisplayName("when two spares, then the score is m + n + 2 * p + q + 2 * r")
@@ -451,34 +447,34 @@ public class BowlingGameTest {
             assertEquals(10, m + n);
             assertEquals(10, p + q);
 
-            bowlingGame.roll(m);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + m, bowlingGame.score());
+            game.roll(m);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + m, game.score());
 
-            bowlingGame.roll(n);
-            assertFalse(bowlingGame.isStrike());
-            assertTrue(bowlingGame.isSpare());
-            assertEquals(startScore + 10, bowlingGame.score());
+            game.roll(n);
+            assertFalse(game.isStrike());
+            assertTrue(game.isSpare());
+            assertEquals(game.score(startFrame) + 10, game.score());
 
-            bowlingGame.roll(p);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10 + p, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + p, bowlingGame.score());
+            game.roll(p);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + p, game.score());
 
-            bowlingGame.roll(q);
-            assertFalse(bowlingGame.isStrike());
-            assertTrue(bowlingGame.isSpare());
-            assertEquals(startScore + 10 + p, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + p + q, bowlingGame.score());
+            game.roll(q);
+            assertFalse(game.isStrike());
+            assertTrue(game.isSpare());
+            assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + p + q, game.score());
 
-            bowlingGame.roll(r);
-            assertFalse(bowlingGame.isStrike());
-            assertFalse(bowlingGame.isSpare());
-            assertEquals(startScore + 10 + p, bowlingGame.score(startFrame + 1));
-            assertEquals(bowlingGame.score(startFrame + 1) + p + q + r, bowlingGame.score(startFrame + 2));
-            assertEquals(bowlingGame.score(startFrame + 2) + r, bowlingGame.score());
+            game.roll(r);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + p + q + r, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame + 2) + r, game.score());
         }
     }
 
@@ -489,29 +485,29 @@ public class BowlingGameTest {
         @Test
         void whenAlwaysNoPins_thenScoreIs0() {
             for (int i = 0; i < 11; i++) {
-                bowlingGame.roll(0);
+                game.roll(0);
             }
-            assertEquals(0, bowlingGame.score());
+            assertEquals(0, game.score());
         }
 
         @DisplayName("when always strike, then the score is 300")
         @Test
         void whenAlwaysStrike_thenScoreIs300() {
             for (int i = 0; i < 12; i++) {
-                bowlingGame.roll(10);
+                game.roll(10);
             }
-            assertEquals(300, bowlingGame.score());
+            assertEquals(300, game.score());
         }
 
         @DisplayName("when 9 strikes first and neither a strike nor a spare in last frame 10, then no bonus")
         @Test
         void when9StrikesAndNeitherStrikeNorSpareInLastFrame10_thenNoBonus() {
             for (int i = 0; i < 9; i++) {
-                bowlingGame.roll(10);
+                game.roll(10);
             }
-            bowlingGame.roll(0);
-            bowlingGame.roll(0);
-            assertThrows(IllegalStateException.class, () -> bowlingGame.roll(0));
+            game.roll(0);
+            game.roll(0);
+            assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
 
         @DisplayName("when 9 strikes and one spare, then the score 7 * 30 + 20 + 10 + 3 * m + 2 * n + p")
@@ -521,20 +517,20 @@ public class BowlingGameTest {
         void when9StrikesAndOneSpareByMandNandLastRollIsP_thenScoreIs262(int m, int n, int p) {
             assertEquals(10, m + n);
             for (int i = 0; i < 9; i++) {
-                bowlingGame.roll(10);
+                game.roll(10);
             }
-            assertEquals(7 * 30 + 20 + 10, bowlingGame.score());
+            assertEquals(7 * 30 + 20 + 10, game.score());
 
-            bowlingGame.roll(m);
-            assertEquals(7 * 30 + 20 + 10 + 2 * m, bowlingGame.score());
+            game.roll(m);
+            assertEquals(7 * 30 + 20 + 10 + 2 * m, game.score());
 
-            bowlingGame.roll(n);
-            assertEquals(7 * 30 + 20 + 10 + 2 * m + n, bowlingGame.score());
+            game.roll(n);
+            assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score());
 
-            bowlingGame.roll(p);
+            game.roll(p);
 
-            assertEquals(7 * 30 + 20 + 10 + 2 * m + n, bowlingGame.score(9));
-            assertEquals(bowlingGame.score(9) + m + n + p, bowlingGame.score());
+            assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
+            assertEquals(game.score(9) + m + n + p, game.score());
         }
     }
 
@@ -543,9 +539,9 @@ public class BowlingGameTest {
     class GivenOneRollAfterOneFrame extends GivenOneRoll {
         @BeforeEach
         void startPlaying() {
-            bowlingGame.roll(2);
-            bowlingGame.roll(5);
-            startScore = 2 + 5;
+            game.roll(2);
+            game.roll(5);
+            startFrame = 1;
         }
     }
 
@@ -554,11 +550,11 @@ public class BowlingGameTest {
     class GivenOneRollAfterTwoFrames extends GivenOneRoll {
         @BeforeEach
         void startPlaying() {
-            bowlingGame.roll(4);
-            bowlingGame.roll(1);
-            bowlingGame.roll(0);
-            bowlingGame.roll(8);
-            startScore = 4 + 1 + 8;
+            game.roll(4);
+            game.roll(1);
+            game.roll(0);
+            game.roll(8);
+            startFrame = 2;
         }
     }
 
@@ -567,9 +563,8 @@ public class BowlingGameTest {
     class GivenTwoRollsAfterOneFrame extends GivenTwoRolls {
         @BeforeEach
         void startPlaying() {
-            bowlingGame.roll(2);
-            bowlingGame.roll(5);
-            startScore = 2 + 5;
+            game.roll(2);
+            game.roll(5);
             startFrame = 1;
         }
     }
@@ -579,11 +574,10 @@ public class BowlingGameTest {
     class GivenTwoRollsAfterTwoFrames extends GivenTwoRolls {
         @BeforeEach
         void startPlaying() {
-            bowlingGame.roll(4);
-            bowlingGame.roll(1);
-            bowlingGame.roll(0);
-            bowlingGame.roll(8);
-            startScore = 4 + 1 + 8;
+            game.roll(4);
+            game.roll(1);
+            game.roll(0);
+            game.roll(8);
             startFrame = 2;
         }
     }
@@ -593,9 +587,8 @@ public class BowlingGameTest {
     class GivenThreeRollsAfterOneFrame extends GivenThreeRolls {
         @BeforeEach
         void startPlaying() {
-            bowlingGame.roll(2);
-            bowlingGame.roll(5);
-            startScore = 2 + 5;
+            game.roll(2);
+            game.roll(5);
             startFrame = 1;
         }
     }
@@ -605,11 +598,10 @@ public class BowlingGameTest {
     class GivenThreeRollsAfterTwoFrames extends GivenThreeRolls {
         @BeforeEach
         void startPlaying() {
-            bowlingGame.roll(4);
-            bowlingGame.roll(1);
-            bowlingGame.roll(0);
-            bowlingGame.roll(8);
-            startScore = 4 + 1 + 8;
+            game.roll(4);
+            game.roll(1);
+            game.roll(0);
+            game.roll(8);
             startFrame = 2;
         }
     }
@@ -619,9 +611,8 @@ public class BowlingGameTest {
     class GivenFourRollsAfterOneFrame extends GivenFourRolls {
         @BeforeEach
         void startPlaying() {
-            bowlingGame.roll(2);
-            bowlingGame.roll(5);
-            startScore = 2 + 5;
+            game.roll(2);
+            game.roll(5);
             startFrame = 1;
         }
     }
@@ -631,11 +622,10 @@ public class BowlingGameTest {
     class GivenFourRollsAfterTwoFrames extends GivenFourRolls {
         @BeforeEach
         void startPlaying() {
-            bowlingGame.roll(4);
-            bowlingGame.roll(1);
-            bowlingGame.roll(0);
-            bowlingGame.roll(8);
-            startScore = 4 + 1 + 8;
+            game.roll(4);
+            game.roll(1);
+            game.roll(0);
+            game.roll(8);
             startFrame = 2;
         }
     }
@@ -645,9 +635,8 @@ public class BowlingGameTest {
     class GivenFiveRollsAfterOneFrame extends GivenFiveRolls {
         @BeforeEach
         void startPlaying() {
-            bowlingGame.roll(2);
-            bowlingGame.roll(5);
-            startScore = 2 + 5;
+            game.roll(2);
+            game.roll(5);
             startFrame = 1;
         }
     }
@@ -657,11 +646,10 @@ public class BowlingGameTest {
     class GivenFiveRollsAfterTwoFrames extends GivenFiveRolls {
         @BeforeEach
         void startPlaying() {
-            bowlingGame.roll(4);
-            bowlingGame.roll(1);
-            bowlingGame.roll(0);
-            bowlingGame.roll(8);
-            startScore = 4 + 1 + 8;
+            game.roll(4);
+            game.roll(1);
+            game.roll(0);
+            game.roll(8);
             startFrame = 2;
         }
     }
