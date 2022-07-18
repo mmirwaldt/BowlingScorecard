@@ -532,6 +532,19 @@ public class BowlingGameTest {
             assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
             assertEquals(game.score(9) + m + n + p, game.score());
         }
+
+        @DisplayName("when no strikes and no spares, then score is sum")
+        @Test
+        void whenNoStrikesAndNoSpares_thenScoreIsSum() {
+            for (int i = 0; i < 9; i++) {
+                game.roll(0);
+                game.roll(i + 1);
+            }
+            game.roll(2);
+            game.roll(3);
+            int gaussSum = (9 * 10) / 2;
+            assertEquals(gaussSum + 2 + 3, game.score());
+        }
     }
 
     @DisplayName("Given one roll after one frame")
