@@ -507,14 +507,14 @@ public class BowlingGameTest {
             }
             game.roll(0);
             game.roll(0);
+            assertEquals(7 * 30 + 20 + 10, game.score());
             assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
 
-        @DisplayName("when 9 strikes and one spare, then the score 7 * 30 + 20 + 10 + 3 * m + 2 * n + p")
-        @ParameterizedTest(name = "when 9 strikes and one spare, " +
-                "then the score 7 * 30 + 20 + 10 + 3 * {0} + 2 * {1} + {2}")
+        @DisplayName("when 9 strikes and one spare, then the score 240 + 3 * m + 2 * n + p")
+        @ParameterizedTest(name = "when 9 strikes and one spare, then the score 240 + 3 * {0} + 2 * {1} + {2}")
         @CsvSource({"2, 8, 0", "5, 5, 3"})
-        void when9StrikesAndOneSpareByMandNandLastRollIsP_thenScoreIs262(int m, int n, int p) {
+        void when9StrikesAndOneSpare_thenScoreIs240plus3timesMplus2timesNplusP(int m, int n, int p) {
             assertEquals(10, m + n);
             for (int i = 0; i < 9; i++) {
                 game.roll(10);
