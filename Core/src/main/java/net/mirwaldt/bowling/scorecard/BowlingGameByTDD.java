@@ -78,6 +78,11 @@ public class BowlingGameByTDD implements BowlingGame {
         return score;
     }
 
+    @Override
+    public boolean isOver() {
+        return false;
+    }
+
     private boolean minRolls(int minRolls) {
         return minRolls <= rolls;
     }
