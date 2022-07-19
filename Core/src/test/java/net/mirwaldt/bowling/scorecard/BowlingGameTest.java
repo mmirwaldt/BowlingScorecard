@@ -32,6 +32,7 @@ public class BowlingGameTest {
             assertFalse(game.isStrike());
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + n, game.score());
+
             assertFalse(game.isOver());
         }
 
@@ -42,6 +43,8 @@ public class BowlingGameTest {
             assertTrue(game.isStrike());
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + 10, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when a invalid number of pins are hit, then throw an IllegalArgumentException")
@@ -73,6 +76,8 @@ public class BowlingGameTest {
             assertFalse(game.isStrike());
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + m + n, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when a spare is rolled by m and n so that m + n = 10, then the score is 10 more")
@@ -91,6 +96,8 @@ public class BowlingGameTest {
             assertFalse(game.isStrike());
             assertTrue(game.isSpare());
             assertEquals(game.score(startFrame) + 10, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when 10 pins are hit first and n second, " +
@@ -109,6 +116,8 @@ public class BowlingGameTest {
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + 10 + n, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + n, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when two strikes, then score is 30 more")
@@ -124,6 +133,8 @@ public class BowlingGameTest {
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when m pins are hit first and n second so that 10 < m + n," +
@@ -136,6 +147,8 @@ public class BowlingGameTest {
             assertFalse(game.isStrike());
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + m, game.score());
+
+            assertFalse(game.isOver());
 
             assertThrows(IllegalArgumentException.class, () -> game.roll(n));
         }
@@ -169,6 +182,8 @@ public class BowlingGameTest {
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + m + n, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when three strikes, then score is 60 more")
@@ -191,6 +206,8 @@ public class BowlingGameTest {
             assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 20, game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + 10, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when two strikes, then the score is 20 + 10 + 3 * n more")
@@ -214,6 +231,8 @@ public class BowlingGameTest {
             assertEquals(game.score(startFrame) + 20 + n, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10 + n, game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + n, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when one strike, then the score is 10 + m + n more")
@@ -236,6 +255,8 @@ public class BowlingGameTest {
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + 10 + m + n, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + m + n, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when one strike and one spare, then the score is 10 + m + n more")
@@ -260,6 +281,8 @@ public class BowlingGameTest {
             assertTrue(game.isSpare());
             assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when one spare, then the score m + n + 2 * p more")
@@ -283,6 +306,8 @@ public class BowlingGameTest {
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + m + n + p, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when one spare and one strike, then the score 30 more")
@@ -306,6 +331,8 @@ public class BowlingGameTest {
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
+
+            assertFalse(game.isOver());
         }
     }
 
@@ -342,6 +369,8 @@ public class BowlingGameTest {
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + m + n, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p + q, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when four strikes, then the score is 90 more")
@@ -372,6 +401,8 @@ public class BowlingGameTest {
             assertEquals(game.score(startFrame + 1) + 30, game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + 20, game.score(startFrame + 3));
             assertEquals(game.score(startFrame + 3) + 10, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when three strikes, then the score 60 + 3 * n")
@@ -403,6 +434,8 @@ public class BowlingGameTest {
             assertEquals(game.score(startFrame + 1) + 20 + n, game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + 10 + n, game.score(startFrame + 3));
             assertEquals(game.score(startFrame + 3) + n, game.score());
+
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when two spares, then the score is m + n + 2 * p + q")
@@ -433,6 +466,8 @@ public class BowlingGameTest {
             assertTrue(game.isSpare());
             assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p + q, game.score());
+
+            assertFalse(game.isOver());
         }
     }
 
@@ -476,6 +511,8 @@ public class BowlingGameTest {
             assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p + q + r, game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + r, game.score());
+
+            assertFalse(game.isOver());
         }
     }
 
