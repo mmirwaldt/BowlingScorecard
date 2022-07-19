@@ -522,7 +522,8 @@ public class BowlingGameTest {
         @DisplayName("when always no pins, then the score is 0")
         @Test
         void whenAlwaysNoPins_thenScoreIs0() {
-            for (int i = 0; i < 11; i++) {
+            for (int i = 0; i < 10; i++) {
+                game.roll(0);
                 game.roll(0);
             }
             assertEquals(0, game.score());
