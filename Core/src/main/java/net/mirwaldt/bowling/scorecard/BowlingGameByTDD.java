@@ -102,6 +102,16 @@ public class BowlingGameByTDD implements BowlingGame {
         return index(frame(rolls));
     }
 
+    @Override
+    public int frame() {
+        return frame(rolls);
+    }
+
+    @Override
+    public int rollOffsetOfFrame() {
+        return 1 - (rolls % 2);
+    }
+
     private boolean isSpareRoll(int roll) {
         return roll < 10 * 2 && rolled[roll] + ifExists(roll + 1) == 10;
     }

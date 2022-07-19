@@ -33,6 +33,18 @@ public class MainView extends VerticalLayout implements RouterLayout {
         final Button rollButton = new Button("Roll", event -> {
             int pins = Integer.parseInt(rollTextField.getValue());
             bowlingGame.roll(pins);
+            int indexOfFrame = bowlingGame.frame() - 1;
+            if(bowlingGame.isStrike()) {
+                secondRollLabels[indexOfFrame].setText("X");
+            } else if(bowlingGame.isSpare()) {
+                secondRollLabels[indexOfFrame].setText("/");
+            } else {
+                if(bowlingGame.rollOffsetOfFrame() == 0) {
+                    firstRollLabels[indexOfFrame].setText("" + pins);
+                } else {
+                    secondRollLabels[indexOfFrame].setText("" + pins);
+                }
+            }
         });
 
         final Button resetButton = new Button("Reset", event -> {

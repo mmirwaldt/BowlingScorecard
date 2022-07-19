@@ -12,4 +12,8 @@ public interface BowlingGame {
     int score(int frame);
 
     boolean isOver();
+
+    int frame();
+
+    int rollOffsetOfFrame();
 }
