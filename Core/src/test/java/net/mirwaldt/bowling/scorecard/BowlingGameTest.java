@@ -551,6 +551,9 @@ public class BowlingGameTest {
             game.roll(0);
             game.roll(0);
             assertEquals(7 * 30 + 20 + 10, game.score());
+
+            assertTrue(game.isOver());
+
             assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
 
@@ -573,9 +576,10 @@ public class BowlingGameTest {
             assertEquals(game.score(9) + 10, game.score());
 
             game.roll(p);
-
             assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
             assertEquals(game.score(9) + 10 + p, game.score());
+
+            assertTrue(game.isOver());
         }
 
         @DisplayName("when no strikes and no spares, then score is sum")
@@ -589,6 +593,8 @@ public class BowlingGameTest {
             game.roll(3);
             int gaussSum = (9 * 10) / 2;
             assertEquals(gaussSum + 2 + 3, game.score());
+
+            assertTrue(game.isOver());
         }
     }
 
