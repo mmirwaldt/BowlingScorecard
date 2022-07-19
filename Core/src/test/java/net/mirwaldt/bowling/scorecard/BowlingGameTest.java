@@ -32,6 +32,7 @@ public class BowlingGameTest {
             assertFalse(game.isStrike());
             assertFalse(game.isSpare());
             assertEquals(game.score(startFrame) + n, game.score());
+            assertFalse(game.isOver());
         }
 
         @DisplayName("when 10 pins are hit, then it is a strike and the score is 10 more")
