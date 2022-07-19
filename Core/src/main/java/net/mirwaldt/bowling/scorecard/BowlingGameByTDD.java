@@ -80,7 +80,7 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public boolean isOver() {
-        return rolls == 20;
+        return (rolls == 20 && rolled[18] + rolled[19] < 10) || rolls == 21;
     }
 
     private boolean minRolls(int minRolls) {
