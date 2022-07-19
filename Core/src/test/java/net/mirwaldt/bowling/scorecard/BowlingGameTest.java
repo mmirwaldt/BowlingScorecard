@@ -538,6 +538,8 @@ public class BowlingGameTest {
                 game.roll(10);
             }
             assertEquals(300, game.score());
+
+            assertTrue(game.isOver());
         }
 
         @DisplayName("when 9 strikes first and neither a strike nor a spare in last frame 10, then no bonus")
