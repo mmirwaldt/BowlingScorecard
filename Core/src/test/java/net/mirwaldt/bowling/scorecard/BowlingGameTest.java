@@ -526,6 +526,8 @@ public class BowlingGameTest {
                 game.roll(0);
             }
             assertEquals(0, game.score());
+
+            assertTrue(game.isOver());
         }
 
         @DisplayName("when always strike, then the score is 300")
