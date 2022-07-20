@@ -41,12 +41,12 @@ public class BowlingGameRefactored implements BowlingGame {
 
     @Override
     public boolean isStrike() {
-        return minRolls(1) && isStrike(firstRollOfCurrentFrame());
+        return isStrike(firstRollOfCurrentFrame());
     }
 
     @Override
     public boolean isSpare() {
-        return minRolls(2) && !isStrike() && firstRollOfCurrentFrame() + secondRollOfCurrentFrame() == 10;
+        return !isStrike() && firstRollOfCurrentFrame() + secondRollOfCurrentFrame() == 10;
     }
 
     @Override
@@ -85,38 +85,6 @@ public class BowlingGameRefactored implements BowlingGame {
         return score;
     }
 
-    private boolean isSpareFrame(int frame) {
-        return !isStrikeFrame(frame) && rolled[index(frame)] + rolled[index(frame) + 1] == 10;
-    }
-
-    private boolean isStrikeFrame(int frame) {
-        return isStrike(rolled[index(frame)]);
-    }
-
-    @Override
-    public boolean isOver() {
-        return (rolls == 20 && rolled[18] + rolled[19] < 10) || rolls == 21;
-    }
-
-    private boolean minRolls(int minRolls) {
-        return minRolls <= rolls;
-    }
-
-    private boolean isOneFrameBeforeTheLastFrame() {
-        return frame(rolls) < 9;
-    }
-
-    private void checkBonus() {
-        if (19 < rolls && rolled[18] + rolled[19] < 10) {
-            throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
-                    (rolled[18] + rolled[19]) + " which is smaller than 10!");
-        }
-    }
-
-    private int index() {
-        return index(frame(rolls));
-    }
-
     @Override
     public int frame() {
         return frame(rolls);
@@ -127,8 +95,25 @@ public class BowlingGameRefactored implements BowlingGame {
         return (frame() < 10) ? 1 - (rolls % 2) : rolls - 19;
     }
 
+    @Override
+    public boolean isOver() {
+        return (rolls == 20 && rolled[18] + rolled[19] < 10) || rolls == 21;
+    }
+
+    private boolean isStrikeFrame(int frame) {
+        return isStrike(rolled[index(frame)]);
+    }
+
+    private boolean isSpareFrame(int frame) {
+        return isSpare(rolled[index(frame)], rolled[index(frame) + 1]);
+    }
+
     private boolean isStrike(int pins) {
         return pins == 10;
+    }
+
+    private boolean isSpare(int firstRoll, int secondRoll) {
+        return !isStrike(firstRoll) && firstRoll + secondRoll == 10;
     }
 
     private int frame(int roll) {
@@ -138,6 +123,15 @@ public class BowlingGameRefactored implements BowlingGame {
     private int index(int frame) {
         return (frame - 1) * 2;
     }
+
+    private int index() {
+        return index(frame(rolls));
+    }
+
+    private boolean isOneFrameBeforeTheLastFrame() {
+        return frame(rolls) < 9;
+    }
+
 
     private int firstRollOfCurrentFrame() {
         return rolled[firstRollIndexOfCurrentFrame()];
@@ -158,15 +152,22 @@ public class BowlingGameRefactored implements BowlingGame {
         }
     }
 
-    private boolean isTowFewPins(int pins) {
-        return pins < 0;
-    }
-
     private void checkTooManyPins(int pins) {
         if (isSecondRollOfFrame() && isTooManyPins(currentRoll() + pins) && isOneFrameBeforeTheLastFrame()) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
                     + currentRoll() + " + " + pins + " == " + (currentRoll() + pins));
         }
+    }
+
+    private void checkBonus() {
+        if (19 < rolls && rolled[18] + rolled[19] < 10) {
+            throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
+                    (rolled[18] + rolled[19]) + " which is smaller than 10!");
+        }
+    }
+
+    private boolean isTowFewPins(int pins) {
+        return pins < 0;
     }
 
     private boolean isTooManyPins(int pins) {
