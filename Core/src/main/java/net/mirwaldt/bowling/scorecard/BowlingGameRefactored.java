@@ -28,6 +28,8 @@ public class BowlingGameRefactored implements BowlingGame {
 
     private static final int MAX_PINS = 10;
 
+    public static final int STRIKE_PINS = 10;
+
     private final static int LAST_FRAME = 10;
     public static final int BONUS_INDEX = 20;
 
@@ -68,17 +70,30 @@ public class BowlingGameRefactored implements BowlingGame {
     public int score(int frame) {
         int score = 0;
         for (int f = 1; f <= frame; f++) {
-            if (isStrikeFrame(f)) {
-                score += rolled[index(f)];
-                int nextRoll = index(f + 1);
-                for (int count = 0; count < 2 && nextRoll < MAX_ROLLS_WITH_BONUS; count++) {
-                    score += rolled[nextRoll];
-                    nextRoll += (isBeforeLastFrame(f) && isStrike(rolled[nextRoll])) ? 2 : 1;
+            score += sumRolls(f);
+            int nextFrame = f + 1;
+            if (nextFrame <= LAST_FRAME) {
+                if (isStrikeFrame(f)) {
+                    if (isStrikeFrame(nextFrame)) {
+                        score += STRIKE_PINS;
+                        if(nextFrame == LAST_FRAME && isStrike(secondRoll(LAST_FRAME))) {
+                            score += STRIKE_PINS;
+                        } else {
+                            int theFrameAfterNextFrame = nextFrame + 1;
+                            if(theFrameAfterNextFrame <= LAST_FRAME) {
+                                score += rolled[index(theFrameAfterNextFrame)];
+                            }
+                        }
+                    } else {
+                        score += sumRolls(nextFrame);
+                    }
+                } else if (isSpareFrame(f)) {
+                    score += rolled[index(nextFrame)];
                 }
-                score += (f == LAST_FRAME) ? rolled[BONUS_INDEX] : 0;
-            } else {
-                score += sumRolls(f) + ((isSpareFrame(f)) ? rolled[index(f + 1)] : 0);
             }
+        }
+        if (frame == 10) {
+            score += rolled[BONUS_INDEX];
         }
         return score;
     }
@@ -107,7 +122,7 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private boolean isStrike(int pins) {
-        return pins == 10;
+        return pins == STRIKE_PINS;
     }
 
     private boolean isSpare(int firstRoll, int secondRoll) {
@@ -140,6 +155,10 @@ public class BowlingGameRefactored implements BowlingGame {
 
     private int firstRoll(int frame) {
         return rolled[index(frame)];
+    }
+
+    private int secondRoll(int frame) {
+        return rolled[index(frame) + 1];
     }
 
     private int sumRolls(int frame) {
