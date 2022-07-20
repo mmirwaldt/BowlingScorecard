@@ -74,10 +74,9 @@ public class BowlingGameRefactored implements BowlingGame {
             int nextFrame = f + 1;
             if (nextFrame <= LAST_FRAME) {
                 if (isStrikeFrame(f)) {
-                    if (!isStrikeFrame(nextFrame) || nextFrame == LAST_FRAME) {
-                        score += sumRolls(nextFrame);
-                    } else {
-                        score += STRIKE_PINS + rolled[index(nextFrame + 1)];
+                    score += sumRolls(nextFrame);
+                    if (isStrikeFrame(nextFrame) && nextFrame < LAST_FRAME) {
+                        score += rolled[index(nextFrame + 1)];
                     }
                 } else if (isSpareFrame(f)) {
                     score += rolled[index(nextFrame)];
