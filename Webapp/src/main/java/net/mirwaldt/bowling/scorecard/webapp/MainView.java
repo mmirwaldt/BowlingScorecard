@@ -45,6 +45,10 @@ public class MainView extends VerticalLayout implements RouterLayout {
                     secondRollLabels[indexOfFrame].setText("" + pins);
                 }
             }
+
+            for (int f = 1; f <= bowlingGame.frame(); f++) {
+                scoreLabels[f - 1].setText("" + bowlingGame.score(f));
+            }
         });
 
         final Button resetButton = new Button("Reset", event -> {
