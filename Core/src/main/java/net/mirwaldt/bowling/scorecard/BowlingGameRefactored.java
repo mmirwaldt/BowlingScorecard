@@ -28,6 +28,8 @@ public class BowlingGameRefactored implements BowlingGame {
 
     private static final int MAX_PINS = 10;
 
+    private final static int LAST_FRAME = 10;
+
     private final int[] rolled = new int[21];
 
     private int rolls;
@@ -68,11 +70,11 @@ public class BowlingGameRefactored implements BowlingGame {
             if (isStrikeFrame(f)) {
                 score += rolled[index(f)];
                 int nextRoll = index(f + 1);
-                for (int count = 0; count < 2 && nextRoll < 21; count++) {
+                for (int count = 0; count < 2 && nextRoll < MAX_ROLLS_WITH_BONUS; count++) {
                     score += rolled[nextRoll];
                     nextRoll += (!isLastFrame(f) && isStrike(rolled[nextRoll])) ? 2 : 1;
                 }
-                if (f == 10) {
+                if (f == LAST_FRAME) {
                     score += rolled[20];
                 }
             } else {
@@ -92,12 +94,12 @@ public class BowlingGameRefactored implements BowlingGame {
 
     @Override
     public int rollOffset() {
-        return (frame(rolls) < 10) ? (rolls - 1) % 2 : (rolls - 1) - 18;
+        return (frame(rolls) < LAST_FRAME) ? (rolls - 1) % 2 : (rolls - 1) - 18;
     }
 
     @Override
     public boolean isOver() {
-        return (isBonusRoll() && sumRolls(10) < 10) || rolls == MAX_ROLLS_WITH_BONUS;
+        return (isBonusRoll() && sumRolls(LAST_FRAME) < 10) || rolls == MAX_ROLLS_WITH_BONUS;
     }
 
     private boolean isStrikeFrame(int frame) {
@@ -117,7 +119,7 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private int frame(int roll) {
-        return max(1, min(10, (roll + 1) / 2));
+        return max(1, min(LAST_FRAME, (roll + 1) / 2));
     }
 
     private int index(int frame) {
@@ -133,7 +135,7 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private boolean isLastFrame(int frame) {
-        return frame == 10;
+        return frame == LAST_FRAME;
     }
 
     private boolean isBonusRoll() {
@@ -162,9 +164,9 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private void checkBonus() {
-        if (isBonusRoll() && !isStrikeFrame(10) && !isSpareFrame(10)) {
+        if (isBonusRoll() && !isStrikeFrame(LAST_FRAME) && !isSpareFrame(LAST_FRAME)) {
             throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
-                    (rolled[index(10)] + rolled[index(10) + 1]) + " which is smaller than 10!");
+                    sumRolls(LAST_FRAME) + " which is smaller than 10!");
         }
     }
 
