@@ -144,8 +144,8 @@ public class BowlingGameRefactored implements BowlingGame {
         return rolls == 20;
     }
 
-    private int firstRoll() {
-        return rolled[index()];
+    private int firstRoll(int frame) {
+        return rolled[index(frame)];
     }
 
     private void checkRange(int pins) {
@@ -155,9 +155,9 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private void checkTooManyPins(int pins) {
-        if (isSecondRoll(rolls) && isTooManyPins(firstRoll() + pins) && frame(rolls) < 9) {
+        if (isSecondRoll(rolls) && isTooManyPins(firstRoll(frame()) + pins) && frame(rolls) < 9) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
-                    + firstRoll() + " + " + pins + " == " + (firstRoll() + pins));
+                    + firstRoll(frame()) + " + " + pins + " == " + (firstRoll(frame()) + pins));
         }
     }
 
