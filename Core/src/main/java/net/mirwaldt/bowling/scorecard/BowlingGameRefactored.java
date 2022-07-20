@@ -97,7 +97,7 @@ public class BowlingGameRefactored implements BowlingGame {
 
     @Override
     public boolean isOver() {
-        return (rolls == 20 && rolled[18] + rolled[19] < 10) || rolls == 21;
+        return (isBonusRoll() && rolled[index(10)] + rolled[index(10) + 1] < 10) || rolls == 21;
     }
 
     private boolean isStrikeFrame(int frame) {
@@ -150,10 +150,14 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private void checkBonus() {
-        if (rolls == 20 && !isStrikeFrame(10) && !isSpareFrame(10)) {
+        if (isBonusRoll() && !isStrikeFrame(10) && !isSpareFrame(10)) {
             throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
                     (rolled[18] + rolled[19]) + " which is smaller than 10!");
         }
+    }
+
+    private boolean isBonusRoll() {
+        return rolls == 20;
     }
 
     private boolean isTooFewPins(int pins) {
