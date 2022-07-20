@@ -70,7 +70,7 @@ public class BowlingGameRefactored implements BowlingGame {
                 int nextRoll = index(f + 1);
                 for (int count = 0; count < 2 && nextRoll < 21; count++) {
                     score += rolled[nextRoll];
-                    nextRoll += (f < 10 && isStrike(rolled[nextRoll])) ? 2 : 1;
+                    nextRoll += (!isLastFrame(f) && isStrike(rolled[nextRoll])) ? 2 : 1;
                 }
                 if (f == 10) {
                     score += rolled[20];
