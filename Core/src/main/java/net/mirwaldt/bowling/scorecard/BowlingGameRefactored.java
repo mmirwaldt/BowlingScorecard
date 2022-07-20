@@ -124,10 +124,6 @@ public class BowlingGameRefactored implements BowlingGame {
         return (frame - 1) * 2;
     }
 
-    private int index() {
-        return index(frame(rolls));
-    }
-
     private boolean isFirstRoll(int roll) {
         return roll % 2 == 0;
     }
