@@ -67,12 +67,12 @@ public class MainView extends VerticalLayout implements RouterLayout {
 
     private void reset() {
         for (Label label : firstRollLabels) {
-            label.setText("?");
+            label.setText("");
         }
         for (Label label : secondRollLabels) {
-            label.setText("?");
+            label.setText("");
         }
-        bonusLabel.setText("?");
+        bonusLabel.setText("");
         bowlingGame = new BowlingGameByTDD();
     }
 
@@ -90,21 +90,23 @@ public class MainView extends VerticalLayout implements RouterLayout {
         rollHorizontalLayout.setWidth("101px");
         frameLayout.add(rollHorizontalLayout);
 
-        Label firstRollLabel = new Label("X");
+        Label firstRollLabel = new Label("");
         firstRollLabel.setWidth("30px");
+        firstRollLabel.setHeight("26px");
         firstRollLabel.getStyle().set("text-align", "center");
         firstRollLabel.getStyle().set("border-right", "1px solid black");
         rollHorizontalLayout.add(firstRollLabel);
         firstRollLabels[10 - 1] = firstRollLabel;
 
-        Label secondRollLabel = new Label("3");
+        Label secondRollLabel = new Label("");
         secondRollLabel.setWidth("40px");
+        secondRollLabel.setHeight("26px");
         secondRollLabel.getStyle().set("text-align", "center");
         secondRollLabel.getStyle().set("border-right", "1px solid black");
         rollHorizontalLayout.add(secondRollLabel);
         secondRollLabels[10 - 1] = secondRollLabel;
 
-        Label bonusRollLabel = new Label("/");
+        Label bonusRollLabel = new Label("");
         bonusRollLabel.setWidth("30px");
         bonusRollLabel.getStyle().set("text-align", "left");
         bonusRollLabel.getStyle().set("border-right", "1px solid black");
@@ -146,10 +148,12 @@ public class MainView extends VerticalLayout implements RouterLayout {
             noRoll2.getStyle().set("border-left", "1px solid black");
         }
         noRoll2.setWidth("30px");
+        noRoll2.setHeight("26px");
         rollHorizontalLayout.add(noRoll2);
 
-        Label firstRollLabel = new Label("1");
+        Label firstRollLabel = new Label("");
         firstRollLabel.setWidth("40px");
+        firstRollLabel.setHeight("26px");
         firstRollLabel.getStyle().set("text-align", "center");
         if (i == 1) {
             rollLabel.getStyle().set("border-left", "1px solid black");
@@ -158,8 +162,9 @@ public class MainView extends VerticalLayout implements RouterLayout {
         rollHorizontalLayout.add(firstRollLabel);
         firstRollLabels[i - 1] = firstRollLabel;
 
-        Label secondRollLabel = new Label("2");
+        Label secondRollLabel = new Label("");
         secondRollLabel.setWidth("30px");
+        secondRollLabel.setHeight("26px");
         secondRollLabel.getStyle().set("text-align", "left");
         secondRollLabel.getStyle().set("border-right", "1px solid black");
         rollHorizontalLayout.add(secondRollLabel);
