@@ -127,7 +127,7 @@ public class MainView extends VerticalLayout implements RouterLayout {
         frameLayout.add(rollHorizontalLayout);
 
         Label firstRollLabel = new Label("");
-        firstRollLabel.setWidth("30px");
+        firstRollLabel.setWidth("55px");
         firstRollLabel.setHeight("26px");
         firstRollLabel.getStyle().set("text-align", "center");
         firstRollLabel.getStyle().set("border-right", "1px solid black");
@@ -135,16 +135,15 @@ public class MainView extends VerticalLayout implements RouterLayout {
         firstRollLabels[10 - 1] = firstRollLabel;
 
         Label secondRollLabel = new Label("");
-        secondRollLabel.setWidth("40px");
+        secondRollLabel.setWidth("35px");
         secondRollLabel.setHeight("26px");
-        secondRollLabel.getStyle().set("text-align", "center");
         secondRollLabel.getStyle().set("border-right", "1px solid black");
         rollHorizontalLayout.add(secondRollLabel);
         secondRollLabels[10 - 1] = secondRollLabel;
 
         Label bonusRollLabel = new Label("");
-        bonusRollLabel.setWidth("30px");
-        bonusRollLabel.getStyle().set("text-align", "left");
+        bonusRollLabel.setWidth("35px");
+        bonusRollLabel.setHeight("26px");
         bonusRollLabel.getStyle().set("border-right", "1px solid black");
         rollHorizontalLayout.add(bonusRollLabel);
         this.bonusLabel = bonusRollLabel;
