@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -33,10 +34,25 @@ public class MainView extends VerticalLayout implements RouterLayout {
         final TextField rollTextField = new TextField();
         rollTextField.setAutofocus(true);
         final Button rollButton = new Button("Roll", event -> {
-            int pins = Integer.parseInt(rollTextField.getValue());
+            int pins;
+            try {
+                pins = Integer.parseInt(rollTextField.getValue());
+            } catch (NumberFormatException e) {
+                Notification.show("Cannot parse int from string '" + rollTextField.getValue() + "'.");
+                e.printStackTrace();
+                rollTextField.setValue("");
+                return;
+            }
             rollTextField.setValue("");
 
-            bowlingGame.roll(pins);
+            try {
+                bowlingGame.roll(pins);
+            } catch (IllegalArgumentException e) {
+                Notification.show("Cannot roll " + pins + " pins in frame " + bowlingGame.frame() + ".");
+                e.printStackTrace();
+                rollTextField.setValue("");
+                return;
+            }
 
             int indexOfFrame = bowlingGame.frame() - 1;
             if(bowlingGame.frame() < 10) {
