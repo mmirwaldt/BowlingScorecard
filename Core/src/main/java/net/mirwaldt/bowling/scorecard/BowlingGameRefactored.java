@@ -76,12 +76,9 @@ public class BowlingGameRefactored implements BowlingGame {
                     score += rolled[20];
                 }
             } else {
-                int firstRoll = index(f);
-                int secondRoll = firstRoll + 1;
-                score += rolled[firstRoll] + rolled[secondRoll];
+                score += sumRolls(f);
                 if (isSpareFrame(f)) {
-                    int nextRoll = secondRoll + 1;
-                    score += rolled[nextRoll];
+                    score += rolled[index(f) + 2];
                 }
             }
         }
@@ -100,7 +97,7 @@ public class BowlingGameRefactored implements BowlingGame {
 
     @Override
     public boolean isOver() {
-        return (isBonusRoll() && rolled[index(10)] + rolled[index(10) + 1] < 10) || rolls == MAX_ROLLS_WITH_BONUS;
+        return (isBonusRoll() && sumRolls(10) < 10) || rolls == MAX_ROLLS_WITH_BONUS;
     }
 
     private boolean isStrikeFrame(int frame) {
@@ -145,6 +142,10 @@ public class BowlingGameRefactored implements BowlingGame {
 
     private int firstRoll(int frame) {
         return rolled[index(frame)];
+    }
+
+    private int sumRolls(int frame) {
+        return rolled[index(frame)] + rolled[index(frame) + 1];
     }
 
     private void checkRange(int pins) {
