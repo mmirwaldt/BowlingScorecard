@@ -92,7 +92,7 @@ public class BowlingGameRefactored implements BowlingGame {
 
     @Override
     public int rollOffset() {
-        return (frame(rolls) < 10) ? 1 - (rolls % 2) : rolls - 19;
+        return (frame(rolls) < 10) ? (rolls - 1) % 2 : (rolls - 1) - 18;
     }
 
     @Override
@@ -146,7 +146,7 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private void checkBonus() {
-        if (19 < rolls && rolled[18] + rolled[19] < 10) {
+        if (rolls == 20 && !isStrikeFrame(10) && !isSpareFrame(10)) {
             throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
                     (rolled[18] + rolled[19]) + " which is smaller than 10!");
         }
@@ -163,8 +163,11 @@ public class BowlingGameRefactored implements BowlingGame {
     private int firstRoll() {
         return rolled[index()];
     }
+    private boolean isFirstRoll() {
+        return rollOffset() == 1;
+    }
 
     private boolean isSecondRoll() {
-        return rolls % 2 == 1;
+        return rollOffset() == 0;
     }
 }
