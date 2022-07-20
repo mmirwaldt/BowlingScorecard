@@ -133,7 +133,7 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private void checkRange(int pins) {
-        if (isTowFewPins(pins) || isTooManyPins(pins)) {
+        if (isTooFewPins(pins) || isTooManyPins(pins)) {
             throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
         }
     }
@@ -152,7 +152,7 @@ public class BowlingGameRefactored implements BowlingGame {
         }
     }
 
-    private boolean isTowFewPins(int pins) {
+    private boolean isTooFewPins(int pins) {
         return pins < 0;
     }
 
