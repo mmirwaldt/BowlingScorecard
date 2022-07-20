@@ -92,7 +92,7 @@ public class BowlingGameRefactored implements BowlingGame {
 
     @Override
     public int rollOffset() {
-        return (frame() < 10) ? 1 - (rolls % 2) : rolls - 19;
+        return (frame(rolls) < 10) ? 1 - (rolls % 2) : rolls - 19;
     }
 
     @Override
