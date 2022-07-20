@@ -127,18 +127,6 @@ public class BowlingGameRefactored implements BowlingGame {
         return (frame() < 10) ? 1 - (rolls % 2) : rolls - 19;
     }
 
-    private boolean isSpareRoll(int roll) {
-        return roll < 10 * 2 && rolled[roll] + ifExists(roll + 1) == 10;
-    }
-
-    private boolean exists(int roll) {
-        return roll < rolls;
-    }
-
-    private int ifExists(int roll) {
-        return exists(roll) ? rolled[roll] : 0;
-    }
-
     private boolean isStrike(int pins) {
         return pins == 10;
     }
@@ -165,9 +153,13 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private void checkRange(int pins) {
-        if (pins < 0 || isTooManyPins(pins)) {
+        if (isTowFewPins(pins) || isTooManyPins(pins)) {
             throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
         }
+    }
+
+    private boolean isTowFewPins(int pins) {
+        return pins < 0;
     }
 
     private void checkTooManyPins(int pins) {
