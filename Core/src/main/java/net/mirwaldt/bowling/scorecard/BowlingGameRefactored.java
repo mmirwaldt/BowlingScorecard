@@ -41,7 +41,7 @@ public class BowlingGameRefactored implements BowlingGame {
         checkBonus();
 
         rolled[rolls] = pins;
-        if (isStrike(pins) && isFirstRoll(rolls) && !isLastFrame(frame(rolls + 2))) {
+        if (isStrike(pins) && isFirstRoll(rolls) && isBeforeLastFrame(frame(rolls + 2))) {
             rolls += 2;
         } else {
             rolls++;
@@ -72,7 +72,7 @@ public class BowlingGameRefactored implements BowlingGame {
                 int nextRoll = index(f + 1);
                 for (int count = 0; count < 2 && nextRoll < MAX_ROLLS_WITH_BONUS; count++) {
                     score += rolled[nextRoll];
-                    nextRoll += (!isLastFrame(f) && isStrike(rolled[nextRoll])) ? 2 : 1;
+                    nextRoll += (isBeforeLastFrame(f) && isStrike(rolled[nextRoll])) ? 2 : 1;
                 }
                 if (f == LAST_FRAME) {
                     score += rolled[20];
@@ -134,8 +134,8 @@ public class BowlingGameRefactored implements BowlingGame {
         return roll % 2 == 1;
     }
 
-    private boolean isLastFrame(int frame) {
-        return frame == LAST_FRAME;
+    private boolean isBeforeLastFrame(int frame) {
+        return frame < LAST_FRAME;
     }
 
     private boolean isBonusRoll() {
