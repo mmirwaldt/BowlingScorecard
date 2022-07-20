@@ -32,7 +32,7 @@ public class BowlingGameRefactored implements BowlingGame {
         checkBonus();
 
         rolled[rolls] = pins;
-        if (rolls % 2 == 0 && isStrike(pins) && isOneFrameBeforeTheLastFrame()) {
+        if (isStrike(pins) && rolls % 2 == 0 && frame(rolls + 2) < 10) {
             rolls += 2;
         } else {
             rolls++;
@@ -128,10 +128,6 @@ public class BowlingGameRefactored implements BowlingGame {
         return index(frame(rolls));
     }
 
-    private boolean isOneFrameBeforeTheLastFrame() {
-        return frame(rolls) < 9;
-    }
-
     private void checkRange(int pins) {
         if (isTooFewPins(pins) || isTooManyPins(pins)) {
             throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
@@ -139,7 +135,7 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private void checkTooManyPins(int pins) {
-        if (isSecondRoll() && isTooManyPins(firstRoll() + pins) && isOneFrameBeforeTheLastFrame()) {
+        if (isSecondRoll() && isTooManyPins(firstRoll() + pins) && frame(rolls) < 9) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
                     + firstRoll() + " + " + pins + " == " + (firstRoll() + pins));
         }
@@ -162,9 +158,6 @@ public class BowlingGameRefactored implements BowlingGame {
 
     private int firstRoll() {
         return rolled[index()];
-    }
-    private boolean isFirstRoll() {
-        return rollOffset() == 1;
     }
 
     private boolean isSecondRoll() {
