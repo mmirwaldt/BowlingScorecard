@@ -1,5 +1,6 @@
 package net.mirwaldt.bowling.scorecard;
 
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 /**
@@ -129,7 +130,7 @@ public class BowlingGameByTDD implements BowlingGame {
     }
 
     private int frame(int roll) {
-        return min(10, (roll + 1) / 2);
+        return max(1, min(10, (roll + 1) / 2));
     }
 
     private int index(int frame) {
