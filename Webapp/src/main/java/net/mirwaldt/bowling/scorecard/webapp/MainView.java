@@ -15,9 +15,9 @@ import net.mirwaldt.bowling.scorecard.BowlingGameByTDD;
 @Route
 @PWA(name = "Bowling scorecard demo webapp", shortName = "Bowling scorecard")
 public class MainView extends VerticalLayout implements RouterLayout {
-    private final Label firstRollLabels[] = new Label[10];
-    private final Label secondRollLabels[] = new Label[10];
-    private final Label scoreLabels[] = new Label[10];
+    private final Label[] firstRollLabels = new Label[10];
+    private final Label[] secondRollLabels = new Label[10];
+    private final Label[] scoreLabels = new Label[10];
     private Label bonusLabel;
     private BowlingGame bowlingGame;
 
