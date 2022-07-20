@@ -1,5 +1,6 @@
 package net.mirwaldt.bowling.scorecard.webapp;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
@@ -30,6 +31,7 @@ public class MainView extends VerticalLayout implements RouterLayout {
         add(horizontalLayout2);
 
         final TextField rollTextField = new TextField();
+        rollTextField.setAutofocus(true);
         final Button rollButton = new Button("Roll", event -> {
             int pins = Integer.parseInt(rollTextField.getValue());
             rollTextField.setValue("");
@@ -79,6 +81,7 @@ public class MainView extends VerticalLayout implements RouterLayout {
                 scoreLabels[f - 1].setText("" + bowlingGame.score(f));
             }
         });
+        rollButton.addClickShortcut(Key.ENTER);
 
         final Button resetButton = new Button("Reset", event -> {
             reset();
