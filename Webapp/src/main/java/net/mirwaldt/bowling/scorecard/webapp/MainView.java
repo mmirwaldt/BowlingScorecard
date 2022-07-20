@@ -32,17 +32,46 @@ public class MainView extends VerticalLayout implements RouterLayout {
         final TextField rollTextField = new TextField();
         final Button rollButton = new Button("Roll", event -> {
             int pins = Integer.parseInt(rollTextField.getValue());
+            rollTextField.setValue("");
             bowlingGame.roll(pins);
             int indexOfFrame = bowlingGame.frame() - 1;
-            if(bowlingGame.isStrike()) {
-                secondRollLabels[indexOfFrame].setText("X");
-            } else if(bowlingGame.isSpare()) {
-                secondRollLabels[indexOfFrame].setText("/");
-            } else {
-                if(bowlingGame.rollOffsetOfFrame() == 0) {
-                    firstRollLabels[indexOfFrame].setText("" + pins);
+            if(bowlingGame.frame() < 10) {
+                if(bowlingGame.isStrike()) {
+                    secondRollLabels[indexOfFrame].setText("X");
+                } else if(bowlingGame.isSpare()) {
+                    secondRollLabels[indexOfFrame].setText("/");
                 } else {
-                    secondRollLabels[indexOfFrame].setText("" + pins);
+                    if(bowlingGame.rollOffsetOfFrame() == 0) {
+                        firstRollLabels[indexOfFrame].setText("" + pins);
+                    } else {
+                        secondRollLabels[indexOfFrame].setText("" + pins);
+                    }
+                }
+            } else {
+                switch (bowlingGame.rollOffsetOfFrame()) {
+                    case 0:
+                        if(bowlingGame.isStrike()) {
+                            firstRollLabels[indexOfFrame].setText("X");
+                        } else {
+                            firstRollLabels[indexOfFrame].setText("" + pins);
+                        }
+                        break;
+                    case 1:
+                        if(bowlingGame.isStrike()) {
+                            secondRollLabels[indexOfFrame].setText("X");
+                        } else if(bowlingGame.isSpare()) {
+                            secondRollLabels[indexOfFrame].setText("/");
+                        } else {
+                            secondRollLabels[indexOfFrame].setText("" + pins);
+                        }
+                        break;
+                    case 2:
+                        if(bowlingGame.isStrike()) {
+                            bonusLabel.setText("X");
+                        } else {
+                            bonusLabel.setText("" + pins);
+                        }
+                        break;
                 }
             }
 
@@ -74,6 +103,9 @@ public class MainView extends VerticalLayout implements RouterLayout {
             label.setText("");
         }
         for (Label label : secondRollLabels) {
+            label.setText("");
+        }
+        for (Label label : scoreLabels) {
             label.setText("");
         }
         bonusLabel.setText("");
