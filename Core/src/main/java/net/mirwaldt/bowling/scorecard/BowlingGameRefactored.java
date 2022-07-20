@@ -64,7 +64,7 @@ public class BowlingGameRefactored implements BowlingGame {
 
     @Override
     public int score() {
-        return score(frame(rolls));
+        return score(frame());
     }
 
     @Override
@@ -73,10 +73,10 @@ public class BowlingGameRefactored implements BowlingGame {
         for (int f = 1; f <= frame; f++) {
             score += sumRolls(f);
             int nextFrame = f + 1;
-            if (nextFrame <= LAST_FRAME) {
+            if (isFrame(nextFrame)) {
                 if (isStrikeFrame(f)) {
                     score += sumRolls(nextFrame);
-                    if (nextFrame < LAST_FRAME && isStrikeFrame(nextFrame)) {
+                    if (isBeforeLastFrame(nextFrame) && isStrikeFrame(nextFrame)) {
                         score += firstRoll(nextFrame + 1);
                     }
                 } else if (isSpareFrame(f)) {
@@ -84,8 +84,8 @@ public class BowlingGameRefactored implements BowlingGame {
                 }
             }
         }
-        if (frame == LAST_FRAME) {
-            score += rolled[BONUS_INDEX];
+        if (isLastFrame(frame)) {
+            score += bonusRoll();
         }
         return score;
     }
@@ -141,6 +141,14 @@ public class BowlingGameRefactored implements BowlingGame {
         return frame < LAST_FRAME;
     }
 
+    private boolean isLastFrame(int frame) {
+        return frame == LAST_FRAME;
+    }
+
+    private boolean isFrame(int frame) {
+        return 1 <= frame && frame <= LAST_FRAME;
+    }
+
     private boolean isBonusRoll() {
         return rolls == BONUS_ROLL;
     }
@@ -151,6 +159,10 @@ public class BowlingGameRefactored implements BowlingGame {
 
     private int secondRoll(int frame) {
         return rolled[index(frame) + 1];
+    }
+
+    private int bonusRoll() {
+        return rolled[BONUS_INDEX];
     }
 
     private int sumRolls(int frame) {
