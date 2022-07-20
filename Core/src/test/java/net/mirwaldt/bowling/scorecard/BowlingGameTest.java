@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BowlingGameTest {
-    private final BowlingGame game = new BowlingGameByTDD();
+    private final BowlingGame game = new BowlingGameRefactored();
 
     @DisplayName("Given no roll, when no pins are hit, then the score is 0")
     @Test
