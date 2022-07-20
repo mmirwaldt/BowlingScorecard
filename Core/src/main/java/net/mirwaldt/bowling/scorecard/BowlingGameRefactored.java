@@ -41,12 +41,12 @@ public class BowlingGameRefactored implements BowlingGame {
 
     @Override
     public boolean isStrike() {
-        return isStrike(firstRollOfCurrentFrame());
+        return isStrikeFrame(frame());
     }
 
     @Override
     public boolean isSpare() {
-        return !isStrike() && firstRollOfCurrentFrame() + secondRollOfCurrentFrame() == 10;
+        return isSpareFrame(frame());
     }
 
     @Override
@@ -130,20 +130,6 @@ public class BowlingGameRefactored implements BowlingGame {
 
     private boolean isOneFrameBeforeTheLastFrame() {
         return frame(rolls) < 9;
-    }
-
-
-    private int firstRollOfCurrentFrame() {
-        return rolled[firstRollIndexOfCurrentFrame()];
-    }
-
-    private int secondRollOfCurrentFrame() {
-        return rolled[firstRollIndexOfCurrentFrame() + 1];
-    }
-
-    private int firstRollIndexOfCurrentFrame() {
-        int frame = frame(rolls);
-        return index(frame);
     }
 
     private void checkRange(int pins) {
