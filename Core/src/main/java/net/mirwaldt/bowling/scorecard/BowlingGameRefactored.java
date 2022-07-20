@@ -30,7 +30,7 @@ public class BowlingGameRefactored implements BowlingGame {
 
     private final static int LAST_FRAME = 10;
 
-    private final int[] rolled = new int[21];
+    private final int[] rolled = new int[MAX_ROLLS_WITH_BONUS];
 
     private int rolls;
 
