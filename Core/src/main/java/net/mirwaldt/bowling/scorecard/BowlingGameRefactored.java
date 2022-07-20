@@ -32,7 +32,7 @@ public class BowlingGameRefactored implements BowlingGame {
         checkBonus();
 
         rolled[rolls] = pins;
-        if (isStrike(pins) && rolls % 2 == 0 && frame(rolls + 2) < 10) {
+        if (isStrike(pins) && isFirstRoll(rolls) && !isLastFrame(frame(rolls + 2))) {
             rolls += 2;
         } else {
             rolls++;
@@ -126,6 +126,14 @@ public class BowlingGameRefactored implements BowlingGame {
 
     private int index() {
         return index(frame(rolls));
+    }
+
+    private boolean isFirstRoll(int roll) {
+        return roll % 2 == 0;
+    }
+
+    private boolean isLastFrame(int frame) {
+        return frame == 10;
     }
 
     private void checkRange(int pins) {
