@@ -15,5 +15,5 @@ public interface BowlingGame {
 
     int frame();
 
-    int rollOffsetOfFrame();
+    int rollOffset();
 }

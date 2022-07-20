@@ -95,7 +95,7 @@ public class MainView extends VerticalLayout implements RouterLayout {
     }
 
     private void handleLastFrame(int pins, int indexOfFrame) {
-        switch (bowlingGame.rollOffsetOfFrame()) {
+        switch (bowlingGame.rollOffset()) {
             case 0:
                 handleFirstRollOfLastFrame(pins, indexOfFrame);
                 break;
@@ -141,7 +141,7 @@ public class MainView extends VerticalLayout implements RouterLayout {
         } else if(bowlingGame.isSpare()) {
             secondRollLabels[indexOfFrame].setText("/");
         } else {
-            if(bowlingGame.rollOffsetOfFrame() == 0) {
+            if(bowlingGame.rollOffset() == 0) {
                 firstRollLabels[indexOfFrame].setText("" + pins);
             } else {
                 secondRollLabels[indexOfFrame].setText("" + pins);
