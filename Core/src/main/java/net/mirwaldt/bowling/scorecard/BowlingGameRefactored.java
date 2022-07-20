@@ -21,6 +21,13 @@ import static java.lang.Math.min;
  */
 
 public class BowlingGameRefactored implements BowlingGame {
+    private static final int MAX_ROLLS_WITHOUT_BONUS = 20;
+    private static final int MAX_ROLLS_WITH_BONUS = MAX_ROLLS_WITHOUT_BONUS + 1;
+
+    private static final int MIN_PINS = 0;
+
+    private static final int MAX_PINS = 10;
+
     private final int[] rolled = new int[21];
 
     private int rolls;
@@ -63,11 +70,7 @@ public class BowlingGameRefactored implements BowlingGame {
                 int nextRoll = index(f + 1);
                 for (int count = 0; count < 2 && nextRoll < 21; count++) {
                     score += rolled[nextRoll];
-                    if (f < 10 && isStrike(rolled[nextRoll])) {
-                        nextRoll += 2;
-                    } else {
-                        nextRoll++;
-                    }
+                    nextRoll += (f < 10 && isStrike(rolled[nextRoll])) ? 2 : 1;
                 }
                 if (f == 10) {
                     score += rolled[20];
@@ -97,7 +100,7 @@ public class BowlingGameRefactored implements BowlingGame {
 
     @Override
     public boolean isOver() {
-        return (isBonusRoll() && rolled[index(10)] + rolled[index(10) + 1] < 10) || rolls == 21;
+        return (isBonusRoll() && rolled[index(10)] + rolled[index(10) + 1] < 10) || rolls == MAX_ROLLS_WITH_BONUS;
     }
 
     private boolean isStrikeFrame(int frame) {
@@ -137,7 +140,7 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private boolean isBonusRoll() {
-        return rolls == 20;
+        return rolls == MAX_ROLLS_WITHOUT_BONUS;
     }
 
     private int firstRoll(int frame) {
@@ -165,11 +168,10 @@ public class BowlingGameRefactored implements BowlingGame {
     }
 
     private boolean isTooFewPins(int pins) {
-        return pins < 0;
+        return pins < MIN_PINS;
     }
 
     private boolean isTooManyPins(int pins) {
-        return 10 < pins;
+        return MAX_PINS < pins;
     }
-
 }
