@@ -75,11 +75,11 @@ public class BowlingGameRefactored implements BowlingGame {
             if (nextFrame <= LAST_FRAME) {
                 if (isStrikeFrame(f)) {
                     score += sumRolls(nextFrame);
-                    if (isStrikeFrame(nextFrame) && nextFrame < LAST_FRAME) {
-                        score += rolled[index(nextFrame + 1)];
+                    if (nextFrame < LAST_FRAME && isStrikeFrame(nextFrame)) {
+                        score += firstRoll(nextFrame + 1);
                     }
                 } else if (isSpareFrame(f)) {
-                    score += rolled[index(nextFrame)];
+                    score += firstRoll(nextFrame);
                 }
             }
         }
