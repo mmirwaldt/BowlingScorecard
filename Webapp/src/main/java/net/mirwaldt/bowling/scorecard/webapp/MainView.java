@@ -65,6 +65,7 @@ public class MainView extends VerticalLayout implements RouterLayout {
                             secondRollLabels[indexOfFrame].setText("/");
                         } else {
                             secondRollLabels[indexOfFrame].setText("" + pins);
+                            bonusLabel.setText("-");
                         }
                         break;
                     case 2:
@@ -80,11 +81,16 @@ public class MainView extends VerticalLayout implements RouterLayout {
             for (int f = 1; f <= bowlingGame.frame(); f++) {
                 scoreLabels[f - 1].setText("" + bowlingGame.score(f));
             }
+
+            if(bowlingGame.isOver()) {
+                event.getSource().setEnabled(false);
+            }
         });
         rollButton.addClickShortcut(Key.ENTER);
 
         final Button resetButton = new Button("Reset", event -> {
             reset();
+            rollButton.setEnabled(true);
         });
         horizontalLayout2.add(rollTextField, rollButton, resetButton);
 
