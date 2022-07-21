@@ -71,20 +71,7 @@ public class BowlingGameRefactored implements BowlingGame {
     public int score(int frame) {
         int score = 0;
         for (int f = 1; f <= frame; f++) {
-            score += sumRolls(f);
-            int nextFrame = f + 1;
-            if (isFrame(nextFrame)) {
-                if (isStrikeFrame(f)) {
-                    if (isBeforeLastFrame(nextFrame) && isStrikeFrame(nextFrame)) {
-                        score += firstRoll(nextFrame);
-                        score += firstRoll(nextFrame + 1);
-                    } else {
-                        score += sumRolls(nextFrame);
-                    }
-                } else if (isSpareFrame(f)) {
-                    score += firstRoll(nextFrame);
-                }
-            }
+            score += sumRolls(f) + scoreStrikeAndSpare(f);
         }
         if (isLastFrame(frame)) {
             score += bonusRoll();
@@ -105,6 +92,30 @@ public class BowlingGameRefactored implements BowlingGame {
     @Override
     public boolean isOver() {
         return (rolls == BONUS_ROLL && sumRolls(LAST_FRAME) < 10) || rolls == MAX_ROLLS_WITH_BONUS;
+    }
+
+    private int scoreStrikeAndSpare(int frame) {
+        int nextFrame = frame + 1;
+        if (isFrame(nextFrame)) {
+            if (isStrikeFrame(frame)) {
+                return scoreStrike(nextFrame);
+            } else if (isSpareFrame(frame)) {
+                return scoreSpare(nextFrame);
+            }
+        }
+        return 0;
+    }
+
+    private int scoreSpare(int nextFrame) {
+        return firstRoll(nextFrame);
+    }
+
+    private int scoreStrike(int nextFrame) {
+        if (isBeforeLastFrame(nextFrame) && isStrikeFrame(nextFrame)) {
+            return firstRoll(nextFrame) + firstRoll(nextFrame + 1);
+        } else {
+            return sumRolls(nextFrame);
+        }
     }
 
     private boolean isStrikeFrame(int frame) {
