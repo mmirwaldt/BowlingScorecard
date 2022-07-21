@@ -13,6 +13,7 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.PWA;
 import net.mirwaldt.bowling.scorecard.BowlingGame;
 import net.mirwaldt.bowling.scorecard.BowlingGameByTDD;
+import net.mirwaldt.bowling.scorecard.BowlingGameRefactored;
 
 @Route
 @PWA(name = "Bowling scorecard demo webapp", shortName = "Bowling scorecard")
@@ -160,7 +161,7 @@ public class MainView extends VerticalLayout implements RouterLayout {
             label.setText("");
         }
         bonusLabel.setText("");
-        bowlingGame = new BowlingGameByTDD();
+        bowlingGame = new BowlingGameRefactored();
     }
 
     private void createLastFrameBox(HorizontalLayout horizontalLayout) {
