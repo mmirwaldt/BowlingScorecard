@@ -12,7 +12,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.PWA;
 import net.mirwaldt.bowling.scorecard.BowlingGame;
-import net.mirwaldt.bowling.scorecard.BowlingGameByTDD;
 import net.mirwaldt.bowling.scorecard.BowlingGameRefactored;
 
 @Route
