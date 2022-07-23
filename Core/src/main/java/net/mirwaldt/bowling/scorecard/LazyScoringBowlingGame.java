@@ -45,12 +45,36 @@ public class LazyScoringBowlingGame implements BowlingGame {
         checkBonus();
         checkGameOver();
 
-        rolled[rolls] = pins;
-        if (isStrike(pins) && isFirstRoll(rolls) && isBeforeLastFrame(frame() + 1)) {
-            rolls += 2;
+        handleRoll(pins);
+    }
+
+    private void handleRoll(int pins) {
+        setPins(pins);
+        if (isStrike(pins) && isFirstRoll() && isBeforeLastFrame(nextFrame())) {
+            turnToNextFrame();
         } else {
-            rolls++;
+            turnToNextRoll();
         }
+    }
+
+    private boolean isFirstRoll() {
+        return isFirstRoll(rolls);
+    }
+
+    private int nextFrame() {
+        return frame() + 1;
+    }
+
+    private void turnToNextRoll() {
+        rolls++;
+    }
+
+    private void turnToNextFrame() {
+        rolls += 2;
+    }
+
+    private void setPins(int pins) {
+        rolled[rolls] = pins;
     }
 
     @Override
