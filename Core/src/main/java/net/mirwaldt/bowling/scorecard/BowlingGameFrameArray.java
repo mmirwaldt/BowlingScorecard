@@ -30,7 +30,7 @@ public class BowlingGameFrameArray implements BowlingGame {
         checkTooManyPins(pins);
         checkBonus();
 
-        if(1 < frame && isStrike) {
+        if(1 < frame && (isStrike || isSpare)) {
             frames[frame - 2] += pins;
         }
 
