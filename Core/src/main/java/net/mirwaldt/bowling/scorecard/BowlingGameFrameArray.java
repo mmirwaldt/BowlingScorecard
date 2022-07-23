@@ -31,6 +31,11 @@ public class BowlingGameFrameArray implements BowlingGame {
         checkBonus();
         checkGameOver();
 
+        handlePreviousStrikesAndSpare(pins);
+        handleRoll(pins);
+    }
+
+    private void handlePreviousStrikesAndSpare(int pins) {
         if(isDoubleStrike()) {
             handleDoubleStrike(pins);
         }
@@ -38,8 +43,6 @@ public class BowlingGameFrameArray implements BowlingGame {
         if(isStrikeOrSpare()) {
             handleStrikeOrSpare(pins);
         }
-
-        handleRoll(pins);
     }
 
     private void handleRoll(int pins) {
