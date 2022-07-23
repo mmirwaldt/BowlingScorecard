@@ -56,6 +56,42 @@ public class BowlingGameFrameArray implements BowlingGame {
         }
     }
 
+    private void handleFirstRoll(int pins) {
+        backupStrikes();
+        isStrike = isStrike(pins);
+        isSpare = false;
+        if (isStrike && isFrameBeforeLastFrame()) {
+            turnToNextFrame();
+        } else {
+            wasStrikeBefore = false;
+            rollOffset++;
+        }
+    }
+
+
+    private void handleSecondRoll() {
+        if(isFrameBeforeLastFrame()) {
+            isStrike = false;
+            isSpare = isSpareFrame();
+            turnToNextFrame();
+            rollOffset = 0;
+        } else {
+            if(isStrike || isSpareFrame()) {
+                giveBonus();
+            } else {
+                setGameOver();
+            }
+        }
+    }
+
+    private void giveBonus() {
+        wasStrikeBefore = false;
+        wasStrike = false;
+        isStrike = false;
+        isSpare = false;
+        rollOffset++; // give bonus
+    }
+
     private void setGameOver() {
         isOver = true;
     }
@@ -89,17 +125,18 @@ public class BowlingGameFrameArray implements BowlingGame {
         return rollOffset == 0;
     }
 
-    private void handleFirstRoll(int pins) {
+    private boolean isSpareFrame() {
+        return frames[frame - 1] == 10;
+    }
+
+
+    private void backupStrikes() {
         wasStrikeBefore = isStrike;
         wasStrike = isStrike;
-        isStrike = isStrike(pins);
-        isSpare = false;
-        if (isStrike && isFrameBeforeLastFrame()) {
-            frame++;
-        } else {
-            wasStrikeBefore = false;
-            rollOffset++;
-        }
+    }
+
+    private void turnToNextFrame() {
+        frame++;
     }
 
     private boolean isStrike(int pins) {
@@ -108,33 +145,6 @@ public class BowlingGameFrameArray implements BowlingGame {
 
     private boolean isFrameBeforeLastFrame() {
         return frame < 10;
-    }
-
-    private void handleSecondRoll() {
-        if(isFrameBeforeLastFrame()) {
-            isStrike = false;
-            isSpare = isSpareFrame();
-            frame++;
-            rollOffset = 0;
-        } else {
-            if(isStrike || isSpareFrame()) {
-                giveBonus();
-            } else {
-                setGameOver();
-            }
-        }
-    }
-
-    private void giveBonus() {
-        wasStrikeBefore = false;
-        wasStrike = false;
-        isStrike = false;
-        isSpare = false;
-        rollOffset++; // give bonus
-    }
-
-    private boolean isSpareFrame() {
-        return frames[frame - 1] == 10;
     }
 
     private void checkGameOver() {
