@@ -43,6 +43,7 @@ public class BowlingGameRefactored implements BowlingGame {
         checkRange(pins);
         checkTooManyPins(pins);
         checkBonus();
+        checkGameOver();
 
         rolled[rolls] = pins;
         if (isStrike(pins) && isFirstRoll(rolls) && isBeforeLastFrame(frame() + 1)) {
@@ -115,6 +116,12 @@ public class BowlingGameRefactored implements BowlingGame {
             return firstRoll(nextFrame) + firstRoll(nextFrame + 1);
         } else {
             return sumRolls(nextFrame);
+        }
+    }
+
+    private void checkGameOver() {
+        if(isOver()) {
+            throw new IllegalStateException("Game is over!");
         }
     }
 
