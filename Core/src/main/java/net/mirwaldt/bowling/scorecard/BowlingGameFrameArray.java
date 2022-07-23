@@ -45,19 +45,27 @@ public class BowlingGameFrameArray implements BowlingGame {
             wasStrike = isStrike;
             isStrike = pins == 10;
             isSpare = false;
-            if (isStrike) {
+            if (isStrike && frame < 10) {
                 frame++;
             } else {
                 rollOffset++;
             }
+        } else if(rollOffset == 1) {
+            if(frame < 10) {
+                isStrike = false;
+                isSpare = frames[frame - 1] == 10;
+                frame++;
+                rollOffset = 0;
+            } else {
+                if(isStrike || isSpare) {
+                    rollOffset++; // give bonus
+                } else {
+                    isOver = true;
+                }
+            }
         } else {
-            isStrike = false;
-            isSpare = frames[frame - 1] == 10;
-            frame++;
-            isOver = frame == 11;
-            rollOffset = 0;
+            isOver = true;
         }
-
     }
 
     private void checkRange(int pins) {
