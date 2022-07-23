@@ -20,7 +20,7 @@ import static java.lang.Math.min;
  * indexFromRolls(rolls) = index(frame(rolls)) = ((rolls + 1) / 2 - 1) * 2
  */
 
-public class BowlingGameRefactored implements BowlingGame {
+public class LazyScoringBowlingGame implements BowlingGame {
     private static final int MAX_ROLLS_WITHOUT_BONUS = 20;
     private static final int MAX_ROLLS_WITH_BONUS = MAX_ROLLS_WITHOUT_BONUS + 1;
 

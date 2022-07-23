@@ -2,7 +2,7 @@ package net.mirwaldt.bowling.scorecard;
 
 import java.util.stream.IntStream;
 
-public class BowlingGameFrameArray implements BowlingGame {
+public class EagerScoringBowlingGame implements BowlingGame {
     private final int[] frames = new int[10];
 
     private int frame = 1;

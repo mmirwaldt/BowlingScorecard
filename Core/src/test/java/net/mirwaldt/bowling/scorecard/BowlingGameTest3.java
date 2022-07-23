@@ -4,6 +4,6 @@ package net.mirwaldt.bowling.scorecard;
 public class BowlingGameTest3 extends BowlingGameTest {
 
     public BowlingGameTest3() {
-        game = new BowlingGameFrameArray();
+        game = new EagerScoringBowlingGame();
     }
 }
