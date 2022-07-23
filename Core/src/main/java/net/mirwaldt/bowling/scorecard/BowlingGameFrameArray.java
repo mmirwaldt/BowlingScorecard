@@ -30,6 +30,10 @@ public class BowlingGameFrameArray implements BowlingGame {
         checkTooManyPins(pins);
         checkBonus();
 
+        if(1 < frame && isStrike) {
+            frames[frame - 2] += pins;
+        }
+
         frames[frame - 1] += pins;
         if(rollOffset == 0) {
             isStrike = pins == 10;
