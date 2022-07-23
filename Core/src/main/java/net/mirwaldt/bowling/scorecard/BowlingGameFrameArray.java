@@ -29,6 +29,9 @@ public class BowlingGameFrameArray implements BowlingGame {
         checkRange(pins);
         checkTooManyPins(pins);
         checkBonus();
+        if(isOver) {
+            throw new IllegalStateException("Game is over!");
+        }
 
         if(2 < frame && wasStrikeBefore && isStrike) {
             frames[frame - 3] += pins;
@@ -48,6 +51,7 @@ public class BowlingGameFrameArray implements BowlingGame {
             if (isStrike && frame < 10) {
                 frame++;
             } else {
+                wasStrikeBefore = false;
                 rollOffset++;
             }
         } else if(rollOffset == 1) {
@@ -57,7 +61,11 @@ public class BowlingGameFrameArray implements BowlingGame {
                 frame++;
                 rollOffset = 0;
             } else {
-                if(isStrike || isSpare) {
+                wasStrikeBefore = false;
+                wasStrike = false;
+                if(isStrike || frames[frame - 1] == 10) {
+                    isStrike = false;
+                    isSpare = false;
                     rollOffset++; // give bonus
                 } else {
                     isOver = true;
