@@ -81,7 +81,7 @@ public class BowlingGameFrameArray implements BowlingGame {
     private void handleFirstRoll(int pins) {
         wasStrikeBefore = isStrike;
         wasStrike = isStrike;
-        isStrike = pins == 10;
+        isStrike = isStrike(pins);
         isSpare = false;
         if (isStrike && isFrameBeforeLastFrame()) {
             frame++;
@@ -91,6 +91,10 @@ public class BowlingGameFrameArray implements BowlingGame {
         }
     }
 
+    private boolean isStrike(int pins) {
+        return pins == 10;
+    }
+
     private boolean isFrameBeforeLastFrame() {
         return frame < 10;
     }
@@ -98,13 +102,13 @@ public class BowlingGameFrameArray implements BowlingGame {
     private void handleSecondRoll() {
         if(isFrameBeforeLastFrame()) {
             isStrike = false;
-            isSpare = frames[frame - 1] == 10;
+            isSpare = isSpareFrame();
             frame++;
             rollOffset = 0;
         } else {
             wasStrikeBefore = false;
             wasStrike = false;
-            if(isStrike || frames[frame - 1] == 10) {
+            if(isStrike || isSpareFrame()) {
                 isStrike = false;
                 isSpare = false;
                 rollOffset++; // give bonus
@@ -112,6 +116,10 @@ public class BowlingGameFrameArray implements BowlingGame {
                 isOver = true;
             }
         }
+    }
+
+    private boolean isSpareFrame() {
+        return frames[frame - 1] == 10;
     }
 
     private void checkGameOver() {
