@@ -15,8 +15,6 @@ public class BowlingGameFrameArray implements BowlingGame {
 
     private boolean wasStrike = false;
 
-    private boolean wasStrikeBefore = false;
-
     private boolean isOver = false;
 
     @Override
@@ -30,12 +28,13 @@ public class BowlingGameFrameArray implements BowlingGame {
         checkTooManyPins(pins);
         checkBonus();
 
-        if(1 < frame && (isStrike || isSpare)) {
+        if(1 < frame && (isStrike || wasStrike || isSpare)) {
             frames[frame - 2] += pins;
         }
 
         frames[frame - 1] += pins;
         if(rollOffset == 0) {
+            wasStrike = isStrike;
             isStrike = pins == 10;
             isSpare = false;
             if (isStrike) {
