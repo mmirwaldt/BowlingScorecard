@@ -106,16 +106,20 @@ public class BowlingGameFrameArray implements BowlingGame {
             frame++;
             rollOffset = 0;
         } else {
-            wasStrikeBefore = false;
-            wasStrike = false;
             if(isStrike || isSpareFrame()) {
-                isStrike = false;
-                isSpare = false;
-                rollOffset++; // give bonus
+                giveBonus();
             } else {
                 isOver = true;
             }
         }
+    }
+
+    private void giveBonus() {
+        wasStrikeBefore = false;
+        wasStrike = false;
+        isStrike = false;
+        isSpare = false;
+        rollOffset++; // give bonus
     }
 
     private boolean isSpareFrame() {
