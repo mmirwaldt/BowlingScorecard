@@ -29,50 +29,94 @@ public class BowlingGameFrameArray implements BowlingGame {
         checkRange(pins);
         checkTooManyPins(pins);
         checkBonus();
-        if(isOver) {
-            throw new IllegalStateException("Game is over!");
+        checkGameOver();
+
+        if(isDoubleStrike()) {
+            handleDoubleStrike(pins);
         }
 
-        if(2 < frame && wasStrikeBefore && isStrike) {
-            frames[frame - 3] += pins;
-            wasStrikeBefore = false;
+        if(isStrikeOrSpare()) {
+            handleStrikeOrSpare(pins);
         }
 
-        if(1 < frame && (isStrike || wasStrike || isSpare)) {
-            frames[frame - 2] += pins;
-        }
+        handleRoll(pins);
+    }
 
+    private void handleRoll(int pins) {
         frames[frame - 1] += pins;
-        if(rollOffset == 0) {
-            wasStrikeBefore = isStrike;
-            wasStrike = isStrike;
-            isStrike = pins == 10;
-            isSpare = false;
-            if (isStrike && frame < 10) {
-                frame++;
-            } else {
-                wasStrikeBefore = false;
-                rollOffset++;
-            }
-        } else if(rollOffset == 1) {
-            if(frame < 10) {
-                isStrike = false;
-                isSpare = frames[frame - 1] == 10;
-                frame++;
-                rollOffset = 0;
-            } else {
-                wasStrikeBefore = false;
-                wasStrike = false;
-                if(isStrike || frames[frame - 1] == 10) {
-                    isStrike = false;
-                    isSpare = false;
-                    rollOffset++; // give bonus
-                } else {
-                    isOver = true;
-                }
-            }
+        if(isFirstRoll()) {
+            handleFirstRoll(pins);
+        } else if(isSecondRoll()) {
+            handleSecondRoll();
         } else {
             isOver = true;
+        }
+    }
+
+    private void handleStrikeOrSpare(int pins) {
+        frames[frame - 2] += pins;
+    }
+
+    private boolean isStrikeOrSpare() {
+        return 1 < frame && (isStrike || wasStrike || isSpare);
+    }
+
+    private void handleDoubleStrike(int pins) {
+        frames[frame - 3] += pins;
+        wasStrikeBefore = false;
+    }
+
+    private boolean isDoubleStrike() {
+        return 2 < frame && wasStrikeBefore && isStrike;
+    }
+
+    private boolean isSecondRoll() {
+        return rollOffset == 1;
+    }
+
+    private boolean isFirstRoll() {
+        return rollOffset == 0;
+    }
+
+    private void handleFirstRoll(int pins) {
+        wasStrikeBefore = isStrike;
+        wasStrike = isStrike;
+        isStrike = pins == 10;
+        isSpare = false;
+        if (isStrike && isFrameBeforeLastFrame()) {
+            frame++;
+        } else {
+            wasStrikeBefore = false;
+            rollOffset++;
+        }
+    }
+
+    private boolean isFrameBeforeLastFrame() {
+        return frame < 10;
+    }
+
+    private void handleSecondRoll() {
+        if(isFrameBeforeLastFrame()) {
+            isStrike = false;
+            isSpare = frames[frame - 1] == 10;
+            frame++;
+            rollOffset = 0;
+        } else {
+            wasStrikeBefore = false;
+            wasStrike = false;
+            if(isStrike || frames[frame - 1] == 10) {
+                isStrike = false;
+                isSpare = false;
+                rollOffset++; // give bonus
+            } else {
+                isOver = true;
+            }
+        }
+    }
+
+    private void checkGameOver() {
+        if(isOver) {
+            throw new IllegalStateException("Game is over!");
         }
     }
 
@@ -83,17 +127,29 @@ public class BowlingGameFrameArray implements BowlingGame {
     }
 
     private void checkTooManyPins(int pins) {
-        if(frame < 10 && rollOffset == 1 && 10 < frames[frame - 1] + pins) {
+        if(isFrameBeforeLastFrame() && isSecondRoll() && 10 < frames[frame - 1] + pins) {
             throw new IllegalArgumentException("Pins per frame must be at least 0 and at most 10 but not "
                     + frames[frame - 1] + pins);
         }
     }
 
     private void checkBonus() {
-        if(frame == 10 && rollOffset == 2 && frames[9] < 10) {
+        if(isLastFrame() && isBonusRoll() && lastFrame() < 10) {
             throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
-                    frames[9] + " which is smaller than 10!");
+                    lastFrame() + " which is smaller than 10!");
         }
+    }
+
+    private int lastFrame() {
+        return frames[9];
+    }
+
+    private boolean isBonusRoll() {
+        return rollOffset == 2;
+    }
+
+    private boolean isLastFrame() {
+        return frame == 10;
     }
 
     @Override
