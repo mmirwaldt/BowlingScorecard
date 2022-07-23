@@ -10,7 +10,6 @@ They can be found Exercise.pdf.
 ### What are the goals?
 * Create the scoring algorithm by TDD in the phases red(test fails), green(test passes) and blue (refactor).
 * Micro commits which help to follow the steps
-* Apply hexagonal architecture
 * Matches with scoring results of https://www.bowlinggenius.com/
 * Deploy the web app to my server so that it can be tried out
 
