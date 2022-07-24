@@ -35,6 +35,38 @@ public class EagerScoringBowlingGame implements BowlingGame {
         handleRoll(pins);
     }
 
+    @Override
+    public boolean isStrike() {
+        return isStrike;
+    }
+
+    @Override
+    public boolean isSpare() {
+        return isSpare;
+    }
+
+    @Override
+    public int score(int frame) {
+        return IntStream.of(frames)
+                .limit(frame)
+                .sum();
+    }
+
+    @Override
+    public boolean isOver() {
+        return isOver;
+    }
+
+    @Override
+    public int frame() {
+        return frame;
+    }
+
+    @Override
+    public int rollOffset() {
+        return rollOffset;
+    }
+
     private void handlePreviousStrikesAndSpare(int pins) {
         if(isDoubleStrike()) {
             handleDoubleStrike(pins);
@@ -183,37 +215,5 @@ public class EagerScoringBowlingGame implements BowlingGame {
 
     private boolean isLastFrame() {
         return frame == 10;
-    }
-
-    @Override
-    public boolean isStrike() {
-        return isStrike;
-    }
-
-    @Override
-    public boolean isSpare() {
-        return isSpare;
-    }
-
-    @Override
-    public int score(int frame) {
-        return IntStream.of(frames)
-                .limit(frame)
-                .sum();
-    }
-
-    @Override
-    public boolean isOver() {
-        return isOver;
-    }
-
-    @Override
-    public int frame() {
-        return frame;
-    }
-
-    @Override
-    public int rollOffset() {
-        return rollOffset;
     }
 }
