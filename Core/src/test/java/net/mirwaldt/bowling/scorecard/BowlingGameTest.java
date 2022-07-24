@@ -10,8 +10,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BowlingGameTest {
-    protected BowlingGame game = new LazyScoringBowlingGame();
+public abstract class BowlingGameTest {
+    protected BowlingGame game;
 
     @DisplayName("Given no roll, when no pins are hit, then the score is 0")
     @Test
