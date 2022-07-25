@@ -22,14 +22,12 @@ public class FormBowlingGameController implements BowlingGameController {
             bowlingGameView.setRoll(bowlingGameModel.frame(), bowlingGameModel.rollOffset(), pins);
         }
 
-        if (bowlingGameModel.frame() == 10 && bowlingGameModel.rollOffset() == 2
-                && !bowlingGameModel.isSpare() && !bowlingGameModel.isStrike()) {
-            bowlingGameView.setRoll(10, 2, NO_BONUS_PINS);
-        }
-
         displayScores();
 
         if (bowlingGameModel.isOver()) {
+            if(bowlingGameModel.rollOffset() == 1) {
+                bowlingGameView.setRoll(10, 2, NO_BONUS_PINS);
+            }
             bowlingGameView.disableRollButton();
         }
     }
