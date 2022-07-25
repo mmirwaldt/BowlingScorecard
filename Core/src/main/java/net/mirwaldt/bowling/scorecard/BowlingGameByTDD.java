@@ -42,12 +42,15 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public boolean isStrike() {
-        return minRolls(1) && isStrike(firstRollOfCurrentFrame());
+        return minRolls(1)
+                && ((frame() < 10 && isStrike(firstRollOfCurrentFrame())) ||
+                (frame() == 10 && isStrike(rolled[rolls - 1])));
     }
 
     @Override
     public boolean isSpare() {
-        return minRolls(2) && !isStrike() && firstRollOfCurrentFrame() + secondRollOfCurrentFrame() == 10;
+        return minRolls(2) && firstRollOfCurrentFrame() < 10
+                && firstRollOfCurrentFrame() + secondRollOfCurrentFrame() == 10;
     }
 
     @Override
@@ -94,7 +97,7 @@ public class BowlingGameByTDD implements BowlingGame {
     }
 
     private void checkBonus() {
-        if(19 < rolls && rolled[18] + rolled[19] < 10) {
+        if (19 < rolls && rolled[18] + rolled[19] < 10) {
             throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
                     (rolled[18] + rolled[19]) + " which is smaller than 10!");
         }
@@ -165,7 +168,7 @@ public class BowlingGameByTDD implements BowlingGame {
     }
 
     private void checkGameOver() {
-        if(isOver()) {
+        if (isOver()) {
             throw new IllegalStateException("Game is over!");
         }
     }
