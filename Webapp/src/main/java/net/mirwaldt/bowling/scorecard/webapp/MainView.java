@@ -11,19 +11,22 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.PWA;
-import net.mirwaldt.bowling.scorecard.BowlingGame;
-import net.mirwaldt.bowling.scorecard.LazyScoringBowlingGame;
+
+import static net.mirwaldt.bowling.scorecard.webapp.FormBowlingGameController.NO_BONUS_PINS;
 
 @Route
 @PWA(name = "Bowling scorecard demo webapp", shortName = "Bowling scorecard")
-public class MainView extends VerticalLayout implements RouterLayout {
+public class MainView extends VerticalLayout implements RouterLayout, BowlingGameView {
     private final Label[] firstRollLabels = new Label[10];
     private final Label[] secondRollLabels = new Label[10];
     private final Label[] scoreLabels = new Label[10];
     private Label bonusLabel;
-    private BowlingGame bowlingGame;
+    private final Button rollButton;
+    private final BowlingGameController bowlingGameController;
 
     public MainView() {
+        bowlingGameController = new FormBowlingGameController(new LazyScoringBowlingGameModel(), this);
+
         final H2 arrayComparatorH2 = new H2("Bowling scorecard");
         arrayComparatorH2.setWidth("300px");
         add(arrayComparatorH2);
@@ -33,7 +36,7 @@ public class MainView extends VerticalLayout implements RouterLayout {
 
         final TextField rollTextField = new TextField();
         rollTextField.setAutofocus(true);
-        final Button rollButton = new Button("Roll", event -> {
+        rollButton = new Button("Roll", event -> {
             int pins;
             try {
                 pins = Integer.parseInt(rollTextField.getValue());
@@ -45,32 +48,12 @@ public class MainView extends VerticalLayout implements RouterLayout {
             }
             rollTextField.setValue("");
 
-            try {
-                bowlingGame.roll(pins);
-            } catch (IllegalArgumentException e) {
-                Notification.show("Cannot roll " + pins + " pins in frame " + bowlingGame.frame() + ".");
-                e.printStackTrace();
-                rollTextField.setValue("");
-                return;
-            }
-
-            int indexOfFrame = bowlingGame.frame() - 1;
-            if(bowlingGame.frame() < 10) {
-                handleAllFramesExceptLastFrame(pins, indexOfFrame);
-            } else {
-                handleLastFrame(pins, indexOfFrame);
-            }
-
-            displayScores();
-
-            if(bowlingGame.isOver()) {
-                event.getSource().setEnabled(false);
-            }
+            bowlingGameController.rolled(pins);
         });
         rollButton.addClickShortcut(Key.ENTER);
 
         final Button resetButton = new Button("Reset", event -> {
-            reset();
+            bowlingGameController.reset();
             rollButton.setEnabled(true);
         });
         horizontalLayout2.add(rollTextField, rollButton, resetButton);
@@ -88,68 +71,49 @@ public class MainView extends VerticalLayout implements RouterLayout {
         reset();
     }
 
-    private void displayScores() {
-        for (int f = 1; f <= bowlingGame.frame(); f++) {
-            scoreLabels[f - 1].setText("" + bowlingGame.score(f));
-        }
-    }
-
-    private void handleLastFrame(int pins, int indexOfFrame) {
-        switch (bowlingGame.rollOffset()) {
-            case 0:
-                handleFirstRollOfLastFrame(pins, indexOfFrame);
-                break;
-            case 1:
-                handleSecondRollOfLastFrame(pins, indexOfFrame);
-                break;
-            case 2:
-                handleBonus(pins);
-                break;
-        }
-    }
-
-    private void handleBonus(int pins) {
-        if(bowlingGame.isStrike()) {
-            bonusLabel.setText("X");
+    @Override
+    public void setRoll(int frame, int rollOffset, int pins) {
+        String pinsAsString = String.valueOf(pins);
+        if(rollOffset == 0) {
+            firstRollLabels[frame - 1].setText(pinsAsString);
+        } else if(rollOffset == 1) {
+            secondRollLabels[frame - 1].setText(pinsAsString);
         } else {
-            bonusLabel.setText("" + pins);
-        }
-    }
-
-    private void handleSecondRollOfLastFrame(int pins, int indexOfFrame) {
-        if(bowlingGame.isStrike()) {
-            secondRollLabels[indexOfFrame].setText("X");
-        } else if(bowlingGame.isSpare()) {
-            secondRollLabels[indexOfFrame].setText("/");
-        } else {
-            secondRollLabels[indexOfFrame].setText("" + pins);
-            bonusLabel.setText("-");
-        }
-    }
-
-    private void handleFirstRollOfLastFrame(int pins, int indexOfFrame) {
-        if(bowlingGame.isStrike()) {
-            firstRollLabels[indexOfFrame].setText("X");
-        } else {
-            firstRollLabels[indexOfFrame].setText("" + pins);
-        }
-    }
-
-    private void handleAllFramesExceptLastFrame(int pins, int indexOfFrame) {
-        if(bowlingGame.isStrike()) {
-            secondRollLabels[indexOfFrame].setText("X");
-        } else if(bowlingGame.isSpare()) {
-            secondRollLabels[indexOfFrame].setText("/");
-        } else {
-            if(bowlingGame.rollOffset() == 0) {
-                firstRollLabels[indexOfFrame].setText("" + pins);
+            if(pins == NO_BONUS_PINS){
+                bonusLabel.setText("-");
             } else {
-                secondRollLabels[indexOfFrame].setText("" + pins);
+                bonusLabel.setText(pinsAsString);
             }
         }
     }
 
-    private void reset() {
+    @Override
+    public void setStrikeRoll(int frame, int rollOffset) {
+        if(frame < 10) {
+            secondRollLabels[frame - 1].setText("X");
+        } else {
+            if(rollOffset == 0) {
+                firstRollLabels[frame - 1].setText("X");
+            } else if(rollOffset == 1) {
+                secondRollLabels[frame - 1].setText("X");
+            } else {
+                bonusLabel.setText("X");
+            }
+        }
+    }
+
+    @Override
+    public void setSpareRoll(int frame) {
+        secondRollLabels[frame - 1].setText("/");
+    }
+
+    @Override
+    public void setScore(int frame, int score) {
+        scoreLabels[frame - 1].setText(String.valueOf(score));
+    }
+
+    @Override
+    public void reset() {
         for (Label label : firstRollLabels) {
             label.setText("");
         }
@@ -160,7 +124,16 @@ public class MainView extends VerticalLayout implements RouterLayout {
             label.setText("");
         }
         bonusLabel.setText("");
-        bowlingGame = new LazyScoringBowlingGame();
+    }
+
+    @Override
+    public void disableRollButton() {
+        rollButton.setEnabled(false);
+    }
+
+    @Override
+    public void enableRollButton() {
+        rollButton.setEnabled(true);
     }
 
     private void createLastFrameBox(HorizontalLayout horizontalLayout) {
