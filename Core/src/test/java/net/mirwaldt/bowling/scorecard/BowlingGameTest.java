@@ -524,7 +524,12 @@ public abstract class BowlingGameTest {
         void whenAlwaysNoPins_thenScoreIs0() {
             for (int i = 0; i < 10; i++) {
                 game.roll(0);
+                assertFalse(game.isLastRollStrike());
+                assertFalse(game.isLastFrameSpare());
+
                 game.roll(0);
+                assertFalse(game.isLastRollStrike());
+                assertFalse(game.isLastFrameSpare());
             }
             assertEquals(0, game.score());
 
@@ -539,6 +544,7 @@ public abstract class BowlingGameTest {
             for (int i = 0; i < 12; i++) {
                 game.roll(10);
                 assertTrue(game.isLastRollStrike());
+                assertFalse(game.isLastFrameSpare());
             }
             assertEquals(300, game.score());
 
@@ -552,9 +558,16 @@ public abstract class BowlingGameTest {
         void when9StrikesAndNeitherStrikeNorSpareInLastFrame10_thenNoBonus() {
             for (int i = 0; i < 9; i++) {
                 game.roll(10);
+                assertTrue(game.isLastRollStrike());
+                assertFalse(game.isLastFrameSpare());
             }
             game.roll(0);
+            assertFalse(game.isLastRollStrike());
+            assertFalse(game.isLastFrameSpare());
+
             game.roll(0);
+            assertFalse(game.isLastRollStrike());
+            assertFalse(game.isLastFrameSpare());
             assertEquals(7 * 30 + 20 + 10, game.score());
 
             assertTrue(game.isOver());
@@ -567,14 +580,18 @@ public abstract class BowlingGameTest {
         void when9StrikesAndOnlyOneStrikeInLastFrame_thenGiveBonus() {
             for (int i = 0; i < 9; i++) {
                 game.roll(10);
+                assertTrue(game.isLastRollStrike());
+                assertFalse(game.isLastFrameSpare());
             }
             game.roll(10);
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertEquals(8 * 30 + 20 + 10, game.score());
 
             game.roll(0);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertEquals(8 * 30 + 20 + 10, game.score());
 
             game.roll(0);
             assertFalse(game.isLastRollStrike());
@@ -591,6 +608,8 @@ public abstract class BowlingGameTest {
         void when9StrikesAndOnlyOneSpareInLastFrame_thenGiveBonus() {
             for (int i = 0; i < 9; i++) {
                 game.roll(10);
+                assertTrue(game.isLastRollStrike());
+                assertFalse(game.isLastFrameSpare());
             }
             game.roll(0);
             assertFalse(game.isLastRollStrike());
@@ -618,18 +637,26 @@ public abstract class BowlingGameTest {
             assertEquals(10, m + n);
             for (int i = 0; i < 9; i++) {
                 game.roll(10);
+                assertTrue(game.isLastRollStrike());
+                assertFalse(game.isLastFrameSpare());
             }
             assertEquals(7 * 30 + 20 + 10, game.score(9));
 
             game.roll(m);
+            assertFalse(game.isLastRollStrike());
+            assertFalse(game.isLastFrameSpare());
             assertEquals(7 * 30 + 20 + 10 + 2 * m, game.score(9));
             assertEquals(game.score(9) + m, game.score());
 
             game.roll(n);
+            assertFalse(game.isLastRollStrike());
+            assertTrue(game.isLastFrameSpare());
             assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
             assertEquals(game.score(9) + 10, game.score());
 
             game.roll(p);
+            assertFalse(game.isLastRollStrike());
+            assertFalse(game.isLastFrameSpare());
             assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
             assertEquals(game.score(9) + 10 + p, game.score());
 
