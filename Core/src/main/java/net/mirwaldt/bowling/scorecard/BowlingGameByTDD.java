@@ -29,7 +29,6 @@ public class BowlingGameByTDD implements BowlingGame {
     public void roll(int pins) {
         checkRange(pins);
         checkTooManyPins(pins);
-        checkBonus();
         checkGameOver();
 
         rolled[rolls] = pins;
@@ -158,13 +157,6 @@ public class BowlingGameByTDD implements BowlingGame {
         if (isSecondRollOfFrame() && isTooManyPins(currentRoll() + pins) && isOneFrameBeforeTheLastFrame()) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
                     + currentRoll() + " + " + pins + " = " + (currentRoll() + pins));
-        }
-    }
-
-    private void checkBonus() {
-        if (19 < rolls && rolled[18] + rolled[19] < 10) {
-            throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
-                    (rolled[18] + rolled[19]) + " which is smaller than 10!");
         }
     }
 

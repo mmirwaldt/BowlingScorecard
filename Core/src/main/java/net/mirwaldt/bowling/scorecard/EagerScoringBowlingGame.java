@@ -28,7 +28,6 @@ public class EagerScoringBowlingGame implements BowlingGame {
     public void roll(int pins) {
         checkRange(pins);
         checkTooManyPins(pins);
-        checkBonus();
         checkGameOver();
 
         handlePreviousStrikesAndSpare(pins);
@@ -196,13 +195,6 @@ public class EagerScoringBowlingGame implements BowlingGame {
         if(isFrameBeforeLastFrame() && isSecondRoll() && 10 < frames[frame - 1] + pins) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
                     + frames[frame - 1] + " + " + pins + " = " + (frames[frame - 1] + pins));
-        }
-    }
-
-    private void checkBonus() {
-        if(isLastFrame() && isBonusRoll() && lastFrame() < 10) {
-            throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
-                    lastFrame() + " which is smaller than 10!");
         }
     }
 

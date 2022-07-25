@@ -42,7 +42,6 @@ public class LazyScoringBowlingGame implements BowlingGame {
     public void roll(int pins) {
         checkRange(pins);
         checkTooManyPins(pins);
-        checkBonus();
         checkGameOver();
 
         handleRoll(pins);
@@ -224,13 +223,6 @@ public class LazyScoringBowlingGame implements BowlingGame {
         if (isBeforeLastFrame(frame(rolls) + 1) && isSecondRoll(rolls) && isTooManyPins(firstRoll(frame()) + pins)) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
                     + firstRoll(frame()) + " + " + pins + " = " + (firstRoll(frame()) + pins));
-        }
-    }
-
-    private void checkBonus() {
-        if (rolls == BONUS_ROLL && !isStrikeFrame(LAST_FRAME) && !isSpareFrame(LAST_FRAME)) {
-            throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
-                    sumRolls(LAST_FRAME) + " which is smaller than 10!");
         }
     }
 
