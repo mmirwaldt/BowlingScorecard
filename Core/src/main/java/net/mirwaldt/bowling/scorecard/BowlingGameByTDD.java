@@ -44,13 +44,14 @@ public class BowlingGameByTDD implements BowlingGame {
     public boolean isStrike() {
         return minRolls(1)
                 && ((frame() < 10 && isStrike(firstRollOfCurrentFrame())) ||
-                (frame() == 10 && isStrike(rolled[rolls - 1])));
+                (frame() == 10 && isStrike(firstRollOfCurrentFrame()) && isStrike(rolled[rolls - 1])));
     }
 
     @Override
     public boolean isSpare() {
         return minRolls(2) && firstRollOfCurrentFrame() < 10
-                && firstRollOfCurrentFrame() + secondRollOfCurrentFrame() == 10;
+                && firstRollOfCurrentFrame() + secondRollOfCurrentFrame() == 10
+                && rolls < 21;
     }
 
     @Override

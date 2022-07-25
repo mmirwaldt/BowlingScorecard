@@ -584,6 +584,7 @@ public abstract class BowlingGameTest {
 
             assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
+
         @DisplayName("when 9 strikes first and only one spare in last frame, then give bonus")
         @Test
         void when9StrikesAndOnlyOneSpareInLastFrame_thenGiveBonus() {
@@ -601,7 +602,7 @@ public abstract class BowlingGameTest {
             game.roll(0);
             assertFalse(game.isStrike());
             assertFalse(game.isSpare());
-            assertEquals(8 * 30 + 20 + 10, game.score());
+            assertEquals(7 * 30 + 20 + 20 + 10, game.score());
 
             assertTrue(game.isOver());
 
