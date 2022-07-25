@@ -138,7 +138,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
     private boolean isStrikeOrSpare() {
-        return 1 < frame && (isStrike && rollOffset < 1 || wasStrikeOneFrameAgo || isSpare && rollOffset < 1);
+        return 1 < frame && (wasStrikeOneFrameAgo || rollOffset < 1 && (isStrike || isSpare));
     }
 
     private void handleDoubleStrike(int pins) {
