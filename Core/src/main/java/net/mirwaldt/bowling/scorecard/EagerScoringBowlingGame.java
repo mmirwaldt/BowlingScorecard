@@ -197,16 +197,4 @@ public class EagerScoringBowlingGame implements BowlingGame {
                     + frames[frame - 1] + " + " + pins + " = " + (frames[frame - 1] + pins));
         }
     }
-
-    private int lastFrame() {
-        return frames[9];
-    }
-
-    private boolean isBonusRoll() {
-        return rollOffset == 2;
-    }
-
-    private boolean isLastFrame() {
-        return frame == 10;
-    }
 }
