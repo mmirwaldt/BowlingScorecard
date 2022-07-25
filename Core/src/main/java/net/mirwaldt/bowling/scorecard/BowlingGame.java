@@ -5,15 +5,15 @@ public interface BowlingGame {
 
     void roll(int pins);
 
-    boolean isStrike();
+    boolean isLastRollStrike();
 
-    boolean isSpare();
+    boolean isLastRollSpare();
 
     int score(int frame);
 
     boolean isOver();
 
-    int frame();
+    int currentFrame();
 
-    int rollOffset();
+    int currentRollInFrame();
 }

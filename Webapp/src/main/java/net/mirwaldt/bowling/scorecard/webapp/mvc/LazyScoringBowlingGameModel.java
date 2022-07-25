@@ -13,22 +13,22 @@ public class LazyScoringBowlingGameModel implements BowlingGameModel {
 
     @Override
     public int frame() {
-        return bowlingGameModel.frame();
+        return bowlingGameModel.currentFrame();
     }
 
     @Override
     public int rollOffset() {
-        return bowlingGameModel.rollOffset();
+        return bowlingGameModel.currentRollInFrame();
     }
 
     @Override
     public boolean isSpare() {
-        return bowlingGameModel.isSpare();
+        return bowlingGameModel.isLastRollSpare();
     }
 
     @Override
     public boolean isStrike() {
-        return bowlingGameModel.isStrike();
+        return bowlingGameModel.isLastRollStrike();
     }
 
     @Override

@@ -61,7 +61,7 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     private int nextFrame() {
-        return frame() + 1;
+        return currentFrame() + 1;
     }
 
     private void turnToNextRoll() {
@@ -77,9 +77,9 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     @Override
-    public boolean isStrike() {
-        return !isLastFrame(frame()) && isStrikeFrame(frame()) ||
-                isLastFrame(frame()) && !isSpare() && isStrike(pinsOfLastRoll());
+    public boolean isLastRollStrike() {
+        return !isLastFrame(currentFrame()) && isStrikeFrame(currentFrame()) ||
+                isLastFrame(currentFrame()) && !isLastRollSpare() && isStrike(pinsOfLastRoll());
     }
 
     private int pinsOfLastRoll() {
@@ -87,13 +87,13 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     @Override
-    public boolean isSpare() {
-        return isSpareFrame(frame());
+    public boolean isLastRollSpare() {
+        return isSpareFrame(currentFrame());
     }
 
     @Override
     public int score() {
-        return score(frame());
+        return score(currentFrame());
     }
 
     @Override
@@ -109,12 +109,12 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     @Override
-    public int frame() {
+    public int currentFrame() {
         return frame(rolls);
     }
 
     @Override
-    public int rollOffset() {
+    public int currentRollInFrame() {
         return (frame(rolls) < LAST_FRAME) ? (rolls - 1) % 2 : (rolls - 1) - 18;
     }
 
@@ -220,9 +220,9 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     private void checkTooManyPins(int pins) {
-        if (isBeforeLastFrame(frame(rolls) + 1) && isSecondRoll(rolls) && isTooManyPins(firstRoll(frame()) + pins)) {
+        if (isBeforeLastFrame(frame(rolls) + 1) && isSecondRoll(rolls) && isTooManyPins(firstRoll(currentFrame()) + pins)) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
-                    + firstRoll(frame()) + " + " + pins + " = " + (firstRoll(frame()) + pins));
+                    + firstRoll(currentFrame()) + " + " + pins + " = " + (firstRoll(currentFrame()) + pins));
         }
     }
 
