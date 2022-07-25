@@ -194,8 +194,8 @@ public class EagerScoringBowlingGame implements BowlingGame {
 
     private void checkTooManyPins(int pins) {
         if(isFrameBeforeLastFrame() && isSecondRoll() && 10 < frames[frame - 1] + pins) {
-            throw new IllegalArgumentException("Pins per frame must be at least 0 and at most 10 but not "
-                    + frames[frame - 1] + pins);
+            throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
+                    + frames[frame - 1] + " + " + pins + " = " + (frames[frame - 1] + pins));
         }
     }
 

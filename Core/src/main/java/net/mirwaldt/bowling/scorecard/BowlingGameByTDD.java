@@ -97,13 +97,6 @@ public class BowlingGameByTDD implements BowlingGame {
         return frame(rolls) < 9;
     }
 
-    private void checkBonus() {
-        if (19 < rolls && rolled[18] + rolled[19] < 10) {
-            throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
-                    (rolled[18] + rolled[19]) + " which is smaller than 10!");
-        }
-    }
-
     private int index() {
         return index(frame(rolls));
     }
@@ -164,7 +157,14 @@ public class BowlingGameByTDD implements BowlingGame {
     private void checkTooManyPins(int pins) {
         if (isSecondRollOfFrame() && isTooManyPins(currentRoll() + pins) && isOneFrameBeforeTheLastFrame()) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
-                    + currentRoll() + " + " + pins + " == " + (currentRoll() + pins));
+                    + currentRoll() + " + " + pins + " = " + (currentRoll() + pins));
+        }
+    }
+
+    private void checkBonus() {
+        if (19 < rolls && rolled[18] + rolled[19] < 10) {
+            throw new IllegalStateException("No bonus allowed because the two rolls sum is " +
+                    (rolled[18] + rolled[19]) + " which is smaller than 10!");
         }
     }
 

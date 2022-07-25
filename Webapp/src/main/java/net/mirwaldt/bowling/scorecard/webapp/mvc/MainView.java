@@ -43,14 +43,20 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
             try {
                 pins = Integer.parseInt(rollTextField.getValue());
             } catch (NumberFormatException e) {
-                Notification.show("Cannot parse int from string '" + rollTextField.getValue() + "'.");
+                Notification.show("Cannot parse pins as int from string '" + rollTextField.getValue() + "'.");
                 e.printStackTrace();
                 rollTextField.setValue("");
                 return;
             }
             rollTextField.setValue("");
 
-            bowlingGameController.rolled(pins);
+            try {
+                bowlingGameController.rolled(pins);
+            } catch (IllegalArgumentException | IllegalStateException e) {
+                Notification.show("Cannot roll '" + pins + "' because: " + e.getMessage());
+                e.printStackTrace();
+                rollTextField.setValue("");
+            }
         });
         rollButton.addClickShortcut(Key.ENTER);
 

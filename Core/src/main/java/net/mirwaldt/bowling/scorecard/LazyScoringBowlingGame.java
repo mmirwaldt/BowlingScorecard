@@ -223,7 +223,7 @@ public class LazyScoringBowlingGame implements BowlingGame {
     private void checkTooManyPins(int pins) {
         if (isBeforeLastFrame(frame(rolls) + 1) && isSecondRoll(rolls) && isTooManyPins(firstRoll(frame()) + pins)) {
             throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
-                    + firstRoll(frame()) + " + " + pins + " == " + (firstRoll(frame()) + pins));
+                    + firstRoll(frame()) + " + " + pins + " = " + (firstRoll(frame()) + pins));
         }
     }
 
