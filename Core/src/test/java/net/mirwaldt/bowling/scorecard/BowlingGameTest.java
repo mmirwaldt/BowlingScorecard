@@ -538,6 +538,7 @@ public abstract class BowlingGameTest {
         void whenAlwaysStrike_thenScoreIs300() {
             for (int i = 0; i < 12; i++) {
                 game.roll(10);
+                assertTrue(game.isStrike());
             }
             assertEquals(300, game.score());
 
