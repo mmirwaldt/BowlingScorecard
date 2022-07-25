@@ -80,7 +80,7 @@ public class LazyScoringBowlingGame implements BowlingGame {
     @Override
     public boolean isStrike() {
         return !isLastFrame(frame()) && isStrikeFrame(frame()) ||
-                isLastFrame(frame()) && isStrike(pinsOfLastRoll()) && rolls != BONUS_ROLL;
+                isLastFrame(frame()) && !isSpare() && isStrike(pinsOfLastRoll());
     }
 
     private int pinsOfLastRoll() {
