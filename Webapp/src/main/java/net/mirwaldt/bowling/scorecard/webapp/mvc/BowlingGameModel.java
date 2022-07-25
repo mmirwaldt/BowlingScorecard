@@ -1,4 +1,4 @@
-package net.mirwaldt.bowling.scorecard.webapp;
+package net.mirwaldt.bowling.scorecard.webapp.mvc;
 
 public interface BowlingGameModel {
     void roll(int pins);

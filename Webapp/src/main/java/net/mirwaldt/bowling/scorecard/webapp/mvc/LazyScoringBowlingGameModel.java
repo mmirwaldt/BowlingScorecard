@@ -1,4 +1,4 @@
-package net.mirwaldt.bowling.scorecard.webapp;
+package net.mirwaldt.bowling.scorecard.webapp.mvc;
 
 import net.mirwaldt.bowling.scorecard.BowlingGame;
 import net.mirwaldt.bowling.scorecard.LazyScoringBowlingGame;

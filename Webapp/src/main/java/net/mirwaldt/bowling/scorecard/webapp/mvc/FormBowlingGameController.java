@@ -1,4 +1,4 @@
-package net.mirwaldt.bowling.scorecard.webapp;
+package net.mirwaldt.bowling.scorecard.webapp.mvc;
 
 public class FormBowlingGameController implements BowlingGameController {
     public static final int NO_BONUS_PINS = -1;

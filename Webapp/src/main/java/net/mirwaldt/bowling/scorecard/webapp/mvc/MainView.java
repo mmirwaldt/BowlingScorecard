@@ -1,4 +1,4 @@
-package net.mirwaldt.bowling.scorecard.webapp;
+package net.mirwaldt.bowling.scorecard.webapp.mvc;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -12,7 +12,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.PWA;
 
-import static net.mirwaldt.bowling.scorecard.webapp.FormBowlingGameController.NO_BONUS_PINS;
+import static net.mirwaldt.bowling.scorecard.webapp.mvc.FormBowlingGameController.NO_BONUS_PINS;
 
 @Route
 @PWA(name = "Bowling scorecard demo webapp", shortName = "Bowling scorecard")

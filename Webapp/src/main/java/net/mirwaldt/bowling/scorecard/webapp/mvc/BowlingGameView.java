@@ -1,4 +1,4 @@
-package net.mirwaldt.bowling.scorecard.webapp;
+package net.mirwaldt.bowling.scorecard.webapp.mvc;
 
 public interface BowlingGameView {
     void setRoll(int frame, int rollOffset, int pins);
