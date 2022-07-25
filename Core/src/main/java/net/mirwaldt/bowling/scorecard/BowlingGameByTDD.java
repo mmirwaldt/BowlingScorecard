@@ -47,7 +47,7 @@ public class BowlingGameByTDD implements BowlingGame {
     }
 
     @Override
-    public boolean isLastRollSpare() {
+    public boolean isLastFrameSpare() {
         return minRolls(2) && firstRollOfCurrentFrame() < 10
                 && firstRollOfCurrentFrame() + secondRollOfCurrentFrame() == 10
                 && rolls < 21;

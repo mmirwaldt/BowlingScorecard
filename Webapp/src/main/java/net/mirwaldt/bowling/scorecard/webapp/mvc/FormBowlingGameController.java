@@ -14,18 +14,18 @@ public class FormBowlingGameController implements BowlingGameController {
     public void rolled(int pins) {
         bowlingGameModel.roll(pins);
 
-        if (bowlingGameModel.isStrike()) {
-            bowlingGameView.setStrikeRoll(bowlingGameModel.frame(), bowlingGameModel.rollOffset());
-        } else if (bowlingGameModel.isSpare()) {
-            bowlingGameView.setSpareRoll(bowlingGameModel.frame());
+        if (bowlingGameModel.isLastRollStrike()) {
+            bowlingGameView.setStrikeRoll(bowlingGameModel.currentFrame(), bowlingGameModel.currentRollInFrame());
+        } else if (bowlingGameModel.isLastFrameSpare()) {
+            bowlingGameView.setSpareRoll(bowlingGameModel.currentFrame());
         } else {
-            bowlingGameView.setRoll(bowlingGameModel.frame(), bowlingGameModel.rollOffset(), pins);
+            bowlingGameView.setRoll(bowlingGameModel.currentFrame(), bowlingGameModel.currentRollInFrame(), pins);
         }
 
         displayScores();
 
         if (bowlingGameModel.isOver()) {
-            if(bowlingGameModel.rollOffset() == 1) {
+            if(bowlingGameModel.currentRollInFrame() == 1) {
                 bowlingGameView.setRoll(10, 2, NO_BONUS_PINS);
             }
             bowlingGameView.disableInput();
@@ -40,7 +40,7 @@ public class FormBowlingGameController implements BowlingGameController {
     }
 
     private void displayScores() {
-        for (int f = 1; f <= bowlingGameModel.frame(); f++) {
+        for (int f = 1; f <= bowlingGameModel.currentFrame(); f++) {
             bowlingGameView.setScore(f, bowlingGameModel.score(f));
         }
     }

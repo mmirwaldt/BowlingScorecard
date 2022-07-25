@@ -7,7 +7,7 @@ public interface BowlingGame {
 
     boolean isLastRollStrike();
 
-    boolean isLastRollSpare();
+    boolean isLastFrameSpare();
 
     int score(int frame);
 
