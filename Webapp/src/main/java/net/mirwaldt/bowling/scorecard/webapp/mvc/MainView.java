@@ -24,6 +24,9 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
     private final Label[] scoreLabels = new Label[10];
     private Label bonusLabel;
     private final Button rollButton;
+
+    private final TextField rollTextField = new TextField();
+
     private final BowlingGameController bowlingGameController;
 
     public MainView() {
@@ -36,7 +39,6 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
         HorizontalLayout horizontalLayout2 = new HorizontalLayout();
         add(horizontalLayout2);
 
-        final TextField rollTextField = new TextField();
         rollTextField.setAutofocus(true);
         rollButton = new Button("Roll", event -> {
             int pins;
@@ -135,13 +137,16 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
     }
 
     @Override
-    public void disableRollButton() {
+    public void disableInput() {
         rollButton.setEnabled(false);
+        rollTextField.setReadOnly(true);
     }
 
     @Override
-    public void enableRollButton() {
+    public void enableInput() {
         rollButton.setEnabled(true);
+        rollTextField.setReadOnly(false);
+        rollTextField.focus();
     }
 
     private void createLastFrameBox(HorizontalLayout horizontalLayout) {

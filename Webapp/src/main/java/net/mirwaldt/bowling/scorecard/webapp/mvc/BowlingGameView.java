@@ -11,7 +11,7 @@ public interface BowlingGameView {
 
     void reset();
 
-    void disableRollButton();
+    void disableInput();
 
-    void enableRollButton();
+    void enableInput();
 }

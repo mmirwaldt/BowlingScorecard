@@ -28,7 +28,7 @@ public class FormBowlingGameController implements BowlingGameController {
             if(bowlingGameModel.rollOffset() == 1) {
                 bowlingGameView.setRoll(10, 2, NO_BONUS_PINS);
             }
-            bowlingGameView.disableRollButton();
+            bowlingGameView.disableInput();
         }
     }
 
@@ -36,7 +36,7 @@ public class FormBowlingGameController implements BowlingGameController {
     public void reset() {
         bowlingGameModel.reset();
         bowlingGameView.reset();
-        bowlingGameView.enableRollButton();
+        bowlingGameView.enableInput();
     }
 
     private void displayScores() {
