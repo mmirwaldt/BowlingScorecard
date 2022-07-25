@@ -17,6 +17,8 @@ import static net.mirwaldt.bowling.scorecard.webapp.mvc.FormBowlingGameControlle
 @Route
 @PWA(name = "Bowling scorecard demo webapp", shortName = "Bowling scorecard")
 public class MainView extends VerticalLayout implements RouterLayout, BowlingGameView {
+    public static final String STRIKE_CHAR = "X";
+    public static final String SPARE_CHAR = "/";
     private final Label[] firstRollLabels = new Label[10];
     private final Label[] secondRollLabels = new Label[10];
     private final Label[] scoreLabels = new Label[10];
@@ -90,21 +92,21 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
     @Override
     public void setStrikeRoll(int frame, int rollOffset) {
         if(frame < 10) {
-            secondRollLabels[frame - 1].setText("X");
+            secondRollLabels[frame - 1].setText(STRIKE_CHAR);
         } else {
             if(rollOffset == 0) {
-                firstRollLabels[frame - 1].setText("X");
+                firstRollLabels[frame - 1].setText(STRIKE_CHAR);
             } else if(rollOffset == 1) {
-                secondRollLabels[frame - 1].setText("X");
+                secondRollLabels[frame - 1].setText(STRIKE_CHAR);
             } else {
-                bonusLabel.setText("X");
+                bonusLabel.setText(STRIKE_CHAR);
             }
         }
     }
 
     @Override
     public void setSpareRoll(int frame) {
-        secondRollLabels[frame - 1].setText("/");
+        secondRollLabels[frame - 1].setText(SPARE_CHAR);
     }
 
     @Override
