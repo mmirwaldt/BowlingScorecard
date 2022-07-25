@@ -30,8 +30,8 @@ public class EagerScoringBowlingGame implements BowlingGame {
         checkTooManyPins(pins);
         checkGameOver();
 
-        handlePreviousStrikesAndSpare(pins);
-        handleRoll(pins);
+        scorePreviousStrikesAndSpare(pins);
+        scoreRoll(pins);
     }
 
     @Override
@@ -66,29 +66,29 @@ public class EagerScoringBowlingGame implements BowlingGame {
         return rollOffset;
     }
 
-    private void handlePreviousStrikesAndSpare(int pins) {
+    private void scorePreviousStrikesAndSpare(int pins) {
         if(isDoubleStrike()) {
-            handleDoubleStrike(pins);
+            scoreDoubleStrike(pins);
         }
 
         if(isStrikeOrSpare()) {
-            handleStrikeOrSpare(pins);
+            scoreStrikeOrSpare(pins);
         }
     }
 
-    private void handleRoll(int pins) {
+    private void scoreRoll(int pins) {
         addPins(pins);
         if(isFirstRoll()) {
-            handleFirstRoll(pins);
+            scoreFirstRoll(pins);
         } else if(isSecondRoll()) {
-            handleSecondRoll(pins);
+            scoreSecondRoll(pins);
         } else {
             isSpare = false;
             setGameOver();
         }
     }
 
-    private void handleFirstRoll(int pins) {
+    private void scoreFirstRoll(int pins) {
         backupStrikes();
         isStrike = isStrike(pins);
         isSpare = false;
@@ -100,13 +100,12 @@ public class EagerScoringBowlingGame implements BowlingGame {
         }
     }
 
-
-    private void handleSecondRoll(int pins) {
+    private void scoreSecondRoll(int pins) {
         if(isFrameBeforeLastFrame()) {
             isStrike = false;
             isSpare = isSpareFrame();
             turnToNextFrame();
-            rollOffset = 0;
+            turnToFirstRoll();
         } else {
             if(isStrike || isSpareFrame()) {
                 giveBonus(pins);
@@ -124,23 +123,23 @@ public class EagerScoringBowlingGame implements BowlingGame {
         rollOffset++; // give bonus
     }
 
-    private void setGameOver() {
-        isOver = true;
+    private void scoreStrikeOrSpare(int pins) {
+        frames[frame - 2] += pins;
+    }
+
+    private boolean isStrike(int pins) {
+        return pins == 10;
+    }
+
+    private boolean isStrikeOrSpare() {
+        return isFrameAfterFirstFrame() && (wasStrikeOneFrameAgo || isFirstRoll() && (isStrike || isSpare));
     }
 
     private void addPins(int pins) {
         frames[frame - 1] += pins;
     }
 
-    private void handleStrikeOrSpare(int pins) {
-        frames[frame - 2] += pins;
-    }
-
-    private boolean isStrikeOrSpare() {
-        return 1 < frame && (wasStrikeOneFrameAgo || rollOffset < 1 && (isStrike || isSpare));
-    }
-
-    private void handleDoubleStrike(int pins) {
+    private void scoreDoubleStrike(int pins) {
         frames[frame - 3] += pins;
         wasStrikeTwoFramesAgo = false;
     }
@@ -149,18 +148,9 @@ public class EagerScoringBowlingGame implements BowlingGame {
         return 2 < frame && wasStrikeTwoFramesAgo && isStrike;
     }
 
-    private boolean isSecondRoll() {
-        return rollOffset == 1;
-    }
-
-    private boolean isFirstRoll() {
-        return rollOffset == 0;
-    }
-
     private boolean isSpareFrame() {
         return frames[frame - 1] == 10;
     }
-
 
     private void backupStrikes() {
         wasStrikeTwoFramesAgo = isStrike;
@@ -171,12 +161,28 @@ public class EagerScoringBowlingGame implements BowlingGame {
         frame++;
     }
 
-    private boolean isStrike(int pins) {
-        return pins == 10;
+    private void turnToFirstRoll() {
+        rollOffset = 0;
+    }
+
+    private boolean isFrameAfterFirstFrame() {
+        return 1 < frame;
     }
 
     private boolean isFrameBeforeLastFrame() {
         return frame < 10;
+    }
+
+    private boolean isFirstRoll() {
+        return rollOffset == 0;
+    }
+
+    private boolean isSecondRoll() {
+        return rollOffset == 1;
+    }
+
+    private void setGameOver() {
+        isOver = true;
     }
 
     private void checkGameOver() {
