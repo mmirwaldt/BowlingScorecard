@@ -561,9 +561,9 @@ public abstract class BowlingGameTest {
             assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
 
-        @DisplayName("when 9 strikes first and neither a strike nor a spare in last frame 10, then no bonus")
+        @DisplayName("when 9 strikes first and only one strike in last frame, then give bonus")
         @Test
-        void when9StrikesAndOnlyOneStrikeInLastFrame_thenBonus() {
+        void when9StrikesAndOnlyOneStrikeInLastFrame_thenGiveBonus() {
             for (int i = 0; i < 9; i++) {
                 game.roll(10);
             }
@@ -584,6 +584,30 @@ public abstract class BowlingGameTest {
 
             assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
+        @DisplayName("when 9 strikes first and only one spare in last frame, then give bonus")
+        @Test
+        void when9StrikesAndOnlyOneSpareInLastFrame_thenGiveBonus() {
+            for (int i = 0; i < 9; i++) {
+                game.roll(10);
+            }
+            game.roll(0);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+
+            game.roll(10);
+            assertFalse(game.isStrike());
+            assertTrue(game.isSpare());
+
+            game.roll(0);
+            assertFalse(game.isStrike());
+            assertFalse(game.isSpare());
+            assertEquals(8 * 30 + 20 + 10, game.score());
+
+            assertTrue(game.isOver());
+
+            assertThrows(IllegalStateException.class, () -> game.roll(0));
+        }
+
 
         @DisplayName("when 9 strikes and one spare, then the score 240 + 3 * m + 2 * n + p")
         @ParameterizedTest(name = "when 9 strikes and one spare, then the score 240 + 3 * {0} + 2 * {1} + {2}")
