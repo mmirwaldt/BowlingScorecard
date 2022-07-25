@@ -82,8 +82,9 @@ public class EagerScoringBowlingGame implements BowlingGame {
         if(isFirstRoll()) {
             handleFirstRoll(pins);
         } else if(isSecondRoll()) {
-            handleSecondRoll();
+            handleSecondRoll(pins);
         } else {
+            isSpare = false;
             setGameOver();
         }
     }
@@ -101,7 +102,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
 
-    private void handleSecondRoll() {
+    private void handleSecondRoll(int pins) {
         if(isFrameBeforeLastFrame()) {
             isStrike = false;
             isSpare = isSpareFrame();
@@ -109,18 +110,18 @@ public class EagerScoringBowlingGame implements BowlingGame {
             rollOffset = 0;
         } else {
             if(isStrike || isSpareFrame()) {
-                giveBonus();
+                giveBonus(pins);
             } else {
                 setGameOver();
             }
         }
     }
 
-    private void giveBonus() {
+    private void giveBonus(int pins) {
         wasStrikeTwoFramesAgo = false;
         wasStrikeOneFrameAgo = false;
-        isStrike = false;
-        isSpare = false;
+        isStrike = isStrike && isStrike(pins);
+        isSpare = !isStrike && 0 < pins && isSpareFrame();
         rollOffset++; // give bonus
     }
 
@@ -137,7 +138,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
     private boolean isStrikeOrSpare() {
-        return 1 < frame && (isStrike || wasStrikeOneFrameAgo || isSpare);
+        return 1 < frame && (isStrike && rollOffset < 1 || wasStrikeOneFrameAgo || isSpare && rollOffset < 1);
     }
 
     private void handleDoubleStrike(int pins) {
