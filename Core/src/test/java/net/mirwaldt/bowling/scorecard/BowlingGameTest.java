@@ -529,6 +529,8 @@ public abstract class BowlingGameTest {
             assertEquals(0, game.score());
 
             assertTrue(game.isOver());
+            
+            assertThrows(IllegalStateException.class, () -> game.roll(1));
         }
 
         @DisplayName("when always strike, then the score is 300")
@@ -540,6 +542,8 @@ public abstract class BowlingGameTest {
             assertEquals(300, game.score());
 
             assertTrue(game.isOver());
+
+            assertThrows(IllegalStateException.class, () -> game.roll(1));
         }
 
         @DisplayName("when 9 strikes first and neither a strike nor a spare in last frame 10, then no bonus")
@@ -580,6 +584,8 @@ public abstract class BowlingGameTest {
             assertEquals(game.score(9) + 10 + p, game.score());
 
             assertTrue(game.isOver());
+
+            assertThrows(IllegalStateException.class, () -> game.roll(1));
         }
 
         @DisplayName("when no strikes and no spares, then score is sum")
@@ -595,6 +601,8 @@ public abstract class BowlingGameTest {
             assertEquals(gaussSum + 2 + 3, game.score());
 
             assertTrue(game.isOver());
+
+            assertThrows(IllegalStateException.class, () -> game.roll(1));
         }
     }
 
