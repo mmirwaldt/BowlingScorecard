@@ -170,7 +170,7 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     private int frame(int roll) {
-        return max(1, min(LAST_FRAME, (roll + 1) / 2));
+        return max(0, min(LAST_FRAME, (roll + 1) / 2));
     }
 
     private int index(int frame) {

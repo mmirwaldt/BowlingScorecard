@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 public class EagerScoringBowlingGame implements BowlingGame {
     private final int[] frames = new int[10];
 
-    private int frame = 1;
+    private int frame = 0;
 
     private int rollOffset = 0;
 
@@ -29,6 +29,10 @@ public class EagerScoringBowlingGame implements BowlingGame {
         checkRange(pins);
         checkTooManyPins(pins);
         checkGameOver();
+
+        if(frame == 0) {
+            frame = 1;
+        }
 
         scorePreviousStrikesAndSpare(pins);
         scoreRoll(pins);

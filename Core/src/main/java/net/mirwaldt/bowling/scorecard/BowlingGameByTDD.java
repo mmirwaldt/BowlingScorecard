@@ -127,7 +127,7 @@ public class BowlingGameByTDD implements BowlingGame {
     }
 
     private int frame(int roll) {
-        return max(1, min(10, (roll + 1) / 2));
+        return max(0, min(10, (roll + 1) / 2));
     }
 
     private int index(int frame) {
