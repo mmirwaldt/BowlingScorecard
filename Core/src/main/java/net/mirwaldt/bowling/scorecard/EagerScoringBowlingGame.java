@@ -9,6 +9,8 @@ public class EagerScoringBowlingGame implements BowlingGame {
 
     private int rollOffset = 0;
 
+    private boolean isNextFrame = true;
+
     private boolean isStrike = false;
 
     private boolean isSpare = false;
@@ -26,13 +28,15 @@ public class EagerScoringBowlingGame implements BowlingGame {
 
     @Override
     public void roll(int pins) {
+        if(isNextFrame) {
+            turnToNextFrame();
+            turnToFirstRoll();
+            isNextFrame = false;
+        }
+
         checkRange(pins);
         checkTooManyPins(pins);
         checkGameOver();
-
-        if(frame == 0) {
-            frame = 1;
-        }
 
         scorePreviousStrikesAndSpare(pins);
         scoreRoll(pins);
@@ -108,8 +112,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
         if(isFrameBeforeLastFrame()) {
             isStrike = false;
             isSpare = isSpareFrame();
-            turnToNextFrame();
-            turnToFirstRoll();
+            isNextFrame = true;
         } else {
             if(isStrike || isSpareFrame()) {
                 giveBonus(pins);

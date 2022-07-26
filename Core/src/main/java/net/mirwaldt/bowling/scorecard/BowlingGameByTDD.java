@@ -107,7 +107,7 @@ public class BowlingGameByTDD implements BowlingGame {
 
     @Override
     public int currentRollInFrame() {
-        return (frame(rolls) < 10) ? (rolls - 1) % 2 : rolls - 19;
+        return (frame(rolls) < 10) ? (max(0, rolls - 1)) % 2 : rolls - 19;
     }
 
     private boolean isSpareRoll(int roll) {
