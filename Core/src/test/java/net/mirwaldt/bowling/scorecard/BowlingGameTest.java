@@ -23,11 +23,15 @@ public abstract class BowlingGameTest {
     @Nested
     class GivenOneRoll {
         protected int startFrame = 0;
+        protected int rollInFrame = 0;
 
         @DisplayName("when n pin(s) are hit, then the score is n more")
         @ParameterizedTest(name = "when {0} pin(s) are hit, then the score is {0} more")
         @ValueSource(ints = {0, 1, 2, 9})
         void whenNPinsAreHit_thenScoreIsNmore(int n) {
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+
             game.roll(n);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
@@ -691,6 +695,7 @@ public abstract class BowlingGameTest {
             game.roll(2);
             game.roll(5);
             startFrame = 1;
+            rollInFrame = 1;
         }
     }
 
@@ -704,6 +709,7 @@ public abstract class BowlingGameTest {
             game.roll(0);
             game.roll(8);
             startFrame = 2;
+            rollInFrame = 1;
         }
     }
 
