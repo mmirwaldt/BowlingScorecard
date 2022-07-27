@@ -140,14 +140,24 @@ public abstract class BowlingGameTest {
                 "then score strike first 10 and second 10 + {0} more")
         @ValueSource(ints = {0, 3, 4})
         void whenOneStrike_thenScoreIs10plusTwoTimesNmore(int n) {
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+
             game.roll(10);
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10, game.score());
 
             game.roll(n);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 2, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10 + n, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + n, game.score());
 
@@ -157,14 +167,24 @@ public abstract class BowlingGameTest {
         @DisplayName("when two strikes, then score is 30 more")
         @Test
         void whenTwoStrikes_thenScoreIs30more() {
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+
             game.roll(10);
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10, game.score());
 
             game.roll(10);
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 2, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
 
