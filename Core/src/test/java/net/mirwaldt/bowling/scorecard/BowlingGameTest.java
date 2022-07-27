@@ -772,20 +772,31 @@ public abstract class BowlingGameTest {
         @Test
         void when9StrikesAndNeitherStrikeNorSpareInLastFrame10_thenNoBonus() {
             for (int i = 0; i < 9; i++) {
+                assertFalse(game.isOver());
+
                 game.roll(10);
                 assertTrue(game.isLastRollStrike());
                 assertFalse(game.isLastFrameSpare());
+                assertEquals(i + 1, game.currentFrame());
+                assertEquals(0, game.currentRollInFrame());
+                assertEquals(max(0, i - 1) * 30 + ((0 < i) ? 20 : 0) + 10, game.score());
             }
-            game.roll(0);
-            assertFalse(game.isLastRollStrike());
-            assertFalse(game.isLastFrameSpare());
 
             game.roll(0);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(10, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(7 * 30 + 20 + 10, game.score());
 
+            game.roll(0);
+            assertFalse(game.isLastRollStrike());
+            assertFalse(game.isLastFrameSpare());
             assertTrue(game.isOver());
+            assertEquals(10, game.currentFrame());
+            assertEquals(1, game.currentRollInFrame());
+            assertEquals(7 * 30 + 20 + 10, game.score());
 
             assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
