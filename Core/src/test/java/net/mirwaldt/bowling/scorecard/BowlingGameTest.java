@@ -111,14 +111,24 @@ public abstract class BowlingGameTest {
         void whenSpare_thenScoreIs10more(int m, int n) {
             assertEquals(10, m + n);
 
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+
             game.roll(m);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + m, game.score());
 
             game.roll(n);
             assertFalse(game.isLastRollStrike());
             assertTrue(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(1, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10, game.score());
 
             assertFalse(game.isOver());
