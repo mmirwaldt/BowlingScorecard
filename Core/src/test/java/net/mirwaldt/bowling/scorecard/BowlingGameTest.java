@@ -179,7 +179,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (10 + 10), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
         }
 
@@ -270,7 +270,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (10 + 10), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
 
             game.roll(10);
@@ -279,8 +279,8 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 3, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
-            assertEquals(game.score(startFrame + 1) + 20, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame) + (10 + 10 + 10), game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + (10 + 10), game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + 10, game.score());
         }
 
@@ -306,7 +306,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (10 + 10), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
 
             game.roll(n);
@@ -315,8 +315,8 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 3, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 20 + n, game.score(startFrame + 1));
-            assertEquals(game.score(startFrame + 1) + 10 + n, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame) + (10 + 10 + n), game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + (10 + n), game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + n, game.score());
         }
 
@@ -388,7 +388,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(1, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (10 + 10), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
         }
 
@@ -416,7 +416,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 1, game.currentFrame());
             assertEquals(1, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + m + n, game.score());
+            assertEquals(game.score(startFrame) + (m + n), game.score());
 
             game.roll(p);
             assertFalse(game.isLastRollStrike());
@@ -424,7 +424,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + m + n + p, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (m + n + p), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p, game.score());
         }
 
@@ -460,7 +460,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (10 + 10), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
         }
     }
@@ -496,7 +496,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 1, game.currentFrame());
             assertEquals(1, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + m + n, game.score());
+            assertEquals(game.score(startFrame) + (m + n), game.score());
 
             game.roll(p);
             assertFalse(game.isLastRollStrike());
@@ -504,7 +504,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + m + n, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (m + n), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p, game.score());
 
             game.roll(q);
@@ -513,8 +513,8 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(1, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + m + n, game.score(startFrame + 1));
-            assertEquals(game.score(startFrame + 1) + p + q, game.score());
+            assertEquals(game.score(startFrame) + (m + n), game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + (p + q), game.score());
         }
 
         @DisplayName("when four strikes, then the score is 90 more")
@@ -538,7 +538,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (10 + 10), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
 
             game.roll(10);
@@ -547,8 +547,8 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 3, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
-            assertEquals(game.score(startFrame + 1) + 20, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame) + (10 + 10 + 10), game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + (10 + 10), game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + 10, game.score());
 
             game.roll(10);
@@ -557,9 +557,9 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 4, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
-            assertEquals(game.score(startFrame + 1) + 30, game.score(startFrame + 2));
-            assertEquals(game.score(startFrame + 2) + 20, game.score(startFrame + 3));
+            assertEquals(game.score(startFrame) + (10 + 10 + 10), game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + (10 + 10 + 10), game.score(startFrame + 2));
+            assertEquals(game.score(startFrame + 2) + (10 + 10), game.score(startFrame + 3));
             assertEquals(game.score(startFrame + 3) + 10, game.score());
         }
 
@@ -585,7 +585,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (10 + 10), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
 
             game.roll(10);
@@ -594,8 +594,8 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 3, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
-            assertEquals(game.score(startFrame + 1) + 20, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame) + (10 + 10 + 10), game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + (10 + 10), game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + 10, game.score());
 
             game.roll(n);
@@ -604,9 +604,9 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 4, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
-            assertEquals(game.score(startFrame + 1) + 20 + n, game.score(startFrame + 2));
-            assertEquals(game.score(startFrame + 2) + 10 + n, game.score(startFrame + 3));
+            assertEquals(game.score(startFrame) + (10 + 10 + 10), game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + (10 + 10 + n), game.score(startFrame + 2));
+            assertEquals(game.score(startFrame + 2) + (10 + n), game.score(startFrame + 3));
             assertEquals(game.score(startFrame + 3) + n, game.score());
         }
 
@@ -643,7 +643,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (10 + p), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p, game.score());
 
             game.roll(q);
@@ -652,7 +652,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(1, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (10 + p), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p + q, game.score());
         }
     }
@@ -696,7 +696,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
+            assertEquals(game.score(startFrame) + (10 + p), game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p, game.score());
 
             game.roll(q);
@@ -705,8 +705,8 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(1, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
-            assertEquals(game.score(startFrame + 1) + p + q, game.score());
+            assertEquals(game.score(startFrame) + (10 + p), game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + (p + q), game.score());
 
             game.roll(r);
             assertFalse(game.isLastRollStrike());
@@ -714,8 +714,8 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(startFrame + 3, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
-            assertEquals(game.score(startFrame + 1) + p + q + r, game.score(startFrame + 2));
+            assertEquals(game.score(startFrame) + (10 + p), game.score(startFrame + 1));
+            assertEquals(game.score(startFrame + 1) + (p + q + r), game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + r, game.score());
         }
     }
@@ -779,7 +779,7 @@ public abstract class BowlingGameTest {
                 assertFalse(game.isLastFrameSpare());
                 assertEquals(i + 1, game.currentFrame());
                 assertEquals(0, game.currentRollInFrame());
-                assertEquals(max(0, i - 1) * 30 + ((0 < i) ? 20 : 0) + 10, game.score());
+                assertEquals(max(0, i - 1) * (10 + 10 + 10) + ((0 < i) ? (10 + 10) : 0) + 10, game.score());
             }
 
             game.roll(0);
@@ -788,7 +788,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(10, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(7 * 30 + 20 + 10, game.score());
+            assertEquals(7 * (10 + 10 + 10) + (10 + 10) + 10, game.score());
 
             game.roll(0);
             assertFalse(game.isLastRollStrike());
@@ -796,7 +796,7 @@ public abstract class BowlingGameTest {
             assertTrue(game.isOver());
             assertEquals(10, game.currentFrame());
             assertEquals(1, game.currentRollInFrame());
-            assertEquals(7 * 30 + 20 + 10, game.score());
+            assertEquals(7 * (10 + 10 + 10) + (10 + 10) + 10, game.score());
 
             assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
@@ -817,7 +817,7 @@ public abstract class BowlingGameTest {
                 assertFalse(game.isLastFrameSpare());
                 assertEquals(i + 1, game.currentFrame());
                 assertEquals(0, game.currentRollInFrame());
-                assertEquals(max(0, i - 1) * 30 + ((0 < i) ? 20 : 0) + 10, game.score());
+                assertEquals(max(0, i - 1) * (10 + 10 + 10) + ((0 < i) ? (10 + 10) : 0) + 10, game.score());
             }
 
             game.roll(m);
@@ -826,7 +826,7 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(10, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(7 * 30 + (20 + m) + (10 + m) + m, game.score());
+            assertEquals(7 * (10 + 10 + 10) + (10 + 10 + m) + (10 + m) + m, game.score());
 
             game.roll(n);
             assertEquals(m == 10 && n == 10, game.isLastRollStrike());
@@ -835,7 +835,7 @@ public abstract class BowlingGameTest {
             assertEquals(10, game.currentFrame());
             assertEquals(1, game.currentRollInFrame());
 
-            assertEquals(7 * 30 + (20 + m) + (10 + m + n), game.score(9));
+            assertEquals(7 * (10 + 10 + 10) + (10 + 10 + m) + (10 + m + n), game.score(9));
             assertEquals(game.score(9) + m + n, game.score());
 
             game.roll(p);
@@ -844,8 +844,8 @@ public abstract class BowlingGameTest {
             assertTrue(game.isOver());
             assertEquals(10, game.currentFrame());
             assertEquals(2, game.currentRollInFrame());
-            assertEquals(7 * 30 + (20 + m) + (10 + m + n), game.score(9));
-            assertEquals(game.score(9) + m + n + p, game.score());
+            assertEquals(7 * (10 + 10 + 10) + (10 + 10 + m) + (10 + m + n), game.score(9));
+            assertEquals(game.score(9) + (m + n + p), game.score());
 
             assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
