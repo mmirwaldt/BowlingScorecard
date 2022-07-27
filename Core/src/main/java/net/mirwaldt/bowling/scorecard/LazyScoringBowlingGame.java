@@ -44,10 +44,10 @@ public class LazyScoringBowlingGame implements BowlingGame {
         checkTooManyPins(pins);
         checkGameOver();
 
-        handleRoll(pins);
+        scoreRoll(pins);
     }
 
-    private void handleRoll(int pins) {
+    private void scoreRoll(int pins) {
         setPins(pins);
         if (isStrike(pins) && isFirstRoll() && isBeforeLastFrame(nextFrame())) {
             turnToNextFrame();
@@ -115,7 +115,9 @@ public class LazyScoringBowlingGame implements BowlingGame {
 
     @Override
     public int currentRollInFrame() {
-        return (frame(rolls) < LAST_FRAME) ? (max(0, rolls - 1)) % 2 : (rolls - 1) - 18;
+        return (frame(rolls) < LAST_FRAME)
+                ? (max(0, (0 < currentFrame() && isLastRollStrike()) ? 0 : rolls - 1)) % 2
+                : (rolls - 1) - 18;
     }
 
     @Override
@@ -148,7 +150,7 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     private void checkGameOver() {
-        if(isOver()) {
+        if (isOver()) {
             throw new IllegalStateException("Game is over!");
         }
     }

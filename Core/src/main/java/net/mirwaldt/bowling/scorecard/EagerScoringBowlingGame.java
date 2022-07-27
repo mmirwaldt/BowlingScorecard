@@ -11,6 +11,9 @@ public class EagerScoringBowlingGame implements BowlingGame {
 
     private boolean isNextFrame = true;
 
+
+    private boolean isNextRoll = false;
+
     private boolean isStrike = false;
 
     private boolean isSpare = false;
@@ -32,6 +35,11 @@ public class EagerScoringBowlingGame implements BowlingGame {
             turnToNextFrame();
             turnToFirstRoll();
             isNextFrame = false;
+        }
+
+        if(isNextRoll) {
+            turnToSecondRoll();
+            isNextRoll = false;
         }
 
         checkRange(pins);
@@ -101,10 +109,10 @@ public class EagerScoringBowlingGame implements BowlingGame {
         isStrike = isStrike(pins);
         isSpare = false;
         if (isStrike && isFrameBeforeLastFrame()) {
-            turnToNextFrame();
+            isNextFrame = true;
         } else {
             wasStrikeTwoFramesAgo = false;
-            rollOffset++;
+            isNextRoll = true;
         }
     }
 
@@ -170,6 +178,10 @@ public class EagerScoringBowlingGame implements BowlingGame {
 
     private void turnToFirstRoll() {
         rollOffset = 0;
+    }
+
+    private void turnToSecondRoll() {
+        rollOffset = 1;
     }
 
     private boolean isFrameAfterFirstFrame() {
