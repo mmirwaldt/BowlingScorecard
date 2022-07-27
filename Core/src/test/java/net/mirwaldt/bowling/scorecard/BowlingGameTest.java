@@ -194,9 +194,10 @@ public abstract class BowlingGameTest {
             game.roll(m);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
-            assertEquals(game.score(startFrame) + m, game.score());
-
             assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
+            assertEquals(game.score(startFrame) + m, game.score());
 
             assertThrows(IllegalArgumentException.class, () -> game.roll(n));
         }
