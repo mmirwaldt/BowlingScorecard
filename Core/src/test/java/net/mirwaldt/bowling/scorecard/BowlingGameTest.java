@@ -34,13 +34,12 @@ public abstract class BowlingGameTest {
             assertEquals(rollInFrame, game.currentRollInFrame());
 
             game.roll(n);
-            assertEquals(startFrame + 1, game.currentFrame());
-            assertEquals(0, game.currentRollInFrame());
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
-            assertEquals(game.score(startFrame) + n, game.score());
-
             assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
+            assertEquals(game.score(startFrame) + n, game.score());
         }
 
         @DisplayName("when 10 pins are hit, then it is a strike and the score is 10 more")
@@ -51,13 +50,12 @@ public abstract class BowlingGameTest {
             assertEquals(rollInFrame, game.currentRollInFrame());
 
             game.roll(10);
-            assertEquals(startFrame + 1, game.currentFrame());
-            assertEquals(0, game.currentRollInFrame());
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
-            assertEquals(game.score(startFrame) + 10, game.score());
-
             assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
+            assertEquals(game.score(startFrame) + 10, game.score());
         }
 
         @DisplayName("when a invalid number of pins are hit, then throw an IllegalArgumentException")
@@ -86,22 +84,20 @@ public abstract class BowlingGameTest {
             assertEquals(rollInFrame, game.currentRollInFrame());
 
             game.roll(m);
+            assertFalse(game.isLastRollStrike());
+            assertFalse(game.isLastFrameSpare());
             assertFalse(game.isOver());
             assertEquals(startFrame + 1, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertFalse(game.isLastRollStrike());
-            assertFalse(game.isLastFrameSpare());
             assertEquals(game.score(startFrame) + m, game.score());
 
             game.roll(n);
+            assertFalse(game.isLastRollStrike());
+            assertFalse(game.isLastFrameSpare());
             assertFalse(game.isOver());
             assertEquals(startFrame + 1, game.currentFrame());
             assertEquals(1, game.currentRollInFrame());
-            assertFalse(game.isLastRollStrike());
-            assertFalse(game.isLastFrameSpare());
             assertEquals(game.score(startFrame) + m + n, game.score());
-
-            assertFalse(game.isOver());
         }
 
         @DisplayName("when a spare is rolled by m and n so that m + n = 10, then the score is 10 more")
@@ -130,8 +126,6 @@ public abstract class BowlingGameTest {
             assertEquals(startFrame + 1, game.currentFrame());
             assertEquals(1, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10, game.score());
-
-            assertFalse(game.isOver());
         }
 
         @DisplayName("when 10 pins are hit first and n second, " +
@@ -160,8 +154,6 @@ public abstract class BowlingGameTest {
             assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10 + n, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + n, game.score());
-
-            assertFalse(game.isOver());
         }
 
         @DisplayName("when two strikes, then score is 30 more")
@@ -187,8 +179,6 @@ public abstract class BowlingGameTest {
             assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
-
-            assertFalse(game.isOver());
         }
 
         @DisplayName("when m pins are hit first and n second so that 10 < m + n," +
@@ -197,6 +187,10 @@ public abstract class BowlingGameTest {
                 "then throw an IllegalArgumentException")
         @CsvSource({"3, 8", "7, 6", "1, 10"})
         void whenMoreThan10PinsAreHit_thenThrowAnIllegalArgumentException(int m, int n) {
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+
             game.roll(m);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
