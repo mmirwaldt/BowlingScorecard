@@ -117,20 +117,14 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
 
     @Override
     public void setScore(int frame, int score) {
-        scoreLabels[frame - 1].setText(String.valueOf(score));
+        getScoreRollLabel(frame).setText(String.valueOf(score));
     }
 
     @Override
     public void reset() {
-        for (Label label : firstRollLabels) {
-            label.setText("");
-        }
-        for (Label label : secondRollLabels) {
-            label.setText("");
-        }
-        for (Label label : scoreLabels) {
-            label.setText("");
-        }
+        clearLabels(firstRollLabels);
+        clearLabels(secondRollLabels);
+        clearLabels(scoreLabels);
         bonusLabel.setText("");
     }
 
@@ -205,6 +199,7 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
         horizontalLayout.add(frameLayout);
 
         int index = frame - 1;
+
         Label rollLabel = createRollLabel(frame);
         frameLayout.add(rollLabel);
 
@@ -280,6 +275,16 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
 
     private Label getSecondRollLabel(int frame) {
         return secondRollLabels[frame - 1];
+    }
+
+    private Label getScoreRollLabel(int frame) {
+        return scoreLabels[frame - 1];
+    }
+
+    private void clearLabels(Label[] scoreLabels) {
+        for (Label label : scoreLabels) {
+            label.setText("");
+        }
     }
 
     private boolean isFirstRoll(int rollInFrame) {
