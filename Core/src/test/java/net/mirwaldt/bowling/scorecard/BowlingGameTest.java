@@ -8,6 +8,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class BowlingGameTest {
@@ -341,7 +343,7 @@ public abstract class BowlingGameTest {
             assertEquals(startFrame + 2, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10 + m, game.score(startFrame + 1));
-            assertEquals(game.score(startFrame + 1) +  m, game.score());
+            assertEquals(game.score(startFrame + 1) + m, game.score());
 
             game.roll(n);
             assertFalse(game.isLastRollStrike());
@@ -725,18 +727,25 @@ public abstract class BowlingGameTest {
         @Test
         void whenAlwaysNoPins_thenScoreIs0() {
             for (int i = 0; i < 10; i++) {
-                game.roll(0);
-                assertFalse(game.isLastRollStrike());
-                assertFalse(game.isLastFrameSpare());
+                assertFalse(game.isOver());
 
                 game.roll(0);
                 assertFalse(game.isLastRollStrike());
                 assertFalse(game.isLastFrameSpare());
+                assertFalse(game.isOver());
+                assertEquals(i + 1, game.currentFrame());
+                assertEquals(0, game.currentRollInFrame());
+
+                game.roll(0);
+                assertFalse(game.isLastRollStrike());
+                assertFalse(game.isLastFrameSpare());
+                assertEquals(i + 1, game.currentFrame());
+                assertEquals(1, game.currentRollInFrame());
             }
             assertEquals(0, game.score());
 
             assertTrue(game.isOver());
-            
+
             assertThrows(IllegalStateException.class, () -> game.roll(1));
         }
 
@@ -744,9 +753,13 @@ public abstract class BowlingGameTest {
         @Test
         void whenAlwaysStrike_thenScoreIs300() {
             for (int i = 0; i < 12; i++) {
+                assertFalse(game.isOver());
+
                 game.roll(10);
                 assertTrue(game.isLastRollStrike());
                 assertFalse(game.isLastFrameSpare());
+                assertEquals(min(i + 1, 10), game.currentFrame());
+                assertEquals((i + 1 < 10) ? 0 : (i + 1 - 10), game.currentRollInFrame());
             }
             assertEquals(300, game.score());
 
