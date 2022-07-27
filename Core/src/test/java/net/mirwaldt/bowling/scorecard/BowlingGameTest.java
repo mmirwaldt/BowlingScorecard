@@ -79,7 +79,7 @@ public abstract class BowlingGameTest {
                 "then the score is {0} + {1} more")
         @CsvSource({"0, 0", "1, 0", "0, 1", "1, 1"})
         void whenNoStrikeAndNoSpare_thenScoreIsNplusMmore(int m, int n) {
-            assertNotEquals(10, m + n);
+            assertNotEquals(10, m + n, "m + n must not be 10 to be no spare but sum is " + (m + n));
 
             assertFalse(game.isOver());
             assertEquals(startFrame, game.currentFrame());
@@ -107,7 +107,7 @@ public abstract class BowlingGameTest {
                 "then the score is 10 more")
         @CsvSource({"1, 9", "8, 2", "5, 5", "0, 10"})
         void whenSpare_thenScoreIs10more(int m, int n) {
-            assertEquals(10, m + n);
+            assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
 
             assertFalse(game.isOver());
             assertEquals(startFrame, game.currentFrame());
@@ -217,7 +217,7 @@ public abstract class BowlingGameTest {
                 "then the score is {0} + {1} + {2} more")
         @CsvSource({"0, 0, 0", "0, 1, 2", "4, 0, 7", "0, 0, 8", "3, 6, 0", "5, 3, 9"})
         void whenNoStrikeAndNoSpare_thenScoreIsMplusNplusPmore(int m, int n, int p) {
-            assertNotEquals(10, m + n);
+            assertNotEquals(10, m + n, "m + n must not be 10 to be no spare but sum is " + (m + n));
 
             assertFalse(game.isOver());
             assertEquals(startFrame, game.currentFrame());
@@ -359,7 +359,7 @@ public abstract class BowlingGameTest {
         @ParameterizedTest(name = "when one strikes and one spare, then the score is 10 + {0} + {1} more")
         @CsvSource({"0, 10", "3, 7", "9, 1", "5, 5"})
         void whenOneStrikeFirstAndOneSpareSecondByMandN_thenScoreIs10plusMplusNmore(int m, int n) {
-            assertEquals(10, m + n);
+            assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
 
             assertFalse(game.isOver());
             assertEquals(startFrame, game.currentFrame());
@@ -396,7 +396,7 @@ public abstract class BowlingGameTest {
         @ParameterizedTest(name = "when one spare , then the score is {0} + {1} + 2 * {2} more")
         @CsvSource({"0, 10, 0", "0, 10, 1", "5, 5, 0", "8, 2, 1", "1, 9, 3"})
         void whenOneSpare_thenScoreIsMplusNplus2TimesPmore(int m, int n, int p) {
-            assertEquals(10, m + n);
+            assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
 
             assertFalse(game.isOver());
             assertEquals(startFrame, game.currentFrame());
@@ -432,7 +432,7 @@ public abstract class BowlingGameTest {
         @ParameterizedTest(name = "when one spare and one strike, then the score is 30 more")
         @CsvSource({"0, 10", "4, 6", "7, 3"})
         void whenOneSpareAndOneStrike_thenScoreIs30more(int m, int n) {
-            assertEquals(10, m + n);
+            assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
 
             assertFalse(game.isOver());
             assertEquals(startFrame, game.currentFrame());
@@ -475,8 +475,8 @@ public abstract class BowlingGameTest {
         @ParameterizedTest(name = "when no strikes and no spares, then the score is {0} + {1} + {2} + {3} more")
         @CsvSource({"0, 0, 0, 0", "0, 1, 2, 3", "0, 0, 5, 1", "3, 4, 0, 0", "7, 1, 2, 0", "8, 1, 5, 3"})
         void whenNoStrikeAndNoSpare_thenScoreIsMplusNplusPplusQmore(int m, int n, int p, int q) {
-            assertNotEquals(10, m + n);
-            assertNotEquals(10, p + q);
+            assertNotEquals(10, m + n, "m + n must not be 10 to be no spare but sum is " + (m + n));
+            assertNotEquals(10, p + q, "p + q must not be 10 to be no spare but sum is " + (p + q));
 
             assertFalse(game.isOver());
             assertEquals(startFrame, game.currentFrame());
@@ -614,8 +614,8 @@ public abstract class BowlingGameTest {
         @ParameterizedTest(name = "when two spares, then the score is {0} + {1} + 2 * {2} + {3}")
         @CsvSource({"0, 10, 0, 10", "0, 10, 1, 9", "3, 7, 0, 10", "8, 2, 5, 5"})
         void whenTwoSpares_thenScoreIsMplusNplusTwoTimesPplusQmore(int m, int n, int p, int q) {
-            assertEquals(10, m + n);
-            assertEquals(10, p + q);
+            assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
+            assertEquals(10, p + q, "p + q must be 10 to be a spare but sum is " + (p + q));
 
             assertFalse(game.isOver());
             assertEquals(startFrame, game.currentFrame());
@@ -667,8 +667,8 @@ public abstract class BowlingGameTest {
         @ParameterizedTest(name = "when two spares, then the score is {0} + {1} + 2 * {2} + {3} + 2 * {4}")
         @CsvSource({"0, 10, 0, 10, 0", "0, 10, 0, 10, 9", "3, 7, 8, 2, 1", "5, 5, 0, 10, 5"})
         void whenTwoSpares_thenScoreIsMplusNplus2PplusQplus2Rmore(int m, int n, int p, int q, int r) {
-            assertEquals(10, m + n);
-            assertEquals(10, p + q);
+            assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
+            assertEquals(10, p + q, "p + q must be 10 to be a spare but sum is " + (p + q));
 
             assertFalse(game.isOver());
             assertEquals(startFrame, game.currentFrame());
@@ -807,7 +807,7 @@ public abstract class BowlingGameTest {
                 + "m = {0}, n = {1}, p = {2}, then give bonus")
         @CsvSource({"10, 10, 0", "0, 10, 0", "2, 8, 0", "10, 10, 3", "0, 10, 2", "2, 8, 1"})
         void when9StrikesAndEitherAtLeastOneStrikeOrOneSpareInLastFrame_thenGiveBonus(int m, int n, int p) {
-            assertTrue(10 <= m + n);
+            assertTrue(10 <= m + n, "m + n must be at least 10 for a bonus but sum is " + (m + n));
 
             for (int i = 0; i < 9; i++) {
                 assertFalse(game.isOver());
