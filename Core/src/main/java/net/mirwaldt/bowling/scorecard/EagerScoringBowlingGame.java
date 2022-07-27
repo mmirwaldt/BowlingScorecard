@@ -105,6 +105,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
         } else if(isSecondRoll()) {
             scoreSecondRoll(pins);
         } else {
+            isStrike = isStrike(pins);
             isSpare = false;
             setGameOver();
         }
