@@ -23,10 +23,8 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
     private final Label[] secondRollLabels = new Label[10];
     private final Label[] scoreLabels = new Label[10];
     private Label bonusLabel;
-    private final Button rollButton;
-
     private final TextField rollTextField = new TextField();
-
+    private final Button rollButton;
     private final BowlingGameController bowlingGameController;
 
     public MainView() {
@@ -72,8 +70,8 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
         horizontalLayout.setSpacing(false);
         add(horizontalLayout);
 
-        for (int i = 1; i <= 9; i++) {
-            createFrameBox(horizontalLayout, i);
+        for (int frame = 1; frame <= 9; frame++) {
+            createFrameBox(horizontalLayout, frame);
         }
 
         createLastFrameBox(horizontalLayout);
@@ -84,10 +82,10 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
     @Override
     public void setRoll(int frame, int rollInFrame, int pins) {
         String pinsAsString = String.valueOf(pins);
-        if(rollInFrame == 1) {
-            firstRollLabels[frame - 1].setText(pinsAsString);
-        } else if(rollInFrame == 2) {
-            secondRollLabels[frame - 1].setText(pinsAsString);
+        if(isFirstRoll(rollInFrame)) {
+            getFirstRollLabel(frame).setText(pinsAsString);
+        } else if(isSecondRoll(rollInFrame)) {
+            getSecondRollLabel(frame).setText(pinsAsString);
         } else {
             if(pins == NO_BONUS_PINS){
                 bonusLabel.setText("-");
@@ -100,12 +98,12 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
     @Override
     public void setStrikeRoll(int frame, int rollInFrame) {
         if(frame < 10) {
-            secondRollLabels[frame - 1].setText(STRIKE_CHAR);
+            getSecondRollLabel(frame).setText(STRIKE_CHAR);
         } else {
-            if(rollInFrame == 1) {
-                firstRollLabels[frame - 1].setText(STRIKE_CHAR);
-            } else if(rollInFrame == 2) {
-                secondRollLabels[frame - 1].setText(STRIKE_CHAR);
+            if(isFirstRoll(rollInFrame)) {
+                getFirstRollLabel(frame).setText(STRIKE_CHAR);
+            } else if(isSecondRoll(rollInFrame)) {
+                getSecondRollLabel(frame).setText(STRIKE_CHAR);
             } else {
                 bonusLabel.setText(STRIKE_CHAR);
             }
@@ -114,7 +112,7 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
 
     @Override
     public void setSpareRoll(int frame) {
-        secondRollLabels[frame - 1].setText(SPARE_CHAR);
+        getSecondRollLabel(frame).setText(SPARE_CHAR);
     }
 
     @Override
@@ -156,7 +154,9 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
         frameLayout.setPadding(false);
         horizontalLayout.add(frameLayout);
 
-        Label rollLabel = createRollLabel(10);
+        final int lastFrame = 10;
+        final int indexOfLastFrame = lastFrame - 1;
+        Label rollLabel = createRollLabel(lastFrame);
         frameLayout.add(rollLabel);
 
         HorizontalLayout rollHorizontalLayout = new HorizontalLayout();
@@ -169,14 +169,14 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
         firstRollLabel.getStyle().set("text-align", "center");
         firstRollLabel.getStyle().set("border-right", "1px solid black");
         rollHorizontalLayout.add(firstRollLabel);
-        firstRollLabels[10 - 1] = firstRollLabel;
+        firstRollLabels[indexOfLastFrame] = firstRollLabel;
 
         Label secondRollLabel = new Label("");
         secondRollLabel.setWidth("35px");
         secondRollLabel.setHeight("26px");
         secondRollLabel.getStyle().set("border-right", "1px solid black");
         rollHorizontalLayout.add(secondRollLabel);
-        secondRollLabels[10 - 1] = secondRollLabel;
+        secondRollLabels[indexOfLastFrame] = secondRollLabel;
 
         Label bonusRollLabel = new Label("");
         bonusRollLabel.setWidth("35px");
@@ -194,21 +194,22 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
         scoreLabel.getStyle().set("line-height", "50px");
         scoreLabel.getStyle().set("font-size", "24px");
         frameLayout.add(scoreLabel);
-        scoreLabels[10 - 1] = scoreLabel;
+        scoreLabels[indexOfLastFrame] = scoreLabel;
     }
 
-    private void createFrameBox(HorizontalLayout horizontalLayout, int i) {
+    private void createFrameBox(HorizontalLayout horizontalLayout, int frame) {
         VerticalLayout frameLayout = new VerticalLayout();
         frameLayout.setSpacing(false);
         frameLayout.setMargin(false);
         frameLayout.setPadding(false);
         horizontalLayout.add(frameLayout);
 
-        Label rollLabel = createRollLabel(i);
+        int index = frame - 1;
+        Label rollLabel = createRollLabel(frame);
         frameLayout.add(rollLabel);
 
         HorizontalLayout rollHorizontalLayout = new HorizontalLayout();
-        if (i == 1) {
+        if (isFirstFrame(frame)) {
             rollHorizontalLayout.setWidth("102px");
         } else {
             rollHorizontalLayout.setWidth("101px");
@@ -216,7 +217,7 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
         frameLayout.add(rollHorizontalLayout);
 
         Label noRoll2 = new Label("");
-        if (i == 1) {
+        if (isFirstFrame(frame)) {
             noRoll2.getStyle().set("border-left", "1px solid black");
         }
         noRoll2.setWidth("30px");
@@ -227,12 +228,12 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
         firstRollLabel.setWidth("40px");
         firstRollLabel.setHeight("26px");
         firstRollLabel.getStyle().set("text-align", "center");
-        if (i == 1) {
+        if (isFirstFrame(frame)) {
             rollLabel.getStyle().set("border-left", "1px solid black");
         }
         firstRollLabel.getStyle().set("border-right", "1px solid black");
         rollHorizontalLayout.add(firstRollLabel);
-        firstRollLabels[i - 1] = firstRollLabel;
+        firstRollLabels[index] = firstRollLabel;
 
         Label secondRollLabel = new Label("");
         secondRollLabel.setWidth("30px");
@@ -240,36 +241,56 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
         secondRollLabel.getStyle().set("text-align", "left");
         secondRollLabel.getStyle().set("border-right", "1px solid black");
         rollHorizontalLayout.add(secondRollLabel);
-        secondRollLabels[i - 1] = secondRollLabel;
+        secondRollLabels[index] = secondRollLabel;
 
-        Label scoreLabel = createScoreLabel(i);
+        Label scoreLabel = createScoreLabel(frame);
         frameLayout.add(scoreLabel);
-        scoreLabels[i - 1] = scoreLabel;
+        scoreLabels[index] = scoreLabel;
     }
 
-    private Label createRollLabel(int i) {
-        Label rollLabel = new Label("" + i);
+    private Label createRollLabel(int frame) {
+        Label rollLabel = new Label("" + frame);
         rollLabel.setWidth("100px");
         rollLabel.getStyle().set("text-align", "center");
         rollLabel.getStyle().set("border", "1px solid black");
-        if (1 < i) {
+        if (1 < frame) {
             rollLabel.getStyle().set("border-left", "none");
         }
         rollLabel.getStyle().set("background-color", "lightgray");
         return rollLabel;
     }
 
-    private Label createScoreLabel(int i) {
+    private Label createScoreLabel(int frame) {
         Label scoreLabel = new Label("");
         scoreLabel.setWidth("100px");
         scoreLabel.setHeight("50px");
         scoreLabel.getStyle().set("text-align", "center");
         scoreLabel.getStyle().set("border", "1px solid black");
-        if (1 < i) {
+        if (1 < frame) {
             scoreLabel.getStyle().set("border-left", "none");
         }
         scoreLabel.getStyle().set("line-height", "50px");
         scoreLabel.getStyle().set("font-size", "24px");
         return scoreLabel;
+    }
+
+    private Label getFirstRollLabel(int frame) {
+        return firstRollLabels[frame - 1];
+    }
+
+    private Label getSecondRollLabel(int frame) {
+        return secondRollLabels[frame - 1];
+    }
+
+    private boolean isFirstRoll(int rollInFrame) {
+        return rollInFrame == 1;
+    }
+
+    private boolean isSecondRoll(int rollInFrame) {
+        return rollInFrame == 2;
+    }
+
+    private boolean isFirstFrame(int frame) {
+        return frame == 1;
     }
 }
