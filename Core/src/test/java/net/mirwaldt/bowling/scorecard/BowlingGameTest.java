@@ -467,6 +467,7 @@ public abstract class BowlingGameTest {
     @Nested
     class GivenFourRolls {
         protected int startFrame = 0;
+        protected int rollInFrame = 0;
 
         @DisplayName("when no strikes and no spares, then the score is m + n + p + q more")
         @ParameterizedTest(name = "when no strikes and no spares, then the score is {0} + {1} + {2} + {3} more")
@@ -475,48 +476,75 @@ public abstract class BowlingGameTest {
             assertNotEquals(10, m + n);
             assertNotEquals(10, p + q);
 
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+
             game.roll(m);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + m, game.score());
 
             game.roll(n);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(1, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + m + n, game.score());
 
             game.roll(p);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 2, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + m + n, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p, game.score());
 
             game.roll(q);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 2, game.currentFrame());
+            assertEquals(1, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + m + n, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p + q, game.score());
-
-            assertFalse(game.isOver());
         }
 
         @DisplayName("when four strikes, then the score is 90 more")
         @Test
         void whenFourStrikes_thenScoreIs90more() {
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+
             game.roll(10);
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10, game.score());
 
             game.roll(10);
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 2, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
 
             game.roll(10);
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 3, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 20, game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + 10, game.score());
@@ -524,32 +552,46 @@ public abstract class BowlingGameTest {
             game.roll(10);
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 4, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 30, game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + 20, game.score(startFrame + 3));
             assertEquals(game.score(startFrame + 3) + 10, game.score());
-
-            assertFalse(game.isOver());
         }
 
         @DisplayName("when three strikes, then the score 60 + 3 * n")
         @ParameterizedTest(name = "when three strikes, then the score is 60 + 3 * {0}")
         @ValueSource(ints = {0, 1, 5, 9})
         void whenThreeStrikes_thenScoreIs60plusThreeTimesNmore(int n) {
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+
             game.roll(10);
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10, game.score());
 
             game.roll(10);
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 2, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 20, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 10, game.score());
 
             game.roll(10);
             assertTrue(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 3, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 20, game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + 10, game.score());
@@ -557,12 +599,13 @@ public abstract class BowlingGameTest {
             game.roll(n);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 4, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 30, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + 20 + n, game.score(startFrame + 2));
             assertEquals(game.score(startFrame + 2) + 10 + n, game.score(startFrame + 3));
             assertEquals(game.score(startFrame + 3) + n, game.score());
-
-            assertFalse(game.isOver());
         }
 
         @DisplayName("when two spares, then the score is m + n + 2 * p + q")
@@ -572,29 +615,43 @@ public abstract class BowlingGameTest {
             assertEquals(10, m + n);
             assertEquals(10, p + q);
 
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+
             game.roll(m);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + m, game.score());
 
             game.roll(n);
             assertFalse(game.isLastRollStrike());
             assertTrue(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 1, game.currentFrame());
+            assertEquals(1, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10, game.score());
 
             game.roll(p);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 2, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p, game.score());
 
             game.roll(q);
             assertFalse(game.isLastRollStrike());
             assertTrue(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(startFrame + 2, game.currentFrame());
+            assertEquals(1, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10 + p, game.score(startFrame + 1));
             assertEquals(game.score(startFrame + 1) + p + q, game.score());
-
-            assertFalse(game.isOver());
         }
     }
 
@@ -896,6 +953,7 @@ public abstract class BowlingGameTest {
             game.roll(4);
             game.roll(0);
             startFrame = 1;
+            rollInFrame = 1;
         }
     }
 
@@ -909,6 +967,7 @@ public abstract class BowlingGameTest {
             game.roll(0);
             game.roll(0);
             startFrame = 2;
+            rollInFrame = 1;
         }
     }
 
