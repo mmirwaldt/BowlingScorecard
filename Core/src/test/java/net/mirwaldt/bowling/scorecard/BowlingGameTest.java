@@ -846,28 +846,40 @@ public abstract class BowlingGameTest {
         @Test
         void when9StrikesAndOnlyOneSpareInLastFrame_thenGiveBonus() {
             for (int i = 0; i < 9; i++) {
+                assertFalse(game.isOver());
+
                 game.roll(10);
                 assertTrue(game.isLastRollStrike());
                 assertFalse(game.isLastFrameSpare());
+                assertEquals(i + 1, game.currentFrame());
+                assertEquals(0, game.currentRollInFrame());
+                assertEquals(max(0, i - 1) * 30 + ((0 < i) ? 20 : 0) + 10, game.score());
             }
+
             game.roll(0);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(10, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
 
             game.roll(10);
             assertFalse(game.isLastRollStrike());
             assertTrue(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(10, game.currentFrame());
+            assertEquals(1, game.currentRollInFrame());
 
             game.roll(0);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
-            assertEquals(7 * 30 + 20 + 20 + 10, game.score());
-
             assertTrue(game.isOver());
+            assertEquals(10, game.currentFrame());
+            assertEquals(2, game.currentRollInFrame());
+            assertEquals(7 * 30 + 20 + 20 + 10, game.score());
 
             assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
-
 
         @DisplayName("when 9 strikes and one spare, then the score 240 + 3 * m + 2 * n + p")
         @ParameterizedTest(name = "when 9 strikes and one spare, then the score 240 + 3 * {0} + 2 * {1} + {2}")
