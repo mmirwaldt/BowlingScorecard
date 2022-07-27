@@ -932,15 +932,37 @@ public abstract class BowlingGameTest {
         @Test
         void whenNoStrikesAndNoSpares_thenScoreIsSum() {
             for (int i = 0; i < 9; i++) {
+                assertFalse(game.isOver());
+
                 game.roll(0);
+                assertFalse(game.isLastRollStrike());
+                assertFalse(game.isLastFrameSpare());
+                assertEquals(i + 1, game.currentFrame());
+                assertEquals(0, game.currentRollInFrame());
+
                 game.roll(i + 1);
+                assertFalse(game.isLastRollStrike());
+                assertFalse(game.isLastFrameSpare());
+                assertEquals(i + 1, game.currentFrame());
+                assertEquals(1, game.currentRollInFrame());
             }
+
             game.roll(2);
+            assertFalse(game.isLastRollStrike());
+            assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(10, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
+
             game.roll(3);
+            assertFalse(game.isLastRollStrike());
+            assertFalse(game.isLastFrameSpare());
+            assertTrue(game.isOver());
+            assertEquals(10, game.currentFrame());
+            assertEquals(1, game.currentRollInFrame());
+
             int gaussSum = (9 * 10) / 2;
             assertEquals(gaussSum + 2 + 3, game.score());
-
-            assertTrue(game.isOver());
 
             assertThrows(IllegalStateException.class, () -> game.roll(1));
         }
