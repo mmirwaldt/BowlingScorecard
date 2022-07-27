@@ -25,7 +25,7 @@ public class FormBowlingGameController implements BowlingGameController {
         displayScores();
 
         if (bowlingGameModel.isOver()) {
-            if(bowlingGameModel.currentRollInFrame() == 1) {
+            if(isSecondRoll()) {
                 bowlingGameView.setRoll(10, 3, NO_BONUS_PINS);
             }
             bowlingGameView.disableInput();
@@ -43,5 +43,9 @@ public class FormBowlingGameController implements BowlingGameController {
         for (int f = 1; f <= bowlingGameModel.currentFrame(); f++) {
             bowlingGameView.setScore(f, bowlingGameModel.score(f));
         }
+    }
+
+    private boolean isSecondRoll() {
+        return bowlingGameModel.currentRollInFrame() == 2;
     }
 }
