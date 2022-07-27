@@ -801,10 +801,11 @@ public abstract class BowlingGameTest {
             assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
 
+        @SuppressWarnings("DuplicateExpressions")
         @DisplayName("when 9 strikes first and either at least one strike or one spare in last frame, then give bonus")
         @ParameterizedTest(name = "when 9 strikes first and either at least one strike or one spare in last frame, "
                 + "m = {0}, n = {1}, p = {2}, then give bonus")
-        @CsvSource({"10, 10, 0", "10, 10, 0"})
+        @CsvSource({"10, 10, 0", "0, 10, 0", "2, 8, 0", "10, 10, 3", "0, 10, 2", "2, 8, 1"})
         void when9StrikesAndEitherAtLeastOneStrikeOrOneSpareInLastFrame_thenGiveBonus(int m, int n, int p) {
             assertTrue(10 <= m + n);
 
@@ -825,16 +826,17 @@ public abstract class BowlingGameTest {
             assertFalse(game.isOver());
             assertEquals(10, game.currentFrame());
             assertEquals(0, game.currentRollInFrame());
-            assertEquals(8 * 30 + 20 + 10, game.score());
+            assertEquals(7 * 30 + (20 + m) + (10 + m) + m, game.score());
 
             game.roll(n);
-            assertEquals(n == 10, game.isLastRollStrike());
+            assertEquals(m == 10 && n == 10, game.isLastRollStrike());
             assertEquals(0 < n && m + n == 10, game.isLastFrameSpare());
             assertFalse(game.isOver());
             assertEquals(10, game.currentFrame());
             assertEquals(1, game.currentRollInFrame());
-            assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
-            assertEquals(game.score(9) + 10 + m, game.score());
+
+            assertEquals(7 * 30 + (20 + m) + (10 + m + n), game.score(9));
+            assertEquals(game.score(9) + m + n, game.score());
 
             game.roll(p);
             assertEquals(p == 10, game.isLastRollStrike());
@@ -842,97 +844,11 @@ public abstract class BowlingGameTest {
             assertTrue(game.isOver());
             assertEquals(10, game.currentFrame());
             assertEquals(2, game.currentRollInFrame());
-            assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
+            assertEquals(7 * 30 + (20 + m) + (10 + m + n), game.score(9));
             assertEquals(game.score(9) + m + n + p, game.score());
 
             assertThrows(IllegalStateException.class, () -> game.roll(0));
         }
-
-//        @DisplayName("when 9 strikes first and only one spare in last frame, then give bonus")
-//        @Test
-//        void when9StrikesAndOnlyOneSpareInLastFrame_thenGiveBonus() {
-//            for (int i = 0; i < 9; i++) {
-//                assertFalse(game.isOver());
-//
-//                game.roll(10);
-//                assertTrue(game.isLastRollStrike());
-//                assertFalse(game.isLastFrameSpare());
-//                assertEquals(i + 1, game.currentFrame());
-//                assertEquals(0, game.currentRollInFrame());
-//                assertEquals(max(0, i - 1) * 30 + ((0 < i) ? 20 : 0) + 10, game.score());
-//            }
-//
-//            game.roll(0);
-//            assertFalse(game.isLastRollStrike());
-//            assertFalse(game.isLastFrameSpare());
-//            assertFalse(game.isOver());
-//            assertEquals(10, game.currentFrame());
-//            assertEquals(0, game.currentRollInFrame());
-//
-//            game.roll(10);
-//            assertFalse(game.isLastRollStrike());
-//            assertTrue(game.isLastFrameSpare());
-//            assertFalse(game.isOver());
-//            assertEquals(10, game.currentFrame());
-//            assertEquals(1, game.currentRollInFrame());
-//
-//            game.roll(0);
-//            assertFalse(game.isLastRollStrike());
-//            assertFalse(game.isLastFrameSpare());
-//            assertTrue(game.isOver());
-//            assertEquals(10, game.currentFrame());
-//            assertEquals(2, game.currentRollInFrame());
-//            assertEquals(7 * 30 + 20 + 20 + 10, game.score());
-//
-//            assertThrows(IllegalStateException.class, () -> game.roll(0));
-//        }
-//
-//        @DisplayName("when 9 strikes and one spare, then the score 240 + 3 * m + 2 * n + p")
-//        @ParameterizedTest(name = "when 9 strikes and one spare, then the score 240 + 3 * {0} + 2 * {1} + {2}")
-//        @CsvSource({"2, 8, 0", "5, 5, 3"})
-//        void when9StrikesAndOneSpare_thenScoreIs240plus3timesMplus2timesNplusP(int m, int n, int p) {
-//            assertEquals(10, m + n);
-//
-//            for (int i = 0; i < 9; i++) {
-//                assertFalse(game.isOver());
-//
-//                game.roll(10);
-//                assertTrue(game.isLastRollStrike());
-//                assertFalse(game.isLastFrameSpare());
-//                assertEquals(i + 1, game.currentFrame());
-//                assertEquals(0, game.currentRollInFrame());
-//                assertEquals(max(0, i - 1) * 30 + ((0 < i) ? 20 : 0) + 10, game.score());
-//            }
-//
-//            game.roll(m);
-//            assertFalse(game.isLastRollStrike());
-//            assertFalse(game.isLastFrameSpare());
-//            assertFalse(game.isOver());
-//            assertEquals(10, game.currentFrame());
-//            assertEquals(0, game.currentRollInFrame());
-//            assertEquals(7 * 30 + 20 + 10 + 2 * m, game.score(9));
-//            assertEquals(game.score(9) + m, game.score());
-//
-//            game.roll(n);
-//            assertFalse(game.isLastRollStrike());
-//            assertTrue(game.isLastFrameSpare());
-//            assertFalse(game.isOver());
-//            assertEquals(10, game.currentFrame());
-//            assertEquals(1, game.currentRollInFrame());
-//            assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
-//            assertEquals(game.score(9) + 10, game.score());
-//
-//            game.roll(p);
-//            assertFalse(game.isLastRollStrike());
-//            assertFalse(game.isLastFrameSpare());
-//            assertTrue(game.isOver());
-//            assertEquals(10, game.currentFrame());
-//            assertEquals(2, game.currentRollInFrame());
-//            assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
-//            assertEquals(game.score(9) + 10 + p, game.score());
-//
-//            assertThrows(IllegalStateException.class, () -> game.roll(1));
-//        }
 
         @DisplayName("when no strikes and no spares, then score is sum")
         @Test
