@@ -85,7 +85,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
 
     @Override
     public int currentRollInFrame() {
-        return rollOffset;
+        return (frame == 0) ? 0 : rollOffset + 1;
     }
 
     private void scorePreviousStrikesAndSpare(int pins) {

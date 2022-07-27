@@ -82,11 +82,11 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
     }
 
     @Override
-    public void setRoll(int frame, int rollOffset, int pins) {
+    public void setRoll(int frame, int rollInFrame, int pins) {
         String pinsAsString = String.valueOf(pins);
-        if(rollOffset == 0) {
+        if(rollInFrame == 1) {
             firstRollLabels[frame - 1].setText(pinsAsString);
-        } else if(rollOffset == 1) {
+        } else if(rollInFrame == 2) {
             secondRollLabels[frame - 1].setText(pinsAsString);
         } else {
             if(pins == NO_BONUS_PINS){
@@ -98,13 +98,13 @@ public class MainView extends VerticalLayout implements RouterLayout, BowlingGam
     }
 
     @Override
-    public void setStrikeRoll(int frame, int rollOffset) {
+    public void setStrikeRoll(int frame, int rollInFrame) {
         if(frame < 10) {
             secondRollLabels[frame - 1].setText(STRIKE_CHAR);
         } else {
-            if(rollOffset == 0) {
+            if(rollInFrame == 1) {
                 firstRollLabels[frame - 1].setText(STRIKE_CHAR);
-            } else if(rollOffset == 1) {
+            } else if(rollInFrame == 2) {
                 secondRollLabels[frame - 1].setText(STRIKE_CHAR);
             } else {
                 bonusLabel.setText(STRIKE_CHAR);

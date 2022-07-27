@@ -1,9 +1,9 @@
 package net.mirwaldt.bowling.scorecard.webapp.mvc;
 
 public interface BowlingGameView {
-    void setRoll(int frame, int rollOffset, int pins);
+    void setRoll(int frame, int rollInFrame, int pins);
 
-    void setStrikeRoll(int frame, int rollOffset);
+    void setStrikeRoll(int frame, int rollInFrame);
 
     void setSpareRoll(int frame);
 

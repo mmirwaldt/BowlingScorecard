@@ -26,7 +26,7 @@ public class FormBowlingGameController implements BowlingGameController {
 
         if (bowlingGameModel.isOver()) {
             if(bowlingGameModel.currentRollInFrame() == 1) {
-                bowlingGameView.setRoll(10, 2, NO_BONUS_PINS);
+                bowlingGameView.setRoll(10, 3, NO_BONUS_PINS);
             }
             bowlingGameView.disableInput();
         }

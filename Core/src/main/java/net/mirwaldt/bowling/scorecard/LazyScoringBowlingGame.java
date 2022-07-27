@@ -115,9 +115,14 @@ public class LazyScoringBowlingGame implements BowlingGame {
 
     @Override
     public int currentRollInFrame() {
-        return (frame(rolls) < LAST_FRAME)
-                ? (max(0, (0 < currentFrame() && isLastRollStrike()) ? 0 : rolls - 1)) % 2
-                : (rolls - 1) - 18;
+        if (rolls == 0) {
+            return 0;
+        } else {
+            return ((frame(rolls) < LAST_FRAME)
+                    ? (max(0, (0 < currentFrame() && isLastRollStrike()) ? 0 : rolls - 1)) % 2
+                    : (rolls - 1) - 18)
+                    + 1;
+        }
     }
 
     @Override
