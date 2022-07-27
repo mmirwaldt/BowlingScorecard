@@ -886,32 +886,44 @@ public abstract class BowlingGameTest {
         @CsvSource({"2, 8, 0", "5, 5, 3"})
         void when9StrikesAndOneSpare_thenScoreIs240plus3timesMplus2timesNplusP(int m, int n, int p) {
             assertEquals(10, m + n);
+
             for (int i = 0; i < 9; i++) {
+                assertFalse(game.isOver());
+
                 game.roll(10);
                 assertTrue(game.isLastRollStrike());
                 assertFalse(game.isLastFrameSpare());
+                assertEquals(i + 1, game.currentFrame());
+                assertEquals(0, game.currentRollInFrame());
+                assertEquals(max(0, i - 1) * 30 + ((0 < i) ? 20 : 0) + 10, game.score());
             }
-            assertEquals(7 * 30 + 20 + 10, game.score(9));
 
             game.roll(m);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(10, game.currentFrame());
+            assertEquals(0, game.currentRollInFrame());
             assertEquals(7 * 30 + 20 + 10 + 2 * m, game.score(9));
             assertEquals(game.score(9) + m, game.score());
 
             game.roll(n);
             assertFalse(game.isLastRollStrike());
             assertTrue(game.isLastFrameSpare());
+            assertFalse(game.isOver());
+            assertEquals(10, game.currentFrame());
+            assertEquals(1, game.currentRollInFrame());
             assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
             assertEquals(game.score(9) + 10, game.score());
 
             game.roll(p);
             assertFalse(game.isLastRollStrike());
             assertFalse(game.isLastFrameSpare());
+            assertTrue(game.isOver());
+            assertEquals(10, game.currentFrame());
+            assertEquals(2, game.currentRollInFrame());
             assertEquals(7 * 30 + 20 + 10 + 2 * m + n, game.score(9));
             assertEquals(game.score(9) + 10 + p, game.score());
-
-            assertTrue(game.isOver());
 
             assertThrows(IllegalStateException.class, () -> game.roll(1));
         }
