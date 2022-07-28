@@ -1,8 +1,5 @@
 package net.mirwaldt.bowling.scorecard;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-
 /**
  * rolls | frame | index
  * 0 |     0 |     0
@@ -21,69 +18,18 @@ import static java.lang.Math.min;
  */
 
 public class LazyScoringBowlingGame implements BowlingGame {
-    private static final int MAX_ROLLS_WITHOUT_BONUS = 20;
-    private static final int MAX_ROLLS_WITH_BONUS = MAX_ROLLS_WITHOUT_BONUS + 1;
-
-    private static final int MIN_PINS = 0;
-
-    private static final int MAX_PINS = 10;
-
-    public static final int STRIKE_PINS = 10;
-
-    private final static int LAST_FRAME = 10;
-    public static final int BONUS_INDEX = 20;
-    public static final int BONUS_ROLL = 20;
-
-    private final int[] rolled = new int[MAX_ROLLS_WITH_BONUS];
-
-    private int rolls;
+    private final BowlingGameRollRecorder recorder = new ArrayBowlingGameRecorder();
 
     @Override
     public void roll(int pins) {
-        checkRange(pins);
-        checkTooManyPins(pins);
         checkGameOver();
 
-        scoreRoll(pins);
-    }
-
-    private void scoreRoll(int pins) {
-        setPins(pins);
-        if (isStrike(pins) && isFirstRoll() && isBeforeLastFrame(nextFrame())) {
-            turnToNextFrame();
-        } else {
-            turnToNextRoll();
-        }
-    }
-
-    private boolean isFirstRoll() {
-        return isFirstRoll(rolls);
-    }
-
-    private int nextFrame() {
-        return currentFrame() + 1;
-    }
-
-    private void turnToNextRoll() {
-        rolls++;
-    }
-
-    private void turnToNextFrame() {
-        rolls += 2;
-    }
-
-    private void setPins(int pins) {
-        rolled[rolls] = pins;
+        recorder.roll(pins);
     }
 
     @Override
     public boolean isLastRollStrike() {
-        return !isLastFrame(currentFrame()) && isStrikeFrame(currentFrame()) ||
-                isLastFrame(currentFrame()) && !isLastFrameSpare() && isStrike(pinsOfLastRoll());
-    }
-
-    private int pinsOfLastRoll() {
-        return rolled[rolls - 1];
+        return !isLastFrame() && isStrikeFrame() || isLastFrame() && !isLastFrameSpare() && isStrikeInLastFrame();
     }
 
     @Override
@@ -100,39 +46,32 @@ public class LazyScoringBowlingGame implements BowlingGame {
     public int score(int frame) {
         int score = 0;
         for (int f = 1; f <= frame; f++) {
-            score += sumRolls(f) + scoreStrikeAndSpare(f);
+            score += recorder.sumRolls(f) + scoreStrikeAndSpare(f);
         }
-        if (isLastFrame(frame)) {
-            score += bonusRoll();
+        if (BowlingGame.isLastFrame(frame)) {
+            score += recorder.bonusRoll();
         }
         return score;
     }
 
     @Override
     public int currentFrame() {
-        return frame(rolls);
+        return recorder.currentFrame();
     }
 
     @Override
     public int currentRollInFrame() {
-        if (rolls == 0) {
-            return 0;
-        } else {
-            return ((frame(rolls) < LAST_FRAME)
-                    ? (max(0, (0 < currentFrame() && isLastRollStrike()) ? 0 : rolls - 1)) % 2
-                    : (rolls - 1) - 18)
-                    + 1;
-        }
+        return recorder.currentRollInFrame();
     }
 
     @Override
     public boolean isOver() {
-        return (rolls == BONUS_ROLL && sumRolls(LAST_FRAME) < 10) || rolls == MAX_ROLLS_WITH_BONUS;
+        return (isLastFrame() && isSecondRoll() && neitherStrikeNorSpare(LAST_FRAME)) || isLastRollInGame();
     }
 
     private int scoreStrikeAndSpare(int frame) {
         int nextFrame = frame + 1;
-        if (isFrame(nextFrame)) {
+        if (BowlingGame.isFrame(nextFrame)) {
             if (isStrikeFrame(frame)) {
                 return scoreStrike(nextFrame);
             } else if (isSpareFrame(frame)) {
@@ -143,29 +82,44 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     private int scoreSpare(int nextFrame) {
-        return firstRoll(nextFrame);
+        return recorder.firstRoll(nextFrame);
     }
 
     private int scoreStrike(int nextFrame) {
         if (isBeforeLastFrame(nextFrame) && isStrikeFrame(nextFrame)) {
-            return firstRoll(nextFrame) + firstRoll(nextFrame + 1);
+            return recorder.firstRoll(nextFrame) + recorder.firstRoll(nextFrame + 1);
         } else {
-            return sumRolls(nextFrame);
+            return recorder.sumRolls(nextFrame);
         }
     }
 
-    private void checkGameOver() {
-        if (isOver()) {
-            throw new IllegalStateException("Game is over!");
-        }
+    private boolean isLastRollInGame() {
+        return BowlingGame.isLastRollInGame(currentRollInFrame());
+    }
+
+    private boolean isSecondRoll() {
+        return BowlingGame.isSecondRoll(currentRollInFrame());
+    }
+
+    private boolean isLastFrame() {
+        return BowlingGame.isLastFrame(currentFrame());
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private boolean neitherStrikeNorSpare(int frame) {
+        return recorder.sumRolls(frame) < 10;
+    }
+
+    private boolean isBeforeLastFrame(int nextFrame) {
+        return BowlingGame.isBeforeLastFrame(nextFrame);
     }
 
     private boolean isStrikeFrame(int frame) {
-        return isStrike(firstRoll(frame));
+        return isStrike(recorder.firstRoll(frame));
     }
 
     private boolean isSpareFrame(int frame) {
-        return isSpare(firstRoll(frame), secondRoll(frame)) && rolls < 21;
+        return isSpare(recorder.firstRoll(frame), recorder.secondRoll(frame)) && !isLastRollInGame();
     }
 
     private boolean isStrike(int pins) {
@@ -173,71 +127,20 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     private boolean isSpare(int firstRoll, int secondRoll) {
-        return !isStrike(firstRoll) && firstRoll + secondRoll == 10;
+        return firstRoll < 10 && firstRoll + secondRoll == 10;
     }
 
-    private int frame(int roll) {
-        return max(0, min(LAST_FRAME, (roll + 1) / 2));
+    private boolean isStrikeInLastFrame() {
+        return isStrike(recorder.pinsOfLastRoll());
     }
 
-    private int index(int frame) {
-        return (frame - 1) * 2;
+    private boolean isStrikeFrame() {
+        return isStrikeFrame(currentFrame());
     }
 
-    private boolean isFirstRoll(int roll) {
-        return roll % 2 == 0;
-    }
-
-    private boolean isSecondRoll(int roll) {
-        return roll % 2 == 1;
-    }
-
-    private boolean isBeforeLastFrame(int frame) {
-        return frame < LAST_FRAME;
-    }
-
-    private boolean isLastFrame(int frame) {
-        return frame == LAST_FRAME;
-    }
-
-    private boolean isFrame(int frame) {
-        return 1 <= frame && frame <= LAST_FRAME;
-    }
-
-    private int firstRoll(int frame) {
-        return rolled[index(frame)];
-    }
-
-    private int secondRoll(int frame) {
-        return rolled[index(frame) + 1];
-    }
-
-    private int bonusRoll() {
-        return rolled[BONUS_INDEX];
-    }
-
-    private int sumRolls(int frame) {
-        return rolled[index(frame)] + rolled[index(frame) + 1];
-    }
-
-    private void checkRange(int pins) {
-        if (isTooFewPins(pins) || isTooManyPins(pins)) {
-            throw new IllegalArgumentException("The number of pins must be at least 0 and at most 10 but not " + pins);
+    private void checkGameOver() {
+        if (isOver()) {
+            throw new IllegalStateException("Game is over!");
         }
-    }
-
-    private void checkTooManyPins(int pins) {
-        if (isBeforeLastFrame(frame(rolls) + 1) && isSecondRoll(rolls) && isTooManyPins(firstRoll(currentFrame()) + pins)) {
-            throw new IllegalArgumentException("The sum of pins within a frame must be at most 10 but not "
-                    + firstRoll(currentFrame()) + " + " + pins + " = " + (firstRoll(currentFrame()) + pins));
-        }
-    }
-
-    private boolean isTooFewPins(int pins) {
-        return pins < MIN_PINS;
-    }
-
-    private boolean isTooManyPins(int pins) {
-        return MAX_PINS < pins;
     }
 }
