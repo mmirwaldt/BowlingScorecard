@@ -57,12 +57,12 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
     @Override
-    public boolean isLastRollStrike() {
+    public boolean isPreviousRollStrike() {
         return isStrike;
     }
 
     @Override
-    public boolean isLastFrameSpare() {
+    public boolean isPreviousFrameSpare() {
         return isSpare;
     }
 

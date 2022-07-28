@@ -28,12 +28,12 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     @Override
-    public boolean isLastRollStrike() {
-        return !isLastFrame() && isStrikeFrame() || isLastFrame() && !isLastFrameSpare() && isStrikeInLastFrame();
+    public boolean isPreviousRollStrike() {
+        return !isLastFrame() && isStrikeFrame() || isLastFrame() && !isPreviousFrameSpare() && isStrikeInLastFrame();
     }
 
     @Override
-    public boolean isLastFrameSpare() {
+    public boolean isPreviousFrameSpare() {
         return isSpareFrame(currentFrame());
     }
 

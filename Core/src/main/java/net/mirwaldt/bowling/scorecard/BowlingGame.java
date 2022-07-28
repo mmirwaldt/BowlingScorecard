@@ -7,8 +7,8 @@ public interface BowlingGame {
     int STRIKE_PINS = MAX_PINS;
 
     void roll(int pins);
-    boolean isLastRollStrike();
-    boolean isLastFrameSpare();
+    boolean isPreviousRollStrike();
+    boolean isPreviousFrameSpare();
     int currentFrame();
     int currentRollInFrame();
     int score(int frame);
