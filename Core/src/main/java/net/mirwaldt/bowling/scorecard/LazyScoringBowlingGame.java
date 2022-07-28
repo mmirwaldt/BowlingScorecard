@@ -119,7 +119,8 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     private boolean isSpareFrame(int frame) {
-        return isSpare(recorder.firstRoll(frame), recorder.secondRoll(frame)) && !isLastRollInGame();
+        return isSpare(recorder.firstRoll(frame), recorder.secondRoll(frame))
+                && (isBeforeLastFrame(frame) || !isLastRollInGame());
     }
 
     private boolean isStrike(int pins) {
