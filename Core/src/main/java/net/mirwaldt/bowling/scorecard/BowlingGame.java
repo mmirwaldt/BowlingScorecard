@@ -1,8 +1,5 @@
 package net.mirwaldt.bowling.scorecard;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-
 public interface BowlingGame {
     int LAST_FRAME = 10;
     int MIN_PINS = 0;
@@ -27,9 +24,6 @@ public interface BowlingGame {
     }
     static boolean isLastFrame(int frame) {
         return frame == LAST_FRAME;
-    }
-    static int frame(int roll) {
-        return max(0, min(LAST_FRAME, (roll + 1) / 2));
     }
 
     static boolean isSecondRoll(int rollInFrame) {
