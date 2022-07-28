@@ -888,6 +888,96 @@ public abstract class BowlingGameTest {
 
             assertThrows(IllegalStateException.class, () -> game.roll(1));
         }
+
+        @DisplayName("when last spare, then bonus")
+        @Test
+        void whenLastSpare_thenBonus() {
+            game.roll(8);
+            game.roll(2);
+            assertEquals(10, game.score());
+
+            game.roll(9);
+            game.roll(0);
+            assertEquals(19, game.score(1));
+            assertEquals(28, game.score());
+
+            game.roll(10);
+            assertEquals(19, game.score(1));
+            assertEquals(28, game.score(2));
+            assertEquals(38, game.score());
+
+            game.roll(5);
+            game.roll(4);
+            assertEquals(19, game.score(1));
+            assertEquals(28, game.score(2));
+            assertEquals(47, game.score(3));
+            assertEquals(56, game.score());
+
+            game.roll(7);
+            game.roll(3);
+            assertEquals(19, game.score(1));
+            assertEquals(28, game.score(2));
+            assertEquals(47, game.score(3));
+            assertEquals(56, game.score(4));
+            assertEquals(66, game.score());
+
+            game.roll(10);
+            assertEquals(19, game.score(1));
+            assertEquals(28, game.score(2));
+            assertEquals(47, game.score(3));
+            assertEquals(56, game.score(4));
+            assertEquals(76, game.score(5));
+            assertEquals(86, game.score());
+
+            game.roll(10);
+            assertEquals(19, game.score(1));
+            assertEquals(28, game.score(2));
+            assertEquals(47, game.score(3));
+            assertEquals(56, game.score(4));
+            assertEquals(76, game.score(5));
+            assertEquals(96, game.score(6));
+            assertEquals(106, game.score());
+
+            game.roll(10);
+            assertEquals(19, game.score(1));
+            assertEquals(28, game.score(2));
+            assertEquals(47, game.score(3));
+            assertEquals(56, game.score(4));
+            assertEquals(76, game.score(5));
+            assertEquals(106, game.score(6));
+            assertEquals(126, game.score(7));
+            assertEquals(136, game.score());
+
+            game.roll(0);
+            game.roll(5);
+            assertEquals(19, game.score(1));
+            assertEquals(28, game.score(2));
+            assertEquals(47, game.score(3));
+            assertEquals(56, game.score(4));
+            assertEquals(76, game.score(5));
+            assertEquals(106, game.score(6));
+            assertEquals(126, game.score(7));
+            assertEquals(141, game.score(8));
+            assertEquals(146, game.score());
+
+            game.roll(6);
+            game.roll(4);
+            assertEquals(19, game.score(1));
+            assertEquals(28, game.score(2));
+            assertEquals(47, game.score(3));
+            assertEquals(56, game.score(4));
+            assertEquals(76, game.score(5));
+            assertEquals(106, game.score(6));
+            assertEquals(126, game.score(7));
+            assertEquals(141, game.score(8));
+            assertEquals(146, game.score(9));
+            assertEquals(156, game.score());
+
+            game.roll(10);
+            assertEquals(166, game.score());
+
+            assertTrue(game.isOver());
+        }
     }
 
     @DisplayName("Given one roll after one frame")
