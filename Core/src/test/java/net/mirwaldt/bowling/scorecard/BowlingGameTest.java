@@ -122,9 +122,9 @@ public abstract class BowlingGameTest {
             assertEquals(game.score(startFrame) + m, game.score());
 
             game.roll(n);
-//            assertFalse(game.isLastRollStrike());
-//            assertTrue(game.isLastFrameSpare());
-//            assertFalse(game.isOver());
+            assertFalse(game.isLastRollStrike());
+            assertTrue(game.isLastFrameSpare());
+            assertFalse(game.isOver());
             assertEquals(startFrame + 1, game.currentFrame());
             assertEquals(2, game.currentRollInFrame());
             assertEquals(game.score(startFrame) + 10, game.score());
