@@ -6,6 +6,10 @@ public interface BowlingGame {
     int MAX_PINS = 10;
     int STRIKE_PINS = MAX_PINS;
 
+    int FIRST_ROLL_OFFSET = 0;
+    int SECOND_ROLL_OFFSET = 1;
+    int BONUS_ROLL_OFFSET = 2;
+
     void roll(int pins);
     boolean isPreviousRollStrike();
     boolean isPreviousFrameSpare();
@@ -33,10 +37,15 @@ public interface BowlingGame {
         return rollInFrame == 3;
     }
 
+
+    static boolean isStrike(int pins) {
+        return pins == STRIKE_PINS;
+    }
+
+
     static boolean isLastRollInGame(int rollInFrame) {
         return isBonusRoll(rollInFrame);
     }
-
 
     static boolean isTooFewPins(int pins) {
         return pins < MIN_PINS;

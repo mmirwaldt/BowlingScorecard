@@ -29,7 +29,7 @@ public class LazyScoringBowlingGame implements BowlingGame {
 
     @Override
     public boolean isPreviousRollStrike() {
-        return !isLastFrame() && isStrikeFrame() || isLastFrame() && !isPreviousFrameSpare() && isStrikeInLastFrame();
+        return !isLastFrame() && isStrikeFrame() || !isPreviousFrameSpare() && isStrikeInLastFrame();
     }
 
     @Override
@@ -115,7 +115,7 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     private boolean isStrikeFrame(int frame) {
-        return isStrike(recorder.firstRoll(frame));
+        return BowlingGame.isStrike(recorder.firstRoll(frame));
     }
 
     private boolean isSpareFrame(int frame) {
@@ -123,16 +123,12 @@ public class LazyScoringBowlingGame implements BowlingGame {
                 && (isBeforeLastFrame(frame) || !isLastRollInGame());
     }
 
-    private boolean isStrike(int pins) {
-        return pins == STRIKE_PINS;
-    }
-
     private boolean isSpare(int firstRoll, int secondRoll) {
         return firstRoll < 10 && firstRoll + secondRoll == 10;
     }
 
     private boolean isStrikeInLastFrame() {
-        return isStrike(recorder.pinsOfLastRoll());
+        return isLastFrame() && BowlingGame.isStrike(recorder.pinsOfLastRoll());
     }
 
     private boolean isStrikeFrame() {

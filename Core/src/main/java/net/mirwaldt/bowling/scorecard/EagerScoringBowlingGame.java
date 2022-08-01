@@ -3,10 +3,6 @@ package net.mirwaldt.bowling.scorecard;
 import java.util.stream.IntStream;
 
 public class EagerScoringBowlingGame implements BowlingGame {
-    public static final int LAST_FRAME = 10;
-    public static final int FIRST_ROLL_OFFSET = 0;
-    public static final int SECOND_ROLL_OFFSET = 1;
-    public static final int BONUS_ROLL_OFFSET = 2;
     private final int[] frames = new int[10];
 
     private int frame = 0;
@@ -23,11 +19,11 @@ public class EagerScoringBowlingGame implements BowlingGame {
 
     private boolean isSpare = false;
 
-    private boolean isSpareOneFrameAgo = false;
+    private boolean isSpareOneFrameBefore = false;
 
-    private boolean isStrikeOneFrameAgo = false;
+    private boolean isStrikeOneFrameBefore = false;
 
-    private boolean isStrikeTwoFramesAgo = false;
+    private boolean isStrikeTwoFramesBefore = false;
 
     private boolean isOver = false;
 
@@ -82,7 +78,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
     private void checkRoll(int pins) {
-        checkRange(pins);
+        BowlingGame.checkRange(pins);
         checkTooManyPins(pins);
         checkGameOver();
     }
@@ -111,7 +107,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
     private void scoreSecondRoll(int pins) {
-        forgetSpareOneFrameAgo();
+        forgetSpareOneFrameBefore();
         if (isFrameBeforeLastFrame()) {
             checkForSpare();
             enableNextFrame();
@@ -126,16 +122,16 @@ public class EagerScoringBowlingGame implements BowlingGame {
 
     private void scorePreviousFrames(int pins) {
         if (isDoubleStrike()) {
-            scoreDoubleStrikeTwoFramesAgo(pins);
+            scoreDoubleStrikeTwoFramesBefore(pins);
         }
 
-        if (isStrikeOrSpareOneFrameAgo()) {
-            scoreStrikeOrSpareOneFrameAgo(pins);
+        if (isStrikeOrSpareOneFrameBefore()) {
+            scoreStrikeOrSpareOneFrameBefore(pins);
         }
     }
 
     private void giveBonus(int pins) {
-        forgetStrikeTwoFramesAgo();
+        forgetStrikeTwoFramesBefore();
         checkForStrikeOrSpare(pins);
         enableBonus();
     }
@@ -145,7 +141,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
     private void checkForStrike(int pins) {
-        isStrike = isStrike(pins);
+        isStrike = BowlingGame.isStrike(pins);
         isSpare = false;
     }
 
@@ -162,15 +158,15 @@ public class EagerScoringBowlingGame implements BowlingGame {
         isSpare = isSpareFrame();
     }
 
-    private boolean isStrikeOrSpareOneFrameAgo() {
-        return isStrikeOneFrameAgo || isSpareOneFrameAgo;
+    private boolean isStrikeOrSpareOneFrameBefore() {
+        return isStrikeOneFrameBefore || isSpareOneFrameBefore;
     }
 
-    private void scoreStrikeOrSpareOneFrameAgo(int pins) {
+    private void scoreStrikeOrSpareOneFrameBefore(int pins) {
         frames[frame - 2] += pins;
     }
 
-    private void scoreDoubleStrikeTwoFramesAgo(int pins) {
+    private void scoreDoubleStrikeTwoFramesBefore(int pins) {
         frames[frame - 3] += pins;
     }
 
@@ -179,7 +175,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
     private void checkForStrikeOrSpare(int pins) {
-        isStrike = isStrike && isStrike(pins);
+        isStrike = isStrike && BowlingGame.isStrike(pins);
         isSpare = !isStrike && 0 < pins && isSpareFrame();
     }
 
@@ -201,34 +197,30 @@ public class EagerScoringBowlingGame implements BowlingGame {
     private void checkForBonusRoll() {
         if (isBonusRoll) {
             turnToBonusRoll();
-            isStrikeOneFrameAgo = false;
+            isStrikeOneFrameBefore = false;
             isBonusRoll = false;
         }
     }
 
     private void backupStrikes() {
-        isStrikeTwoFramesAgo = isStrikeOneFrameAgo;
-        isStrikeOneFrameAgo = isStrike;
+        isStrikeTwoFramesBefore = isStrikeOneFrameBefore;
+        isStrikeOneFrameBefore = isStrike;
     }
 
     private void backupSpare() {
-        isSpareOneFrameAgo = isSpare;
+        isSpareOneFrameBefore = isSpare;
     }
 
-    private void forgetSpareOneFrameAgo() {
-        isSpareOneFrameAgo = false;
+    private void forgetSpareOneFrameBefore() {
+        isSpareOneFrameBefore = false;
     }
 
     private boolean isDoubleStrike() {
-        return isStrikeTwoFramesAgo && isStrikeOneFrameAgo && isFirstRoll();
+        return isStrikeTwoFramesBefore && isStrikeOneFrameBefore && isFirstRoll();
     }
 
-    private void forgetStrikeTwoFramesAgo() {
-        isStrikeTwoFramesAgo = false;
-    }
-
-    private boolean isStrike(int pins) {
-        return pins == 10;
+    private void forgetStrikeTwoFramesBefore() {
+        isStrikeTwoFramesBefore = false;
     }
 
     private void addPins(int pins) {
@@ -274,12 +266,6 @@ public class EagerScoringBowlingGame implements BowlingGame {
     private void checkGameOver() {
         if (isOver) {
             throw new IllegalStateException("Game is over!");
-        }
-    }
-
-    private void checkRange(int pins) {
-        if (pins < 0 || 10 < pins) {
-            throw new IllegalArgumentException("Pins per roll must be at least 0 and at most 10 but not " + pins);
         }
     }
 
