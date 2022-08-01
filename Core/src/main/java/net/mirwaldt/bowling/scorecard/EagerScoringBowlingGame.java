@@ -236,15 +236,15 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
     private void turnToFirstRoll() {
-        rollOffset = FIRST_ROLL_OFFSET;
+        rollOffset = FIRST_ROLL_IN_FRAME - 1;
     }
 
     private void turnToSecondRoll() {
-        rollOffset = SECOND_ROLL_OFFSET;
+        rollOffset = SECOND_ROLL_IN_FRAME - 1;
     }
 
     private void turnToBonusRoll() {
-        rollOffset = BONUS_ROLL_OFFSET;
+        rollOffset = BONUS_ROLL_IN_FRAME - 1;
     }
 
     private boolean isFrameBeforeLastFrame() {
@@ -252,11 +252,11 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
     private boolean isFirstRoll() {
-        return rollOffset == FIRST_ROLL_OFFSET;
+        return BowlingGame.isFirstRoll(currentRollInFrame());
     }
 
     private boolean isSecondRoll() {
-        return rollOffset == SECOND_ROLL_OFFSET;
+        return BowlingGame.isSecondRoll(currentRollInFrame());
     }
 
     private void setGameOver() {
