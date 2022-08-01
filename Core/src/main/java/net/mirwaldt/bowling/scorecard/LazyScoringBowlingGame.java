@@ -72,13 +72,21 @@ public class LazyScoringBowlingGame implements BowlingGame {
     private int scoreStrikeAndSpare(int frame) {
         int nextFrame = frame + 1;
         if (BowlingGame.isFrame(nextFrame)) {
-            if (isStrikeFrame(frame)) {
-                return scoreStrike(nextFrame);
-            } else if (isSpareFrame(frame)) {
-                return scoreSpare(nextFrame);
-            }
+            return scoreFrame(frame);
+        } else {
+            return 0;
         }
-        return 0;
+    }
+
+    private int scoreFrame(int frame) {
+        int nextFrame = frame + 1;
+        if (BowlingGame.isStrike(recorder.firstRoll(frame))) {
+            return scoreStrike(nextFrame);
+        } else if (isSpareFrame(frame)) {
+            return scoreSpare(nextFrame);
+        } else {
+            return 0;
+        }
     }
 
     private int scoreSpare(int nextFrame) {
@@ -86,7 +94,7 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     private int scoreStrike(int nextFrame) {
-        if (isBeforeLastFrame(nextFrame) && isStrikeFrame(nextFrame)) {
+        if (BowlingGame.isBeforeLastFrame(nextFrame) && BowlingGame.isStrike(recorder.firstRoll(nextFrame))) {
             return recorder.firstRoll(nextFrame) + recorder.firstRoll(nextFrame + 1);
         } else {
             return recorder.sumRolls(nextFrame);
@@ -110,17 +118,9 @@ public class LazyScoringBowlingGame implements BowlingGame {
         return recorder.sumRolls(frame) < 10;
     }
 
-    private boolean isBeforeLastFrame(int nextFrame) {
-        return BowlingGame.isBeforeLastFrame(nextFrame);
-    }
-
-    private boolean isStrikeFrame(int frame) {
-        return BowlingGame.isStrike(recorder.firstRoll(frame));
-    }
-
     private boolean isSpareFrame(int frame) {
         return isSpare(recorder.firstRoll(frame), recorder.secondRoll(frame))
-                && (isBeforeLastFrame(frame) || !isLastRollInGame());
+                && (BowlingGame.isBeforeLastFrame(frame) || !isLastRollInGame());
     }
 
     private boolean isSpare(int firstRoll, int secondRoll) {
@@ -132,7 +132,7 @@ public class LazyScoringBowlingGame implements BowlingGame {
     }
 
     private boolean isStrikeFrame() {
-        return isStrikeFrame(currentFrame());
+        return BowlingGame.isStrike(recorder.firstRoll(currentFrame()));
     }
 
     private void checkGameOver() {
