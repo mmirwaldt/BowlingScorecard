@@ -212,10 +212,6 @@ public class EagerScoringBowlingGame implements BowlingGame {
         rollOffset = 2;
     }
 
-    private boolean isFrameAfterFirstFrame() {
-        return 1 < frame;
-    }
-
     private boolean isFrameBeforeLastFrame() {
         return frame < 10;
     }
