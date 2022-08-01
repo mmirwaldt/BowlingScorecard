@@ -3,6 +3,10 @@ package net.mirwaldt.bowling.scorecard;
 import java.util.stream.IntStream;
 
 public class EagerScoringBowlingGame implements BowlingGame {
+    public static final int LAST_FRAME = 10;
+    public static final int FIRST_ROLL_OFFSET = 0;
+    public static final int SECOND_ROLL_OFFSET = 1;
+    public static final int BONUS_ROLL_OFFSET = 2;
     private final int[] frames = new int[10];
 
     private int frame = 0;
@@ -42,7 +46,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
 
         scoreRoll(pins);
 
-        rescorePreviousFrames(pins);
+        scorePreviousFrames(pins);
     }
 
     @Override
@@ -90,8 +94,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
         } else if (isSecondRoll()) {
             scoreSecondRoll(pins);
         } else {
-            isStrike = isStrike(pins);
-            isSpare = false;
+            checkForStrike(pins);
             setGameOver();
         }
     }
@@ -99,23 +102,21 @@ public class EagerScoringBowlingGame implements BowlingGame {
     private void scoreFirstRoll(int pins) {
         backupStrikes();
         backupSpare();
-        isStrike = isStrike(pins);
-        isSpare = false;
+        checkForStrike(pins);
         if (isStrike && isFrameBeforeLastFrame()) {
-            isNextFrame = true;
+            enableNextFrame();
         } else {
-            isNextRoll = true;
+            enableNextRoll();
         }
     }
 
     private void scoreSecondRoll(int pins) {
         forgetSpareOneFrameAgo();
         if (isFrameBeforeLastFrame()) {
-            isStrike = false;
-            isSpare = isSpareFrame();
-            isNextFrame = true;
+            checkForSpare();
+            enableNextFrame();
         } else {
-            if (isStrike || isSpareFrame()) {
+            if (isStrikeOrSpareInLastFrame()) {
                 giveBonus(pins);
             } else {
                 setGameOver();
@@ -123,21 +124,63 @@ public class EagerScoringBowlingGame implements BowlingGame {
         }
     }
 
-    private void rescorePreviousFrames(int pins) {
+    private void scorePreviousFrames(int pins) {
         if (isDoubleStrike()) {
-            frames[frame - 3] += pins;
+            scoreDoubleStrikeTwoFramesAgo(pins);
         }
 
-        if (isStrikeOneFrameAgo || isSpareOneFrameAgo) {
-            frames[frame - 2] += pins;
+        if (isStrikeOrSpareOneFrameAgo()) {
+            scoreStrikeOrSpareOneFrameAgo(pins);
         }
     }
 
     private void giveBonus(int pins) {
         forgetStrikeTwoFramesAgo();
+        checkForStrikeOrSpare(pins);
+        enableBonus();
+    }
+
+    private void enableNextRoll() {
+        isNextRoll = true;
+    }
+
+    private void checkForStrike(int pins) {
+        isStrike = isStrike(pins);
+        isSpare = false;
+    }
+
+    private void enableNextFrame() {
+        isNextFrame = true;
+    }
+
+    private boolean isStrikeOrSpareInLastFrame() {
+        return isStrike || isSpareFrame();
+    }
+
+    private void checkForSpare() {
+        isStrike = false;
+        isSpare = isSpareFrame();
+    }
+
+    private boolean isStrikeOrSpareOneFrameAgo() {
+        return isStrikeOneFrameAgo || isSpareOneFrameAgo;
+    }
+
+    private void scoreStrikeOrSpareOneFrameAgo(int pins) {
+        frames[frame - 2] += pins;
+    }
+
+    private void scoreDoubleStrikeTwoFramesAgo(int pins) {
+        frames[frame - 3] += pins;
+    }
+
+    private void enableBonus() {
+        isBonusRoll = true;
+    }
+
+    private void checkForStrikeOrSpare(int pins) {
         isStrike = isStrike && isStrike(pins);
         isSpare = !isStrike && 0 < pins && isSpareFrame();
-        isBonusRoll = true;
     }
 
     private void checkForNextFrame() {
@@ -201,27 +244,27 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
     private void turnToFirstRoll() {
-        rollOffset = 0;
+        rollOffset = FIRST_ROLL_OFFSET;
     }
 
     private void turnToSecondRoll() {
-        rollOffset = 1;
+        rollOffset = SECOND_ROLL_OFFSET;
     }
 
     private void turnToBonusRoll() {
-        rollOffset = 2;
+        rollOffset = BONUS_ROLL_OFFSET;
     }
 
     private boolean isFrameBeforeLastFrame() {
-        return frame < 10;
+        return frame < LAST_FRAME;
     }
 
     private boolean isFirstRoll() {
-        return rollOffset == 0;
+        return rollOffset == FIRST_ROLL_OFFSET;
     }
 
     private boolean isSecondRoll() {
-        return rollOffset == 1;
+        return rollOffset == SECOND_ROLL_OFFSET;
     }
 
     private void setGameOver() {
