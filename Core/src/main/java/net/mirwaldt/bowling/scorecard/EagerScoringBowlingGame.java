@@ -132,7 +132,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
 
     private void giveBonus(int pins) {
         forgetStrikeTwoFramesBefore();
-        checkForStrikeOrSpare(pins);
+        checkForStrikeOrSpareInLastFrame(pins);
         enableBonus();
     }
 
@@ -174,7 +174,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
         isBonusRoll = true;
     }
 
-    private void checkForStrikeOrSpare(int pins) {
+    private void checkForStrikeOrSpareInLastFrame(int pins) {
         isStrike = isStrike && BowlingGame.isStrike(pins);
         isSpare = !isStrike && 0 < pins && isSpareFrame();
     }
@@ -197,9 +197,13 @@ public class EagerScoringBowlingGame implements BowlingGame {
     private void checkForBonusRoll() {
         if (isBonusRoll) {
             turnToBonusRoll();
-            isStrikeOneFrameBefore = false;
+            forgetStrikeOneFrameBefore();
             isBonusRoll = false;
         }
+    }
+
+    private void forgetStrikeOneFrameBefore() {
+        isStrikeOneFrameBefore = false;
     }
 
     private void backupStrikes() {
