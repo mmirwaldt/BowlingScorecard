@@ -252,7 +252,7 @@ public class EagerScoringBowlingGame implements BowlingGame {
     }
 
     private boolean isFrameBeforeLastFrame() {
-        return frame < LAST_FRAME;
+        return BowlingGame.isBeforeLastFrame(frame);
     }
 
     private boolean isFirstRoll() {
