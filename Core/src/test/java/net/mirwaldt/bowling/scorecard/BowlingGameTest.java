@@ -27,14 +27,18 @@ public abstract class BowlingGameTest {
         protected int startFrame = 0;
         protected int rollInFrame = 0;
 
+        @DisplayName("when before roll, then game is not over")
+        @Test
+        void whenBeforeRoll_thenGameIsNotOver() {
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+        }
+
         @DisplayName("when n pin(s) are hit, then the score is n more")
         @ParameterizedTest(name = "when {0} pin(s) are hit, then the score is {0} more")
         @ValueSource(ints = {0, 1, 2, 9})
         void whenNPinsAreHit_thenScoreIsNmore(int n) {
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(n);
             assertFalse(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -47,10 +51,6 @@ public abstract class BowlingGameTest {
         @DisplayName("when 10 pins are hit, then it is a strike and the score is 10 more")
         @Test
         void when10PinsAreHit_thenItIsAStrikeAndScoreIs10more() {
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(10);
             assertTrue(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -74,16 +74,20 @@ public abstract class BowlingGameTest {
         protected int startFrame = 0;
         protected int rollInFrame = 0;
 
+        @DisplayName("when before rolls, then game is not over")
+        @Test
+        void whenBeforeRolls_thenGameIsNotOver() {
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+        }
+
         @DisplayName("when first m pins are hit and second n pins are hit, then the score is m + n more")
         @ParameterizedTest(name = "when first {0} pins are hit and second {1} pins are hit, " +
                 "then the score is {0} + {1} more")
         @CsvSource({"0, 0", "1, 0", "0, 1", "1, 1"})
         void whenNoStrikeAndNoSpare_thenScoreIsNplusMmore(int m, int n) {
             assertNotEquals(10, m + n, "m + n must not be 10 to be no spare but sum is " + (m + n));
-
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
 
             game.roll(m);
             assertFalse(game.isPreviousRollStrike());
@@ -109,10 +113,6 @@ public abstract class BowlingGameTest {
         void whenSpare_thenScoreIs10more(int m, int n) {
             assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
 
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(m);
             assertFalse(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -136,10 +136,6 @@ public abstract class BowlingGameTest {
                 "then score strike first 10 and second 10 + {0} more")
         @ValueSource(ints = {0, 3, 4})
         void whenOneStrike_thenScoreIs10plusTwoTimesNmore(int n) {
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(10);
             assertTrue(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -161,10 +157,6 @@ public abstract class BowlingGameTest {
         @DisplayName("when two strikes, then score is 30 more")
         @Test
         void whenTwoStrikes_thenScoreIs30more() {
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(10);
             assertTrue(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -189,10 +181,6 @@ public abstract class BowlingGameTest {
                 "then throw an IllegalArgumentException")
         @CsvSource({"3, 8", "7, 6", "1, 10"})
         void whenMoreThan10PinsAreHit_thenThrowAnIllegalArgumentException(int m, int n) {
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(m);
             assertFalse(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -211,6 +199,14 @@ public abstract class BowlingGameTest {
         protected int startFrame = 0;
         protected int rollInFrame = 0;
 
+        @DisplayName("when before rolls, then game is not over")
+        @Test
+        void whenBeforeRolls_thenGameIsNotOver() {
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+        }
+
         @DisplayName("when no strikes and no spares by m pins, n pins and p pins are rolled, " +
                 "then the score is m + n + p more")
         @ParameterizedTest(name = "when no strikes and no spares by {0} pins, {1} pins and {2} pins are rolled, " +
@@ -218,10 +214,6 @@ public abstract class BowlingGameTest {
         @CsvSource({"0, 0, 0", "0, 1, 2", "4, 0, 7", "0, 0, 8", "3, 6, 0", "5, 3, 9"})
         void whenNoStrikeAndNoSpare_thenScoreIsMplusNplusPmore(int m, int n, int p) {
             assertNotEquals(10, m + n, "m + n must not be 10 to be no spare but sum is " + (m + n));
-
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
 
             game.roll(m);
             assertFalse(game.isPreviousRollStrike());
@@ -252,10 +244,6 @@ public abstract class BowlingGameTest {
         @DisplayName("when three strikes, then score is 60 more")
         @Test
         void whenThreeStrikes_thenScoreIs60more() {
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(10);
             assertTrue(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -288,10 +276,6 @@ public abstract class BowlingGameTest {
         @ParameterizedTest(name = "when two strikes, then score is 20 + 10 + 3 * {0} more")
         @ValueSource(ints = {0, 2, 6, 9})
         void whenTwoStrikes_thenScoreIs30plusThreeTimesNmore(int n) {
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(10);
             assertTrue(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -324,10 +308,6 @@ public abstract class BowlingGameTest {
         @ParameterizedTest(name = "when two strikes, then the score is 10 + {0} + {1} more")
         @CsvSource({"0, 0", "0, 4", "5, 0", "3, 3", "1, 2", "6, 3"})
         void whenOneStrike_thenScoreIs10plusTwoTimesSumOfMplusNMore(int m, int n) {
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(10);
             assertTrue(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -360,10 +340,6 @@ public abstract class BowlingGameTest {
         @CsvSource({"0, 10", "3, 7", "9, 1", "5, 5"})
         void whenOneStrikeFirstAndOneSpareSecondByMandN_thenScoreIs10plusMplusNmore(int m, int n) {
             assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
-
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
 
             game.roll(10);
             assertTrue(game.isPreviousRollStrike());
@@ -398,10 +374,6 @@ public abstract class BowlingGameTest {
         void whenOneSpare_thenScoreIsMplusNplus2TimesPmore(int m, int n, int p) {
             assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
 
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(m);
             assertFalse(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -433,10 +405,6 @@ public abstract class BowlingGameTest {
         @CsvSource({"0, 10", "4, 6", "7, 3"})
         void whenOneSpareAndOneStrike_thenScoreIs30more(int m, int n) {
             assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
-
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
 
             game.roll(m);
             assertFalse(game.isPreviousRollStrike());
@@ -471,16 +439,20 @@ public abstract class BowlingGameTest {
         protected int startFrame = 0;
         protected int rollInFrame = 0;
 
+        @DisplayName("when before rolls, then game is not over")
+        @Test
+        void whenBeforeRolls_thenGameIsNotOver() {
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+        }
+
         @DisplayName("when no strikes and no spares, then the score is m + n + p + q more")
         @ParameterizedTest(name = "when no strikes and no spares, then the score is {0} + {1} + {2} + {3} more")
         @CsvSource({"0, 0, 0, 0", "0, 1, 2, 3", "0, 0, 5, 1", "3, 4, 0, 0", "7, 1, 2, 0", "8, 1, 5, 3"})
         void whenNoStrikeAndNoSpare_thenScoreIsMplusNplusPplusQmore(int m, int n, int p, int q) {
             assertNotEquals(10, m + n, "m + n must not be 10 to be no spare but sum is " + (m + n));
             assertNotEquals(10, p + q, "p + q must not be 10 to be no spare but sum is " + (p + q));
-
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
 
             game.roll(m);
             assertFalse(game.isPreviousRollStrike());
@@ -520,10 +492,6 @@ public abstract class BowlingGameTest {
         @DisplayName("when four strikes, then the score is 90 more")
         @Test
         void whenFourStrikes_thenScoreIs90more() {
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(10);
             assertTrue(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -567,10 +535,6 @@ public abstract class BowlingGameTest {
         @ParameterizedTest(name = "when three strikes, then the score is 60 + 3 * {0}")
         @ValueSource(ints = {0, 1, 5, 9})
         void whenThreeStrikes_thenScoreIs60plusThreeTimesNmore(int n) {
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(10);
             assertTrue(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -617,10 +581,6 @@ public abstract class BowlingGameTest {
             assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
             assertEquals(10, p + q, "p + q must be 10 to be a spare but sum is " + (p + q));
 
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
-
             game.roll(m);
             assertFalse(game.isPreviousRollStrike());
             assertFalse(game.isPreviousFrameSpare());
@@ -663,16 +623,20 @@ public abstract class BowlingGameTest {
         protected int startFrame = 0;
         protected int rollInFrame = 0;
 
+        @DisplayName("when before rolls, then game is not over")
+        @Test
+        void whenBeforeRolls_thenGameIsNotOver() {
+            assertFalse(game.isOver());
+            assertEquals(startFrame, game.currentFrame());
+            assertEquals(rollInFrame, game.currentRollInFrame());
+        }
+
         @DisplayName("when two spares, then the score is m + n + 2 * p + q + 2 * r")
         @ParameterizedTest(name = "when two spares, then the score is {0} + {1} + 2 * {2} + {3} + 2 * {4}")
         @CsvSource({"0, 10, 0, 10, 0", "0, 10, 0, 10, 9", "3, 7, 8, 2, 1", "5, 5, 0, 10, 5"})
         void whenTwoSpares_thenScoreIsMplusNplus2PplusQplus2Rmore(int m, int n, int p, int q, int r) {
             assertEquals(10, m + n, "m + n must be 10 to be a spare but sum is " + (m + n));
             assertEquals(10, p + q, "p + q must be 10 to be a spare but sum is " + (p + q));
-
-            assertFalse(game.isOver());
-            assertEquals(startFrame, game.currentFrame());
-            assertEquals(rollInFrame, game.currentRollInFrame());
 
             game.roll(m);
             assertFalse(game.isPreviousRollStrike());
